@@ -1,27 +1,34 @@
 ---
 name: build-test
-description: Builds the project and runs fast tests (excludes integration tests). Used for fast feedback. Dave's done-done gate.
+description: Runs the fast build/test gate — auto-format, lint, unit tests, and build (excludes integration tests). Dave's fast done-done gate.
 ---
 
-> **Template — preflight-gated.** Replace every `FILL_ME` placeholder with your stack's real commands.
-> This is the *fast* gate Dave runs before declaring done-done; it must finish quickly and cleanly —
-> no warnings, no errors. The loop will not start while any placeholder remains in this file.
-> Delete this note block once the commands are filled in.
+Framework-owned **recipe** — no placeholders. It runs the commands named in the **Project profile →
+Commands** table (`.github/copilot-instructions.md`); that table is the single source of truth for the
+actual shell commands, so this file never hardcodes them.
 
-## Commands
+This recipe is **authoritative for gate membership and order**; the Commands table's `Gate` column is a
+hint. Reorder for your stack if needed (e.g. type-aware linters that require compiled output should run
+after `build`).
 
-### Frontend / UI (if applicable)
+## The fast gate (Dave)
 
-From `<<FILL_ME: web dir, or delete this section>>`
+Run these commands in order, resolving each name from the Commands table:
 
-    <<FILL_ME: format command>>        # e.g. npm run format:fix
-    <<FILL_ME: lint command>>          # e.g. npm run lint
-    <<FILL_ME: unit test command>>     # e.g. npm run test:ci
-    <<FILL_ME: build command>>         # e.g. npm run build
+1. `format:fix` — auto-format; this variant **writes** changes
+2. `lint`
+3. `build`
+4. `test:quick` — unit tests only
 
-### Backend / core
+…then any additional commands the consumer added to the Commands table.
 
-From the project root
+**Run rules.** Every core row above is **required** — a required command whose Value is `none` or empty
+is a **misconfiguration**: **stop and report it** (never silently skip). The skip-`none` rule applies
+only to the **optional** rows (`dry-check`, `mutation-test`, `crap-check`), which run in the full gate —
+the fast gate has none.
 
-    <<FILL_ME: build command>>         # e.g. dotnet build <Solution> -c Release
-    <<FILL_ME: unit test command>>     # e.g. dotnet test <Solution> -c Release --filter "type=UnitTests"
+**Unit-only.** The fast gate deliberately does **not** run integration tests or the optional
+gates (DRY, mutation, CRAP) — those belong to Bhaskar's full gate
+(`.github/skills/build-test-full.md`).
+
+**Zero tolerance.** Any warning or error fails the gate. Dave is not done-done until this passes clean.
