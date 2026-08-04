@@ -1,16 +1,21 @@
 ---
 name: retrospective
-description: Periodic cross-feature governance retrospective. Every ~5 completed features, distill durable learnings from docs/agents/skills/commits into all-agent guardrails + per-agent notes, then apply a minimal governance update. Count-based, not time-based; JARVIS reminds the human when it's due.
+description: Periodic cross-feature governance retrospective. Every ~5 completed features, distill durable learnings from docs/agents/skills/commits into all-agent guardrails + per-agent notes, then apply a minimal governance update. Count-based, not time-based; the pack's driver reminds the human when it's due.
 ---
 
 A recurring, minimal-footprint review that turns accumulated delivery experience into durable
 guardrails. Event/count-based, **not** time-based.
 
+## Packs
+
+In a **4-pack**, the driver reminds, Anders (architect) distills, and Dave (coder) applies. In a
+**1-pack**, the driver (solo) performs all three roles. The human always approves any guardrail change.
+
 ## When
 
-After a feature completes, JARVIS compares the current feature-doc count to the `features=N` value on
-the last `## Log` line below; when it has grown by **≥ 5**, JARVIS **reminds the human** to run this
-skill before the next feature.
+After a feature completes, the pack's driver compares the current
+feature-doc count to the `features=N` value on the last `## Log` line below; when it has grown by
+**≥ 5**, the driver **reminds the human** to run this skill before the next feature.
 
 Feature-doc count (excludes the template):
 
@@ -19,8 +24,8 @@ Feature-doc count (excludes the template):
 ## Sources (read-only)
 
 `docs/features/*.md` (especially post-review / post-test-fix logs), `docs/design.md`,
-`docs/backlog.md`, `.github/copilot-instructions.md`, `.github/agents/*.md`, `.github/skills/*`, and
-`git log` / commit diffs since the last Log entry.
+`docs/backlog.md`, `.github/copilot-instructions.md`, `.github/agents/*.md`, `.github/agent-roles/*`,
+`.github/personas/*`, `.github/skills/*`, and `git log` / commit diffs since the last Log entry.
 
 ## Produce (Anders)
 
@@ -28,7 +33,8 @@ Distill cross-cutting, durable lessons (skip feature specifics; verify claims ag
 into two parts, prioritising high-signal, recurring issues:
 
 - **(A) All-agent guardrails** — candidate golden-rule additions/refinements for `copilot-instructions.md`.
-- **(B) Per-agent learnings** — short sections for Anders / Dave / Bhaskar / JARVIS.
+- **(B) Per-agent learnings** — short sections for Anders / Dave / Bhaskar and the **driver role**
+  (`agent-roles/<role>.md`) — never a persona overlay.
 
 Main thing: Don't overdo this.
 
