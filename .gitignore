@@ -1,0 +1,48 @@
+# Generic starter .gitignore for the agent-governance framework.
+# Consuming projects extend this with stack-specific ignores (VisualStudio.gitignore, Node, etc.).
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*~
+
+# Editor/IDE
+.vs/
+.idea/
+.history/
+.localhistory/
+# VS Code — keep shared config, ignore the rest
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+*.code-workspace
+
+# Build outputs (common)
+[Bb]in/
+[Oo]bj/
+dist/
+build/
+out/
+target/
+node_modules/
+
+# Logs
+*.log
+[Ll]og/
+[Ll]ogs/
+
+# Local development secrets (never commit)
+.env
+.env.local
+*.local
+# Example project-specific local dev-state/secret files — adjust or remove per stack:
+# scripts/dev-secrets.local.ps1
+# scripts/.dev-state.json
+# scripts/.dev-app.pid
+# scripts/.liveness-watch.pid
+# scripts/liveness-watch.log
+
+# Local scratch / session notes (never commit)
+scratch/

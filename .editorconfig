@@ -1,0 +1,27 @@
+# Editor configuration, see http://editorconfig.org
+# Generic starter seeded for the agent-governance framework. Consuming projects should add
+# language-specific rules (e.g. C#/.NET naming & analyzer severities) as needed.
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+tab_width = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+end_of_line = lf
+
+[*.{ps1,psm1,js,ts,fs,json,jsx,tsx,rc,vsext,vsixmanifest,vsct}]
+indent_size = 2
+tab_width = 2
+
+[*.md]
+indent_size = 2
+tab_width = 2
+max_line_length = off
+trim_trailing_whitespace = false
+
+[*.{yml,yaml,html,xml,csproj,targets,ruleset,*proj,*rc,bicep}]
+indent_size = 2
+tab_width = 2
