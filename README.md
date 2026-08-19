@@ -97,6 +97,6 @@ coder applies the minimal edit — the solo driver does all three in a 1-pack. S
 
 ## For consumer agents
 
-Canonical per-session rules live in `.github/copilot-instructions.md` (golden rules #0–#10 + Working
+Canonical per-session rules live in `.github/copilot-instructions.md` (golden rules #0–#11 + Working
 agreement) — this README is non-authoritative. Reload it and `docs/design.md`, pick mode from the branch,
 stay in your lane, and treat `docs/features/<nnn>-*.md` as the SoT.
