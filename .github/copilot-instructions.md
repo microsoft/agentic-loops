@@ -36,6 +36,7 @@ Address the human as configured in **Project profile → Addressing the human** 
 9. Never hardcode connection strings, secrets, or license keys; they are injected via env vars.
 10. Record durable facts in the relevant `.github/agents/<agent>.md` or `.github/agent-roles/<role>.md`
     (or this file if cross-cutting), not in global Copilot Memory.
+11. The governance artifacts are the source of truth — reload them; never rely on memory or recall.
 
 When citing a guardrail elsewhere, refer to it **by number** (e.g. "golden rule #1"); keep the
 numbering **stable** and update references on any insert/reorder.
