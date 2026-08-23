@@ -15,7 +15,7 @@ Project profile; this file binds them. The human owns all final decisions.
 1. Reload `.github/copilot-instructions.md` (golden rules + Working agreement + Project profile) and
    `docs/design.md` (golden rule #1).
 2. From **Project profile → Pack** and **→ Persona**, resolve:
-   - **role** — `assistant` if Pack is `4-pack`; `solo` if Pack is `1-pack`. Role is always
+   - **role** — `conductor` if Pack is `4-pack`; `solo` if Pack is `1-pack`. Role is always
      resolvable from Pack.
    - **persona overlay path** — **lower-case** the `Persona` value to form the overlay filename:
      `Persona: JARVIS` → `.github/personas/jarvis.md` (matching agentify's own

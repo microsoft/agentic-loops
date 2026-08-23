@@ -29,7 +29,7 @@ target — never on its trunk — so the human reviews the diff before merge.
 
 1. **Ask which pack and which persona** — pack `1-pack` (solo generalist) or `4-pack` (full team), and
    the assistant's **persona** skin. **No default** for either; the human chooses. The pack selects the
-   **role** (`4-pack ⇒ assistant`, `1-pack ⇒ solo`) and the copy set (see *Packs — copy sets* below);
+   **role** (`4-pack ⇒ conductor`, `1-pack ⇒ solo`) and the copy set (see *Packs — copy sets* below);
    the persona menu is the overlays in `.github/personas/` (today `JARVIS` | `FRIDAY`) — **validate the
    pick ∈ that set**. A persona need not match the pack's natural assistant (e.g. a 1-pack skinned `JARVIS`);
    that's allowed — behavior derives from Pack (role), never the skin.
@@ -47,7 +47,7 @@ target — never on its trunk — so the human reviews the diff before merge.
    `.github/copilot-instructions.md` → Project profile → *Framework version adopted*, stamp the chosen
    pack into → *Pack* and the chosen persona into → *Persona*, and set the binder
    `.github/agents/assistant.md` frontmatter `name = <persona>` and `description = <the pack's role-desc>`
-   (4-pack → assistant-desc; 1-pack → solo-desc — see *Packs — copy sets*):
+   (4-pack → conductor-desc; 1-pack → solo-desc — see *Packs — copy sets*):
 
        git -C <agentify-dir> rev-parse HEAD
 
@@ -65,7 +65,7 @@ sub-agents** ship. The chosen pack is stamped into Project profile → *Pack* (a
 assistant gate); the chosen persona into → *Persona* and the binder frontmatter `name`.
 
 ### 4-pack
-Role body `.github/agent-roles/assistant.md`; the **3 sub-agents** `anders.md` / `dave.md` /
+Role body `.github/agent-roles/conductor.md`; the **3 sub-agents** `anders.md` / `dave.md` /
 `bhaskar.md`; the binder `assistant.md` with frontmatter `name = <persona>` and `description` =
 *Runs the agentic loop (hub-and-spoke). Coordinates Dave, Bhaskar, and Anders. Read-only
 inspection + git/task-file management only; never designs, codes, or verifies.* Full hub-and-spoke team
@@ -92,7 +92,7 @@ duties is waived (the solo assistant wears every hat).
              "$dst/.github/agent-roles","$dst/.github/personas" -ItemType Directory -Force
     Copy-Item "$src/.github/copilot-instructions.md" "$dst/.github"
     Copy-Item "$src/.github/skills/*" "$dst/.github/skills" -Force   # all 5 skills (every install)
-    $role = if ($pack -eq '4-pack') { 'assistant' } else { 'solo' }
+    $role = if ($pack -eq '4-pack') { 'conductor' } else { 'solo' }
     Copy-Item "$src/.github/agent-roles/$role.md"              "$dst/.github/agent-roles"   # ONE role body
     Copy-Item "$src/.github/personas/$($persona.ToLower()).md" "$dst/.github/personas"      # ONE persona overlay
     Copy-Item "$src/.github/agents/assistant.md"                  "$dst/.github/agents"        # the binder

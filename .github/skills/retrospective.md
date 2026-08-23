@@ -33,7 +33,7 @@ Distill cross-cutting, durable lessons (skip feature specifics; verify claims ag
 into two parts, prioritising high-signal, recurring issues:
 
 - **(A) All-agent guardrails** — candidate golden-rule additions/refinements for `copilot-instructions.md`.
-- **(B) Per-agent learnings** — short sections for Anders / Dave / Bhaskar and the **assistant role**
+- **(B) Per-agent learnings** — short sections for Anders / Dave / Bhaskar and the **assistant's role body**
   (`agent-roles/<role>.md`) — never a persona overlay.
 
 Main thing: Don't overdo this.

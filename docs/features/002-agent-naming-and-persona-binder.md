@@ -59,7 +59,7 @@ surfaced as an invokable agent, and persona binder filenames are **all-caps**.
 | #  | Slice | Task | Status | Commit |
 |----|-------|------|--------|--------|
 | T1 | S1 | `git mv agents/driver.md → agents/assistant.md`, `agent-roles/orchestrator.md → assistant.md`; replace all `driver`/`orchestrator` tokens with `assistant` (keep the verb "driven"). | Done | 1 |
-| T2 | S2 | `git mv agent-roles/assistant.md → conductor.md`; convert **orchestrator-origin** occurrences to `conductor` (role selectors, role-body self-refs, agentify `$role`, README role listing); leave **driver-origin** `assistant` intact. | Pending | 2 |
+| T2 | S2 | `git mv agent-roles/assistant.md → conductor.md`; convert **orchestrator-origin** occurrences to `conductor` (role selectors, role-body self-refs, agentify `$role`, README role listing); leave **driver-origin** `assistant` intact. | Done | 2 |
 | T3 | S3 | `git mv agents/assistant.md → .github/agent-templates/binder.md` (neutral, not surfaced) + template header comment. | Pending | 3 |
 | T4 | S3 | `agentify` Install: copy template → `agents/<PERSONA>.md` (`$persona.ToUpper()`); stamp `name`/`description`; add persona⇄sub-agent collision guard + framework-stem reservation. | Pending | 3 |
 | T5 | S3 | `agentify` Update: identify the existing binder (lone `agents/*.md` stem ∉ {anders,dave,bhaskar}); refresh into `agents/<PERSONA>.md`; `git rm` legacy `driver.md`/`assistant.md`; idempotent. | Pending | 3 |

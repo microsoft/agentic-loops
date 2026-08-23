@@ -50,7 +50,7 @@ numbering **stable** and update references on any insert/reorder.
 - Determine your mode from the current branch: **trunk ⇒ new-feature mode**; **`vibe/<nnn>-*` ⇒ WIP
   mode**; otherwise defer to the human. Each agent file details its behaviour per mode.
 - **The loop is driven by a single agent — the assistant (`.github/agents/assistant.md`).** Its Copilot
-  invocation name is the stamped **Persona** and its role is set by **Pack** (`4-pack ⇒ assistant`,
+  invocation name is the stamped **Persona** and its role is set by **Pack** (`4-pack ⇒ conductor`,
   `1-pack ⇒ solo`). Only the assistant starts/runs the loop; any other agent — in a 4-pack, the sub-agents
   Anders / Dave / Bhaskar — asked to run the loop **refuses and hands back to the assistant**.
 - **Preflight before the loop.** The assistant runs `.github/skills/preflight.md` at session/loop start; if
@@ -72,7 +72,7 @@ numbering **stable** and update references on any insert/reorder.
 - **Addressing the human:** Sir  _(example: "Mr. Das")_
 - **Trunk branch (fallback only; normally auto-detected):** `<<FILL_ME: master | main>>`
 - **Framework version adopted (agentify commit hash):** unstamped _(auto-stamped by the `agentify` skill; manual copy: paste this repo's commit hash)_
-- **Pack:** `4-pack` _(role selector: `4-pack ⇒ assistant`, `1-pack ⇒ solo`; the `agentify` skill asks and stamps this — no default. Preflight Gate-1 **blocks** if unset, i.e. the value isn't `1-pack`/`4-pack`.)_
+- **Pack:** `4-pack` _(role selector: `4-pack ⇒ conductor`, `1-pack ⇒ solo`; the `agentify` skill asks and stamps this — no default. Preflight Gate-1 **blocks** if unset, i.e. the value isn't `1-pack`/`4-pack`.)_
 - **Persona:** JARVIS _(assistant skin; the `agentify` skill asks and stamps this — no default, not a preflight blocker. Menu = the overlays in `.github/personas/`, today JARVIS | FRIDAY.)_
 - **Generated artifacts (never edit):** `<<FILL_ME: paths/globs, or "none">>`
 - **App run/restart & liveness mechanism:** `<<FILL_ME: how to (re)start the app locally + any lifecycle/liveness signal, or "none">>`

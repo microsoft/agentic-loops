@@ -1,7 +1,7 @@
 # agentify
 
 A **project-agnostic agent-governance framework for GitHub Copilot**: a hub-and-spoke agentic loop —
-assistant, coder, verifier, architect (or a single solo generalist) — plus the guardrails and skills
+conductor, coder, verifier, architect (or a single solo generalist) — plus the guardrails and skills
 that keep them in their lanes, shipping reviewable slices. Drop it into any repo with the `agentify`
 skill, fill a small **Project profile** and `docs/design.md`, and your Copilot agents inherit a
 consistent way of working — the human stays final decision-maker.
@@ -34,7 +34,7 @@ and the task file. **Separation of duties is waived.** Lightest on tokens; best 
 repos.
 
 ### 4-pack (full team)
-Ships the **assistant** role **+ Anders / Dave / Bhaskar** — strict separation of duties and
+Ships the **conductor** role **+ Anders / Dave / Bhaskar** — strict separation of duties and
 the full hub-and-spoke loop. Token-heavy; best for larger or higher-stakes work.
 
 ## The model
@@ -44,7 +44,7 @@ Human — decides · E2E-tests · merges · deploys
    ▲ escalate                    │ requests
    │                             ▼
  Assistant = agents/assistant.md   (skin: Persona · role: Pack)
-   ├─ 4-pack → role: assistant — owns git + task file; never codes:
+   ├─ 4-pack → role: conductor — owns git + task file; never codes:
    │     ├─► Anders   design / review
    │     ├─► Dave     implement (leave uncommitted)
    │     └─► Bhaskar  verify (build + tests + gates)
@@ -67,7 +67,7 @@ Human — decides · E2E-tests · merges · deploys
 - `.github/copilot-instructions.md` — golden rules + working agreement + **Project profile** (the SSOT,
   including the Commands table).
 - `.github/agents/` — `assistant` (the binder) + `anders` / `dave` / `bhaskar` (4-pack sub-agents).
-- `.github/agent-roles/` — `assistant` (4-pack) / `solo` (1-pack) role bodies (no frontmatter).
+- `.github/agent-roles/` — `conductor` (4-pack) / `solo` (1-pack) role bodies (no frontmatter).
 - `.github/personas/` — assistant skins `jarvis` / `friday` (no frontmatter).
 - `.github/skills/` — `agentify` (install/update), `preflight` (loop guard), `retrospective`,
   `build-test` + `build-test-full` (the gate recipes).
