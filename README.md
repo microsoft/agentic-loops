@@ -25,7 +25,7 @@ The full 4-agent loop is **token-heavy**, and many projects don't need it — so
 **asks which pack** (no default). **Persona is a mandatory, no-default overlay, decoupled from pack**:
 pick any skin in `.github/personas/` for your assistant (a persona may not match the pack's natural assistant —
 that's allowed). Roles live in `.github/agent-roles/`, personas in `.github/personas/`, and the thin
-binder is `.github/agents/assistant.md`. Note: stronger and more varied Commands ⇒ agents are more easily
+binder is `.github/agents/<Persona>.md`. Note: stronger and more varied Commands ⇒ agents are more easily
 supervised.
 
 ### 1-pack (solo)
@@ -43,7 +43,7 @@ the full hub-and-spoke loop. Token-heavy; best for larger or higher-stakes work.
 Human — decides · E2E-tests · merges · deploys
    ▲ escalate                    │ requests
    │                             ▼
- Assistant = agents/assistant.md   (skin: Persona · role: Pack)
+ Assistant = agents/<Persona>.md   (skin: Persona · role: Pack)
    ├─ 4-pack → role: conductor — owns git + task file; never codes:
    │     ├─► Anders   design / review
    │     ├─► Dave     implement (leave uncommitted)
@@ -57,7 +57,7 @@ Human — decides · E2E-tests · merges · deploys
 ```
 
 - **Separation of duties** is strict in the 4-pack; merged into one agent in the 1-pack.
-- **The loop is single-assistant and preflight-gated** — only the assistant (`.github/agents/assistant.md`) runs
+- **The loop is single-assistant and preflight-gated** — only the assistant (`.github/agents/<Persona>.md`) runs
   it; it won't start until preflight passes with all placeholders filled.
 - **Features are sliced** into independently deployable, end-to-end-verifiable increments.
 
@@ -66,7 +66,8 @@ Human — decides · E2E-tests · merges · deploys
 - `AGENTS.md` — top-level pointer into `.github/` governance.
 - `.github/copilot-instructions.md` — golden rules + working agreement + **Project profile** (the SSOT,
   including the Commands table).
-- `.github/agents/` — `assistant` (the binder) + `anders` / `dave` / `bhaskar` (4-pack sub-agents).
+- `.github/agents/` — `anders` / `dave` / `bhaskar` (4-pack sub-agents); the loop binder installs here per persona as `<Persona>.md`.
+- `.github/agent-templates/` — `binder.md`, the loop-binder template (installed as `.github/agents/<Persona>.md`).
 - `.github/agent-roles/` — `conductor` (4-pack) / `solo` (1-pack) role bodies (no frontmatter).
 - `.github/personas/` — assistant skins `jarvis` / `friday` (no frontmatter).
 - `.github/skills/` — `agentify` (install/update), `preflight` (loop guard), `retrospective`,

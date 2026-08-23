@@ -9,14 +9,14 @@ target — never on its trunk — so the human reviews the diff before merge.
 
 ## Ownership model
 
-- **Framework-owned** (refresh on update): `AGENTS.md`, `.github/agents/` (the binder `assistant.md` **body**
-  + the sub-agents `anders.md` / `dave.md` / `bhaskar.md`), `.github/agent-roles/` (all role bodies) and
+- **Framework-owned** (refresh on update): `AGENTS.md`, `.github/agent-templates/binder.md` (the binder **template body**, installed per persona as
+  `.github/agents/<Persona>.md`), `.github/agents/` (the sub-agents `anders.md` / `dave.md` / `bhaskar.md`), `.github/agent-roles/` (all role bodies) and
   `.github/personas/` (all persona overlays), all of `.github/skills/` (including the command-referencing
   recipes `build-test.md` / `build-test-full.md`), `docs/meta-design.md`,
   `docs/features/TASK_FILE_TEMPLATE.md`, and the **rules** portion of `.github/copilot-instructions.md`
   (everything *above* the `## Project profile` heading).
 - **Stamped** (framework-owned files carrying per-install values that are preserved / re-derived, never
-  clobbered on update): the binder `assistant.md` frontmatter `name` (= Persona) and `description` (= the
+  clobbered on update): the installed binder `.github/agents/<Persona>.md` frontmatter `name` (= Persona) and `description` (= the
   pack's role-desc); and in the Project profile, the *Framework version adopted* hash, **Pack**, and
   **Persona**.
 - **Consumer-owned** (create only if absent, never clobber): `docs/design.md`, `docs/backlog.md`,
@@ -46,7 +46,7 @@ target — never on its trunk — so the human reviews the diff before merge.
 5. **Stamp the version, pack, and persona.** Record the current agentify commit hash into the target's
    `.github/copilot-instructions.md` → Project profile → *Framework version adopted*, stamp the chosen
    pack into → *Pack* and the chosen persona into → *Persona*, and set the binder
-   `.github/agents/assistant.md` frontmatter `name = <persona>` and `description = <the pack's role-desc>`
+   `.github/agents/<Persona>.md` frontmatter `name = <persona>` and `description = <the pack's role-desc>`
    (4-pack → conductor-desc; 1-pack → solo-desc — see *Packs — copy sets*):
 
        git -C <agentify-dir> rev-parse HEAD
@@ -59,20 +59,20 @@ target — never on its trunk — so the human reviews the diff before merge.
 ## Packs — copy sets
 
 Every install copies the same core — `copilot-instructions.md`, all 5 skills, docs, plumbing, `AGENTS.md`,
-the binder `.github/agents/assistant.md`, **exactly one** role body (the pack's) and **exactly one** persona
+the binder (template `.github/agent-templates/binder.md`, installed as `.github/agents/<Persona>.md`), **exactly one** role body (the pack's) and **exactly one** persona
 overlay (the chosen skin). The packs differ only in **which role body** ships and whether the **3
 sub-agents** ship. The chosen pack is stamped into Project profile → *Pack* (and enforced by preflight's
 assistant gate); the chosen persona into → *Persona* and the binder frontmatter `name`.
 
 ### 4-pack
 Role body `.github/agent-roles/conductor.md`; the **3 sub-agents** `anders.md` / `dave.md` /
-`bhaskar.md`; the binder `assistant.md` with frontmatter `name = <persona>` and `description` =
+`bhaskar.md`; the binder installed as `<Persona>.md` with frontmatter `name = <persona>` and `description` =
 *Runs the agentic loop (hub-and-spoke). Coordinates Dave, Bhaskar, and Anders. Read-only
 inspection + git/task-file management only; never designs, codes, or verifies.* Full hub-and-spoke team
 with strict separation of duties.
 
 ### 1-pack
-Role body `.github/agent-roles/solo.md`; the binder `assistant.md` with frontmatter `name = <persona>` and
+Role body `.github/agent-roles/solo.md`; the binder installed as `<Persona>.md` with frontmatter `name = <persona>` and
 `description` = *Solo generalist for the 1-pack: designs, implements, verifies, and reviews in one
 context; owns git + the task file. Never deploys.* **No** sub-agents. Lighter on tokens; separation of
 duties is waived (the solo assistant wears every hat).
@@ -87,6 +87,8 @@ duties is waived (the solo assistant wears every hat).
     if ($pack -notin '1-pack','4-pack') { throw "Pick a pack explicitly: '1-pack' or '4-pack' (no default)." }
     $menu = (Get-ChildItem "$src/.github/personas/*.md" | % BaseName)          # e.g. jarvis, friday
     if ($persona.ToLower() -notin $menu) { throw "Pick a persona from .github/personas (no default): $($menu -join ', ')." }
+    if ($persona.ToLower() -in 'anders','dave','bhaskar') { throw "Persona '$persona' collides with a sub-agent filename; choose another." }
+    $binderName = "$($persona.ToUpper()).md"                                    # binder installs per persona, all-caps: JARVIS.md / FRIDAY.md
     Copy-Item "$src/AGENTS.md","$src/.editorconfig","$src/.gitignore","$src/.gitattributes" $dst
     New-Item "$dst/.github/agents","$dst/.github/skills", `
              "$dst/.github/agent-roles","$dst/.github/personas" -ItemType Directory -Force
@@ -95,7 +97,7 @@ duties is waived (the solo assistant wears every hat).
     $role = if ($pack -eq '4-pack') { 'conductor' } else { 'solo' }
     Copy-Item "$src/.github/agent-roles/$role.md"              "$dst/.github/agent-roles"   # ONE role body
     Copy-Item "$src/.github/personas/$($persona.ToLower()).md" "$dst/.github/personas"      # ONE persona overlay
-    Copy-Item "$src/.github/agents/assistant.md"                  "$dst/.github/agents"        # the binder
+    Copy-Item "$src/.github/agent-templates/binder.md"          "$dst/.github/agents/$binderName"   # binder template -> agents/<PERSONA>.md
     if ($pack -eq '4-pack') {
         Copy-Item "$src/.github/agents/anders.md","$src/.github/agents/dave.md", `
                   "$src/.github/agents/bhaskar.md" "$dst/.github/agents"                     # sub-agents (no jarvis/friday)
@@ -106,12 +108,12 @@ duties is waived (the solo assistant wears every hat).
     Copy-Item "$src/docs/features/TASK_FILE_TEMPLATE.md" "$dst/docs/features"
     if (-not (Test-Path "$dst/docs/design.md"))  { Copy-Item "$src/docs/design.md"  "$dst/docs" }
     if (-not (Test-Path "$dst/docs/backlog.md")) { Copy-Item "$src/docs/backlog.md" "$dst/docs" }
-    # then: stamp Pack + Persona in the profile; set assistant.md frontmatter name=$persona +
-    #       description=($role-desc); stamp the agentify hash (step 5); run preflight (step 6)
+    # then: stamp Pack + Persona in the profile; set the installed binder agents/$binderName frontmatter
+    #       name=$persona + description=($role-desc); stamp the agentify hash (step 5); run preflight (step 6)
 
 ## Update (existing target)
 
-Refresh framework-owned files only — **including** the binder `assistant.md` **body**, the role bodies in
+Refresh framework-owned files only — **including** the binder **body** (from `.github/agent-templates/binder.md` into the consumer's `.github/agents/<Persona>.md`), the role bodies in
 `.github/agent-roles/`, the persona overlays in `.github/personas/`, and the now-framework-owned recipes
 `build-test.md` / `build-test-full.md`; **preserve every consumer-filled value** (Project profile values
 including the Commands table, `docs/design.md`, and all other consumer-owned files) **and every stamp**
@@ -122,6 +124,14 @@ framework-defined fields/tables the adopter lacks** — notably the **Pack** and
 **Commands** table skeleton — so an updated adopter gains them **without losing existing values**. Then
 re-stamp the hash (and Pack/Persona if they changed), re-derive the binder frontmatter, and re-run
 preflight.
+
+> **Legacy binder cleanup (required on update).** Earlier installs placed the binder at a fixed
+> filename (`agents/driver.md`, later `agents/assistant.md`). Identify the consumer's existing binder —
+> the lone `.github/agents/*.md` whose stem is **not** `anders`/`dave`/`bhaskar` — refresh its body from
+> `.github/agent-templates/binder.md` into `agents/<Persona>.md` (re-stamping `name`/`description`),
+> then `git rm` every other non-sub-agent `agents/*.md` (e.g. the old `driver.md` / `assistant.md`) so
+> exactly one binder remains. Idempotent: if `agents/<Persona>.md` already exists and no legacy file
+> remains, it is a no-op.
 
 > **One-time migration (inline recipes → Commands table).** A consumer who filled the *old* inline
 > `build-test.md` / `build-test-full.md` migrates in this order: **(1)** splice the Commands-table

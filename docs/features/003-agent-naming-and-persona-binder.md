@@ -1,5 +1,5 @@
 # Feature: Agent naming overhaul + persona-named loop binder
-**Branch:** vibe/002-agent-naming-and-persona-binder
+**Branch:** vibe/003-agent-naming-and-persona-binder
 **Status:** In Progress
 
 ## Requirements
@@ -60,11 +60,11 @@ surfaced as an invokable agent, and persona binder filenames are **all-caps**.
 |----|-------|------|--------|--------|
 | T1 | S1 | `git mv agents/driver.md → agents/assistant.md`, `agent-roles/orchestrator.md → assistant.md`; replace all `driver`/`orchestrator` tokens with `assistant` (keep the verb "driven"). | Done | 1 |
 | T2 | S2 | `git mv agent-roles/assistant.md → conductor.md`; convert **orchestrator-origin** occurrences to `conductor` (role selectors, role-body self-refs, agentify `$role`, README role listing); leave **driver-origin** `assistant` intact. | Done | 2 |
-| T3 | S3 | `git mv agents/assistant.md → .github/agent-templates/binder.md` (neutral, not surfaced) + template header comment. | Pending | 3 |
-| T4 | S3 | `agentify` Install: copy template → `agents/<PERSONA>.md` (`$persona.ToUpper()`); stamp `name`/`description`; add persona⇄sub-agent collision guard + framework-stem reservation. | Pending | 3 |
-| T5 | S3 | `agentify` Update: identify the existing binder (lone `agents/*.md` stem ∉ {anders,dave,bhaskar}); refresh into `agents/<PERSONA>.md`; `git rm` legacy `driver.md`/`assistant.md`; idempotent. | Pending | 3 |
-| T6 | S3 | Make the binder-path references generic (`.github/agents/<Persona>.md`) in README, copilot-instructions, preflight, conductor.md, solo.md, personas/*, and reword the agentify ownership/copy-set prose. | Pending | 3 |
-| T7 | S3 | Record the feature-001 reversal decision + the naming glossary in this doc. | Pending | 3 |
+| T3 | S3 | `git mv agents/assistant.md → .github/agent-templates/binder.md` (neutral, not surfaced); document its role in agentify.md + README (no in-file header comment — it would travel into consumer agent files). | Done | 3 |
+| T4 | S3 | `agentify` Install: copy template → `agents/<PERSONA>.md` (`$persona.ToUpper()`); stamp `name`/`description`; add persona⇄sub-agent collision guard + framework-stem reservation. | Done | 3 |
+| T5 | S3 | `agentify` Update: identify the existing binder (lone `agents/*.md` stem ∉ {anders,dave,bhaskar}); refresh into `agents/<PERSONA>.md`; `git rm` legacy `driver.md`/`assistant.md`; idempotent. | Done | 3 |
+| T6 | S3 | Make the binder-path references generic (`.github/agents/<Persona>.md`) in README, copilot-instructions, preflight, conductor.md, solo.md, personas/*, and reword the agentify ownership/copy-set prose. | Done | 3 |
+| T7 | S3 | Record the feature-001 reversal decision + the naming glossary in this doc. | Done | 3 |
 
 ## Risks (Rx)
 

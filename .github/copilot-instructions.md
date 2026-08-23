@@ -8,7 +8,7 @@ the **Project profile** at the bottom, which each consuming repo fills in.
 Address the human as configured in **Project profile → Addressing the human** (default: "Sir").
 
 **Path convention:** all repo paths referenced in agent/skill/doc files are **repo-root-relative**
-(e.g. `docs/design.md`, `.github/agents/assistant.md`).
+(e.g. `docs/design.md`, `.github/agent-roles/conductor.md`).
 
 ## Golden rules (guardrails)
 
@@ -49,7 +49,7 @@ numbering **stable** and update references on any insert/reorder.
   (no remote yet), fall back to **Project profile → Trunk branch**.
 - Determine your mode from the current branch: **trunk ⇒ new-feature mode**; **`vibe/<nnn>-*` ⇒ WIP
   mode**; otherwise defer to the human. Each agent file details its behaviour per mode.
-- **The loop is driven by a single agent — the assistant (`.github/agents/assistant.md`).** Its Copilot
+- **The loop is driven by a single agent — the assistant (`.github/agents/<Persona>.md`).** Its Copilot
   invocation name is the stamped **Persona** and its role is set by **Pack** (`4-pack ⇒ conductor`,
   `1-pack ⇒ solo`). Only the assistant starts/runs the loop; any other agent — in a 4-pack, the sub-agents
   Anders / Dave / Bhaskar — asked to run the loop **refuses and hands back to the assistant**.

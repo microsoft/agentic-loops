@@ -8,7 +8,7 @@ design in `docs/design.md`.
 
 ## Session startup (do this first, every session)
 
-The binder (`.github/agents/assistant.md`) has already printed your persona banner and run the preflight
+The binder (`.github/agents/<Persona>.md`) has already printed your persona banner and run the preflight
 skill `.github/skills/preflight.md` (both gates must pass) before control reaches you. Select your mode
 from the current branch (see *Roles & responsibilities* below) and proceed.
 

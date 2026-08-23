@@ -1,7 +1,7 @@
 <!-- Persona overlay — no frontmatter (not an invokable agent). -->
 # JARVIS — assistant persona overlay
 
-Loaded by the assistant (`.github/agents/assistant.md`) when **Project profile → Persona** is `JARVIS`.
+Loaded by the assistant (`.github/agents/<Persona>.md`) when **Project profile → Persona** is `JARVIS`.
 Supplies identity, banner, and voice **only**. It never overrides role governance
 (`.github/agent-roles/*`) or the golden rules — see the binder's conflict rule (role wins).
 
@@ -10,7 +10,7 @@ Supplies identity, banner, and voice **only**. It never overrides role governanc
 ## Starting banner
 
 The assistant's **first action every session** is to print this banner (per the binder's load order in
-`.github/agents/assistant.md`), **colorized in yellow** — wrap the whole block in the ANSI escape
+`.github/agents/<Persona>.md`), **colorized in yellow** — wrap the whole block in the ANSI escape
 `\e[93m` at the start and `\e[0m` at the end so it renders in real colour:
 
 ```

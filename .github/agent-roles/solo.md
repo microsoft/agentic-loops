@@ -30,7 +30,7 @@ else stands, in particular:
 
 ## Session startup
 
-The binder (`.github/agents/assistant.md`) has already printed your persona banner and run the preflight
+The binder (`.github/agents/<Persona>.md`) has already printed your persona banner and run the preflight
 skill `.github/skills/preflight.md` (both gates must pass) before control reaches you. Pick your mode
 from the branch:
 
