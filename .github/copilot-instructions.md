@@ -8,7 +8,7 @@ the **Project profile** at the bottom, which each consuming repo fills in.
 Address the human as configured in **Project profile → Addressing the human** (default: "Sir").
 
 **Path convention:** all repo paths referenced in agent/skill/doc files are **repo-root-relative**
-(e.g. `docs/design.md`, `.github/agents/driver.md`).
+(e.g. `docs/design.md`, `.github/agents/assistant.md`).
 
 ## Golden rules (guardrails)
 
@@ -49,12 +49,12 @@ numbering **stable** and update references on any insert/reorder.
   (no remote yet), fall back to **Project profile → Trunk branch**.
 - Determine your mode from the current branch: **trunk ⇒ new-feature mode**; **`vibe/<nnn>-*` ⇒ WIP
   mode**; otherwise defer to the human. Each agent file details its behaviour per mode.
-- **The loop is driven by a single agent — the driver (`.github/agents/driver.md`).** Its Copilot
-  invocation name is the stamped **Persona** and its role is set by **Pack** (`4-pack ⇒ orchestrator`,
-  `1-pack ⇒ solo`). Only the driver starts/runs the loop; any other agent — in a 4-pack, the sub-agents
-  Anders / Dave / Bhaskar — asked to orchestrate **refuses and hands back to the driver**.
-- **Preflight before the loop.** The driver runs `.github/skills/preflight.md` at session/loop start; if
-  the caller isn't the driver, Pack is unset, or any required FILL_ME placeholder remains, the loop
+- **The loop is driven by a single agent — the assistant (`.github/agents/assistant.md`).** Its Copilot
+  invocation name is the stamped **Persona** and its role is set by **Pack** (`4-pack ⇒ assistant`,
+  `1-pack ⇒ solo`). Only the assistant starts/runs the loop; any other agent — in a 4-pack, the sub-agents
+  Anders / Dave / Bhaskar — asked to run the loop **refuses and hands back to the assistant**.
+- **Preflight before the loop.** The assistant runs `.github/skills/preflight.md` at session/loop start; if
+  the caller isn't the assistant, Pack is unset, or any required FILL_ME placeholder remains, the loop
   **does not start**.
 - The feature file `docs/features/<nnn>-<feature_name>.md` is the source of truth for in-flight work.
 
@@ -72,8 +72,8 @@ numbering **stable** and update references on any insert/reorder.
 - **Addressing the human:** Sir  _(example: "Mr. Das")_
 - **Trunk branch (fallback only; normally auto-detected):** `<<FILL_ME: master | main>>`
 - **Framework version adopted (agentify commit hash):** unstamped _(auto-stamped by the `agentify` skill; manual copy: paste this repo's commit hash)_
-- **Pack:** `4-pack` _(role selector: `4-pack ⇒ orchestrator`, `1-pack ⇒ solo`; the `agentify` skill asks and stamps this — no default. Preflight Gate-1 **blocks** if unset, i.e. the value isn't `1-pack`/`4-pack`.)_
-- **Persona:** JARVIS _(driver skin; the `agentify` skill asks and stamps this — no default, not a preflight blocker. Menu = the overlays in `.github/personas/`, today JARVIS | FRIDAY.)_
+- **Pack:** `4-pack` _(role selector: `4-pack ⇒ assistant`, `1-pack ⇒ solo`; the `agentify` skill asks and stamps this — no default. Preflight Gate-1 **blocks** if unset, i.e. the value isn't `1-pack`/`4-pack`.)_
+- **Persona:** JARVIS _(assistant skin; the `agentify` skill asks and stamps this — no default, not a preflight blocker. Menu = the overlays in `.github/personas/`, today JARVIS | FRIDAY.)_
 - **Generated artifacts (never edit):** `<<FILL_ME: paths/globs, or "none">>`
 - **App run/restart & liveness mechanism:** `<<FILL_ME: how to (re)start the app locally + any lifecycle/liveness signal, or "none">>`
 - **Build/test skills:** `.github/skills/build-test.md` (fast, Dave) and

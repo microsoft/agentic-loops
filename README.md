@@ -1,7 +1,7 @@
 # agentify
 
 A **project-agnostic agent-governance framework for GitHub Copilot**: a hub-and-spoke agentic loop —
-orchestrator, coder, verifier, architect (or a single solo generalist) — plus the guardrails and skills
+assistant, coder, verifier, architect (or a single solo generalist) — plus the guardrails and skills
 that keep them in their lanes, shipping reviewable slices. Drop it into any repo with the `agentify`
 skill, fill a small **Project profile** and `docs/design.md`, and your Copilot agents inherit a
 consistent way of working — the human stays final decision-maker.
@@ -10,31 +10,31 @@ consistent way of working — the human stays final decision-maker.
 
 1. **Install** — run the `agentify` skill (`.github/skills/agentify.md`) from an agentify checkout,
    pointed at your target repo (on a `vibe/*` branch, never trunk).
-2. **Choose a pack *and* a persona** when asked — both no-default; the persona is your driver's skin
+2. **Choose a pack *and* a persona** when asked — both no-default; the persona is your assistant's skin
    (menu in `.github/personas/`; see *Install options*).
 3. **Fill the placeholders** — every `<<FILL_ME: ...>>` in `.github/copilot-instructions.md` (the
    Project profile, **including the Commands table**) and replace `docs/design.md` with your real
    design. Preflight blocks the loop until no placeholder remains.
-4. **Invoke the driver** by its persona name (you chose it at install — e.g. **JARVIS** or **FRIDAY**); a
-   4-pack also exposes **Anders / Dave / Bhaskar**. Ask the driver to start a feature; it prints its
+4. **Invoke the assistant** by its persona name (you chose it at install — e.g. **JARVIS** or **FRIDAY**); a
+   4-pack also exposes **Anders / Dave / Bhaskar**. Ask the assistant to start a feature; it prints its
    banner, runs preflight, then loops.
 
 ## Install options
 
 The full 4-agent loop is **token-heavy**, and many projects don't need it — so the `agentify` skill
 **asks which pack** (no default). **Persona is a mandatory, no-default overlay, decoupled from pack**:
-pick any skin in `.github/personas/` for your driver (a persona may not match the pack's natural driver —
+pick any skin in `.github/personas/` for your assistant (a persona may not match the pack's natural assistant —
 that's allowed). Roles live in `.github/agent-roles/`, personas in `.github/personas/`, and the thin
-binder is `.github/agents/driver.md`. Note: stronger and more varied Commands ⇒ agents are more easily
+binder is `.github/agents/assistant.md`. Note: stronger and more varied Commands ⇒ agents are more easily
 supervised.
 
 ### 1-pack (solo)
-Ships the **solo** driver role — one generalist who does design → implement → verify → review, plus git
+Ships the **solo** role — one generalist who does design → implement → verify → review, plus git
 and the task file. **Separation of duties is waived.** Lightest on tokens; best for small or low-stakes
 repos.
 
 ### 4-pack (full team)
-Ships the **orchestrator** driver role **+ Anders / Dave / Bhaskar** — strict separation of duties and
+Ships the **assistant** role **+ Anders / Dave / Bhaskar** — strict separation of duties and
 the full hub-and-spoke loop. Token-heavy; best for larger or higher-stakes work.
 
 ## The model
@@ -43,21 +43,21 @@ the full hub-and-spoke loop. Token-heavy; best for larger or higher-stakes work.
 Human — decides · E2E-tests · merges · deploys
    ▲ escalate                    │ requests
    │                             ▼
- Driver = agents/driver.md   (skin: Persona · role: Pack)
-   ├─ 4-pack → role: orchestrator — owns git + task file; never codes:
+ Assistant = agents/assistant.md   (skin: Persona · role: Pack)
+   ├─ 4-pack → role: assistant — owns git + task file; never codes:
    │     ├─► Anders   design / review
    │     ├─► Dave     implement (leave uncommitted)
    │     └─► Bhaskar  verify (build + tests + gates)
    └─ 1-pack → role: solo — does all of the above solo (duties merged)
 
- Session start: driver prints its persona banner, then preflight (once).
+ Session start: assistant prints its persona banner, then preflight (once).
  Per task: Dave → Bhaskar (till green) → Anders → commit vibe/<nnn> → PR.
  Escalate blockers immediately; pause at a slice boundary if needed.
  Never trunk. Never deploy.
 ```
 
 - **Separation of duties** is strict in the 4-pack; merged into one agent in the 1-pack.
-- **The loop is single-driver and preflight-gated** — only the driver (`.github/agents/driver.md`) runs
+- **The loop is single-assistant and preflight-gated** — only the assistant (`.github/agents/assistant.md`) runs
   it; it won't start until preflight passes with all placeholders filled.
 - **Features are sliced** into independently deployable, end-to-end-verifiable increments.
 
@@ -66,9 +66,9 @@ Human — decides · E2E-tests · merges · deploys
 - `AGENTS.md` — top-level pointer into `.github/` governance.
 - `.github/copilot-instructions.md` — golden rules + working agreement + **Project profile** (the SSOT,
   including the Commands table).
-- `.github/agents/` — `driver` (the binder) + `anders` / `dave` / `bhaskar` (4-pack sub-agents).
-- `.github/agent-roles/` — `orchestrator` (4-pack) / `solo` (1-pack) role bodies (no frontmatter).
-- `.github/personas/` — driver skins `jarvis` / `friday` (no frontmatter).
+- `.github/agents/` — `assistant` (the binder) + `anders` / `dave` / `bhaskar` (4-pack sub-agents).
+- `.github/agent-roles/` — `assistant` (4-pack) / `solo` (1-pack) role bodies (no frontmatter).
+- `.github/personas/` — assistant skins `jarvis` / `friday` (no frontmatter).
 - `.github/skills/` — `agentify` (install/update), `preflight` (loop guard), `retrospective`,
   `build-test` + `build-test-full` (the gate recipes).
 - `docs/` — `design.md` (fill in), `meta-design.md`, `backlog.md`, `features/TASK_FILE_TEMPLATE.md`.
@@ -90,9 +90,9 @@ adopted and can re-run to pull updates.
 
 ## Retrospective
 
-After roughly every 5 features, the driver reminds the human to run the `retrospective` skill: the
+After roughly every 5 features, the assistant reminds the human to run the `retrospective` skill: the
 architect distills durable, cross-cutting learnings, the human approves any guardrail change, and the
-coder applies the minimal edit — the solo driver does all three in a 1-pack. See
+coder applies the minimal edit — the solo assistant does all three in a 1-pack. See
 `.github/skills/retrospective.md`.
 
 ## For consumer agents

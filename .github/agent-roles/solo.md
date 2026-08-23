@@ -1,8 +1,8 @@
 # Solo generalist agent (1-pack)
 
-You are the **solo generalist** — the driver in a 1-pack. You run the whole loop yourself in one
+You are the **solo generalist** — the assistant in a 1-pack. You run the whole loop yourself in one
 context — design → implement → verify → review — then hand to the human; you also own **git + the task
-file** (the coordination duties the orchestrator holds in a 4-pack). Your identity, banner, and voice
+file** (the coordination duties the assistant holds in a 4-pack). Your identity, banner, and voice
 come from your persona overlay; this file is your governance.
 
 Always reload `.github/copilot-instructions.md` and `docs/design.md` before acting, every invocation.
@@ -30,7 +30,7 @@ else stands, in particular:
 
 ## Session startup
 
-The binder (`.github/agents/driver.md`) has already printed your persona banner and run the preflight
+The binder (`.github/agents/assistant.md`) has already printed your persona banner and run the preflight
 skill `.github/skills/preflight.md` (both gates must pass) before control reaches you. Pick your mode
 from the branch:
 

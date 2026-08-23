@@ -9,14 +9,14 @@ target — never on its trunk — so the human reviews the diff before merge.
 
 ## Ownership model
 
-- **Framework-owned** (refresh on update): `AGENTS.md`, `.github/agents/` (the binder `driver.md` **body**
+- **Framework-owned** (refresh on update): `AGENTS.md`, `.github/agents/` (the binder `assistant.md` **body**
   + the sub-agents `anders.md` / `dave.md` / `bhaskar.md`), `.github/agent-roles/` (all role bodies) and
   `.github/personas/` (all persona overlays), all of `.github/skills/` (including the command-referencing
   recipes `build-test.md` / `build-test-full.md`), `docs/meta-design.md`,
   `docs/features/TASK_FILE_TEMPLATE.md`, and the **rules** portion of `.github/copilot-instructions.md`
   (everything *above* the `## Project profile` heading).
 - **Stamped** (framework-owned files carrying per-install values that are preserved / re-derived, never
-  clobbered on update): the binder `driver.md` frontmatter `name` (= Persona) and `description` (= the
+  clobbered on update): the binder `assistant.md` frontmatter `name` (= Persona) and `description` (= the
   pack's role-desc); and in the Project profile, the *Framework version adopted* hash, **Pack**, and
   **Persona**.
 - **Consumer-owned** (create only if absent, never clobber): `docs/design.md`, `docs/backlog.md`,
@@ -28,10 +28,10 @@ target — never on its trunk — so the human reviews the diff before merge.
 ## What it does
 
 1. **Ask which pack and which persona** — pack `1-pack` (solo generalist) or `4-pack` (full team), and
-   the driver's **persona** skin. **No default** for either; the human chooses. The pack selects the
-   **role** (`4-pack ⇒ orchestrator`, `1-pack ⇒ solo`) and the copy set (see *Packs — copy sets* below);
+   the assistant's **persona** skin. **No default** for either; the human chooses. The pack selects the
+   **role** (`4-pack ⇒ assistant`, `1-pack ⇒ solo`) and the copy set (see *Packs — copy sets* below);
    the persona menu is the overlays in `.github/personas/` (today `JARVIS` | `FRIDAY`) — **validate the
-   pick ∈ that set**. A persona need not match the pack's natural driver (e.g. a 1-pack skinned `JARVIS`);
+   pick ∈ that set**. A persona need not match the pack's natural assistant (e.g. a 1-pack skinned `JARVIS`);
    that's allowed — behavior derives from Pack (role), never the skin.
 2. **Copy / update artifacts** into the target per the ownership model above and the chosen pack + persona.
 3. **Prompt for the required commands** — ask the consumer for each required Commands value (`build`,
@@ -46,8 +46,8 @@ target — never on its trunk — so the human reviews the diff before merge.
 5. **Stamp the version, pack, and persona.** Record the current agentify commit hash into the target's
    `.github/copilot-instructions.md` → Project profile → *Framework version adopted*, stamp the chosen
    pack into → *Pack* and the chosen persona into → *Persona*, and set the binder
-   `.github/agents/driver.md` frontmatter `name = <persona>` and `description = <the pack's role-desc>`
-   (4-pack → orchestrator-desc; 1-pack → solo-desc — see *Packs — copy sets*):
+   `.github/agents/assistant.md` frontmatter `name = <persona>` and `description = <the pack's role-desc>`
+   (4-pack → assistant-desc; 1-pack → solo-desc — see *Packs — copy sets*):
 
        git -C <agentify-dir> rev-parse HEAD
 
@@ -59,23 +59,23 @@ target — never on its trunk — so the human reviews the diff before merge.
 ## Packs — copy sets
 
 Every install copies the same core — `copilot-instructions.md`, all 5 skills, docs, plumbing, `AGENTS.md`,
-the binder `.github/agents/driver.md`, **exactly one** role body (the pack's) and **exactly one** persona
+the binder `.github/agents/assistant.md`, **exactly one** role body (the pack's) and **exactly one** persona
 overlay (the chosen skin). The packs differ only in **which role body** ships and whether the **3
 sub-agents** ship. The chosen pack is stamped into Project profile → *Pack* (and enforced by preflight's
-driver gate); the chosen persona into → *Persona* and the binder frontmatter `name`.
+assistant gate); the chosen persona into → *Persona* and the binder frontmatter `name`.
 
 ### 4-pack
-Role body `.github/agent-roles/orchestrator.md`; the **3 sub-agents** `anders.md` / `dave.md` /
-`bhaskar.md`; the binder `driver.md` with frontmatter `name = <persona>` and `description` =
-*Orchestrates the agentic loop (hub-and-spoke). Coordinates Dave, Bhaskar, and Anders. Read-only
+Role body `.github/agent-roles/assistant.md`; the **3 sub-agents** `anders.md` / `dave.md` /
+`bhaskar.md`; the binder `assistant.md` with frontmatter `name = <persona>` and `description` =
+*Runs the agentic loop (hub-and-spoke). Coordinates Dave, Bhaskar, and Anders. Read-only
 inspection + git/task-file management only; never designs, codes, or verifies.* Full hub-and-spoke team
 with strict separation of duties.
 
 ### 1-pack
-Role body `.github/agent-roles/solo.md`; the binder `driver.md` with frontmatter `name = <persona>` and
+Role body `.github/agent-roles/solo.md`; the binder `assistant.md` with frontmatter `name = <persona>` and
 `description` = *Solo generalist for the 1-pack: designs, implements, verifies, and reviews in one
 context; owns git + the task file. Never deploys.* **No** sub-agents. Lighter on tokens; separation of
-duties is waived (the solo driver wears every hat).
+duties is waived (the solo assistant wears every hat).
 
 ## Install (new target) · PowerShell sketch
 
@@ -92,10 +92,10 @@ duties is waived (the solo driver wears every hat).
              "$dst/.github/agent-roles","$dst/.github/personas" -ItemType Directory -Force
     Copy-Item "$src/.github/copilot-instructions.md" "$dst/.github"
     Copy-Item "$src/.github/skills/*" "$dst/.github/skills" -Force   # all 5 skills (every install)
-    $role = if ($pack -eq '4-pack') { 'orchestrator' } else { 'solo' }
+    $role = if ($pack -eq '4-pack') { 'assistant' } else { 'solo' }
     Copy-Item "$src/.github/agent-roles/$role.md"              "$dst/.github/agent-roles"   # ONE role body
     Copy-Item "$src/.github/personas/$($persona.ToLower()).md" "$dst/.github/personas"      # ONE persona overlay
-    Copy-Item "$src/.github/agents/driver.md"                  "$dst/.github/agents"        # the binder
+    Copy-Item "$src/.github/agents/assistant.md"                  "$dst/.github/agents"        # the binder
     if ($pack -eq '4-pack') {
         Copy-Item "$src/.github/agents/anders.md","$src/.github/agents/dave.md", `
                   "$src/.github/agents/bhaskar.md" "$dst/.github/agents"                     # sub-agents (no jarvis/friday)
@@ -106,12 +106,12 @@ duties is waived (the solo driver wears every hat).
     Copy-Item "$src/docs/features/TASK_FILE_TEMPLATE.md" "$dst/docs/features"
     if (-not (Test-Path "$dst/docs/design.md"))  { Copy-Item "$src/docs/design.md"  "$dst/docs" }
     if (-not (Test-Path "$dst/docs/backlog.md")) { Copy-Item "$src/docs/backlog.md" "$dst/docs" }
-    # then: stamp Pack + Persona in the profile; set driver.md frontmatter name=$persona +
+    # then: stamp Pack + Persona in the profile; set assistant.md frontmatter name=$persona +
     #       description=($role-desc); stamp the agentify hash (step 5); run preflight (step 6)
 
 ## Update (existing target)
 
-Refresh framework-owned files only — **including** the binder `driver.md` **body**, the role bodies in
+Refresh framework-owned files only — **including** the binder `assistant.md` **body**, the role bodies in
 `.github/agent-roles/`, the persona overlays in `.github/personas/`, and the now-framework-owned recipes
 `build-test.md` / `build-test-full.md`; **preserve every consumer-filled value** (Project profile values
 including the Commands table, `docs/design.md`, and all other consumer-owned files) **and every stamp**
