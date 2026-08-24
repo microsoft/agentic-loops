@@ -1,106 +1,132 @@
 # agentify
 
-A **project-agnostic agent-governance framework for GitHub Copilot**: a hub-and-spoke agentic loop —
-conductor, coder, verifier, architect (or a single solo generalist) — plus the guardrails and skills
-that keep them in their lanes, shipping reviewable slices. Drop it into any repo with the `agentify`
-skill, fill a small **Project profile** and `docs/design.md`, and your Copilot agents inherit a
-consistent way of working — the human stays final decision-maker.
+A **project-agnostic agent-governance framework for GitHub Copilot**: guardrails + skills that keep a
+hub-and-spoke loop in-lane, shipping reviewable slices. Self-learning, with a hands-free mode for the
+4-pack — conductor · coder · verifier · architect — or a solo generalist.
+
+The human designs the lanes, guardrails & constraints and stays final decision-maker.
+
+## Packs
+
+`agentify` asks which **pack** and which **persona** at install (both no-default; persona = your
+assistant's skin, from `.github/personas/`).
+
+| Pack | Makeup | Separation of duties | Tokens | Use when |
+|------|--------|----------------------|--------|----------|
+| **1-pack** (solo) | one generalist — designs · implements · verifies · reviews; owns git + task file | merged (waived) | lightest | small / low-stakes repos, fast iteration |
+| **4-pack** (team) | conductor **+** Anders (architect) · Dave (coder) · Bhaskar (verifier) | strict, hub-and-spoke lanes | heavy | larger / higher-stakes work wanting independent review |
+
+## The loops
+
+**① Hands-free loop — WIP mode** (the day-to-day engine)
+
+```
+  ① HANDS-FREE LOOP · WIP mode — one task at a time, on reasonable assumptions
+
+      ┌───────────────────────────────────────────────────┐
+      │  Human — decides · E2E-tests · merges · deploys   │
+      └───────────────────────────────────────────────────┘
+          │ requests              ▲ escalate anytime
+          ▼                       │
+      ┌───────────────────────────────────────────────────┐
+   ┌─►│  Assistant · conductor — owns git + task file     │
+   │  └───────────────────────────────────────────────────┘
+   │      │ hands off one task
+   │      ▼
+   │  ┌───────┐  fail ↔ fix  ┌─────────┐  green  ┌────────┐
+   │  │  Dave │◄────────────►│ Bhaskar │────────►│ Anders │
+   │  │  code │              │  verify │         │ review │
+   │  └───────┘              └─────────┘         └────────┘
+   │  uncommitted       build + tests + gates     design
+   │                                               │ pass
+   │                                               ▼
+   │  ┌───────────────────────────────────────────────────┐
+   └──┤ commit vibe/<nnn> · push · PR · restart app       │
+      └───────────────────────────────────────────────────┘
+   ↺ next task
+
+  slice end → pause only if sign-off needed · never trunk · never deploy
+```
+
+**② Design session — new-feature mode** → Slices · Tasks · OSTRAD
+
+```
+  ② DESIGN SESSION · new-feature mode — Anders leads with the human (no hints)
+
+   ┌────────┐   requirements   ┌───────────┐   writes   ┌──────────────────────────┐
+   │ Human  │─────────────────►│   Anders  │───────────►│ docs/features/<nnn>.md   │
+   │        │◄─────────────────│ architect │            ├──────────────────────────┤
+   └────────┘   options · recs └───────────┘            │ O  Options  → pick one   │
+  approves the design                                   │ S  Slices                │
+                                                        │ T  Tasks                 │
+                                                        │ R  Risks                 │
+                                                        │ A  Assumptions           │
+                                                        │ D  Deferrals             │
+                                                        └──────────────────────────┘
+
+  Feature ─► Slices (independently shippable · E2E-verifiable) ─► Tasks (1+ each) ─► loop ①
+```
+
+**③ Retro loop — self-learning** (every ≥ 5 features)
+
+```
+  ③ RETRO LOOP · self-learning — every ≥ 5 features (count-based)
+
+   ┌───────────┐    ┌──────────┐    ┌────────┐    ┌────────┐
+   │ Assistant │───►│  Anders  │───►│ Human  │───►│  Dave  │
+   │  reminds  │    │ distills │    │ okays  │    │applies │
+   └───────────┘    └──────────┘    └────────┘    └────────┘
+        ▲                                                │
+        └───────────── updated guardrails ↺ ─────────────┘
+          (1-pack: the solo assistant fills all three roles)
+```
+
+The assistant reminds the human; run the loop with the `retrospective` skill (`.github/skills/retrospective.md`).
 
 ## Getting Started
 
 1. **Install** — run the `agentify` skill (`.github/skills/agentify.md`) from an agentify checkout,
    pointed at your target repo (on a `vibe/*` branch, never trunk).
-2. **Choose a pack *and* a persona** when asked — both no-default; the persona is your assistant's skin
-   (menu in `.github/personas/`; see *Install options*).
-3. **Fill the placeholders** — every `<<FILL_ME: ...>>` in `.github/copilot-instructions.md` (the
-   Project profile, **including the Commands table**) and replace `docs/design.md` with your real
-   design. Preflight blocks the loop until no placeholder remains.
-4. **Invoke the assistant** by its persona name (you chose it at install — e.g. **JARVIS** or **FRIDAY**); a
-   4-pack also exposes **Anders / Dave / Bhaskar**. Ask the assistant to start a feature; it prints its
-   banner, runs preflight, then loops.
+2. **Choose a pack *and* a persona** when asked — both no-default (see *Packs* above).
+3. **Fill the placeholders** — every `<<FILL_ME: ...>>` in `.github/copilot-instructions.md` (Project
+   profile **+ Commands table**) and replace `docs/design.md` with your real design. Preflight blocks the
+   loop until none remain. The **Commands table** names your stack's `build`, `lint`, `format:fix`/`format:check`,
+   `test:quick`/`test:full` (required) + optional `dry-check` / `mutation-test` / `crap-check`; the gate-skills
+   run them by name — stronger, more varied constraints ⇒ agents are more easily supervised.
+4. **Invoke the assistant** by its persona name (e.g. **JARVIS** / **FRIDAY**); a 4-pack also exposes
+   **Anders / Dave / Bhaskar**. Ask it to start a feature — it prints its banner, runs preflight, then loops.
 
-## Install options
-
-The full 4-agent loop is **token-heavy**, and many projects don't need it — so the `agentify` skill
-**asks which pack** (no default). **Persona is a mandatory, no-default overlay, decoupled from pack**:
-pick any skin in `.github/personas/` for your assistant (a persona may not match the pack's natural assistant —
-that's allowed). Roles live in `.github/agent-roles/`, personas in `.github/personas/`, and the thin
-binder is `.github/agents/<Persona>.md`. Note: stronger and more varied Commands ⇒ agents are more easily
-supervised.
-
-### 1-pack (solo)
-Ships the **solo** role — one generalist who does design → implement → verify → review, plus git
-and the task file. **Separation of duties is waived.** Lightest on tokens; best for small or low-stakes
-repos.
-
-### 4-pack (full team)
-Ships the **conductor** role **+ Anders / Dave / Bhaskar** — strict separation of duties and
-the full hub-and-spoke loop. Token-heavy; best for larger or higher-stakes work.
+> **Versioning** — `agentify` stamps its commit hash (the framework version) plus your pack, persona,
+> and model profile into the Project profile on install/update; re-run the skill to pull framework updates.
 
 ## The model
 
-```
-Human — decides · E2E-tests · merges · deploys
-   ▲ escalate                    │ requests
-   │                             ▼
- Assistant = agents/<Persona>.md   (skin: Persona · role: Pack)
-   ├─ 4-pack → role: conductor — owns git + task file; never codes:
-   │     ├─► Anders   design / review
-   │     ├─► Dave     implement (leave uncommitted)
-   │     └─► Bhaskar  verify (build + tests + gates)
-   └─ 1-pack → role: solo — does all of the above solo (duties merged)
-
- Session start: assistant prints its persona banner, then preflight (once).
- Per task: Dave → Bhaskar (till green) → Anders → commit vibe/<nnn> → PR.
- Escalate blockers immediately; pause at a slice boundary if needed.
- Never trunk. Never deploy.
-```
-
-- **Separation of duties** is strict in the 4-pack; merged into one agent in the 1-pack.
-- **The loop is single-assistant and preflight-gated** — only the assistant (`.github/agents/<Persona>.md`) runs
-  it; it won't start until preflight passes with all placeholders filled.
+- **Single-assistant, preflight-gated** — only the assistant (`.github/agents/<Persona>.md`) runs the
+  loop; it won't start until preflight passes with every placeholder filled.
 - **Features are sliced** into independently deployable, end-to-end-verifiable increments.
-- **Model profile** — `agentify` sets each agent's MAX model by vendor: `anthropic` (Opus 5) / `openai`
-  (GPT-5.6 Sol) / `both` (default — Opus 5 codes & designs, GPT-5.6 Sol verifies & drives, keeping the
-  coder and verifier cross-vendor). Every agent runs at `reasoning: max`.
+- **Model profile** — `agentify` sets each agent's MAX model at `reasoning: max`; pick an arrangement:
+
+  | Profile | Designs + codes | Verifies + drives |
+  |---------|-----------------|-------------------|
+  | **`mix-1`** *(default · 1st choice)* | Opus 5 | GPT-5.6 Sol |
+  | **`mix-2`** *(2nd choice)* | GPT-5.6 Sol | Opus 5 |
+  | `anthropic` | Opus 5 | Opus 5 |
+  | `openai` | GPT-5.6 Sol | GPT-5.6 Sol |
+
+  `mix-1` / `mix-2` keep **coder ≠ verifier vendor** so the independent check inherits no blind spot;
+  `mix-2` is `mix-1` flipped.
 
 ## Layout
 
 - `AGENTS.md` — top-level pointer into `.github/` governance.
-- `.github/copilot-instructions.md` — golden rules + working agreement + **Project profile** (the SSOT,
-  including the Commands table).
-- `.github/agents/` — `anders` / `dave` / `bhaskar` (4-pack sub-agents); the loop binder installs here per persona as `<Persona>.md`.
-- `.github/agent-templates/` — `binder.md`, the loop-binder template (installed as `.github/agents/<Persona>.md`).
-- `.github/agent-roles/` — `conductor` (4-pack) / `solo` (1-pack) role bodies (no frontmatter).
-- `.github/personas/` — assistant skins `jarvis` / `friday` (no frontmatter).
-- `.github/skills/` — `agentify` (install/update), `preflight` (loop guard), `retrospective`,
-  `build-test` + `build-test-full` (the gate recipes).
-- `docs/` — `design.md` (fill in), `meta-design.md`, `backlog.md`, `features/TASK_FILE_TEMPLATE.md`.
+- `.github/copilot-instructions.md` — the **canonical** per-session contract: golden rules #0–#11 + working
+  agreement + **Project profile** (the SSOT, incl. the Commands table). This README is a non-authoritative overview.
+- `.github/agents/` — `anders` / `dave` / `bhaskar` (4-pack sub-agents); the binder installs here per
+  persona as `<Persona>.md`.
+- `.github/agent-templates/binder.md` — the loop-binder template.
+- `.github/agent-roles/` — `conductor` (4-pack) / `solo` (1-pack) role bodies.
+- `.github/personas/` — assistant skins `jarvis` / `friday`.
+- `.github/skills/` — `agentify`, `preflight`, `retrospective`, `build-test` + `build-test-full`.
+- `docs/` — `design.md`, `meta-design.md`, `backlog.md`, `features/TASK_FILE_TEMPLATE.md`.
 - `LICENSE` (MIT) + plumbing (`.editorconfig`, `.gitignore`, `.gitattributes`, `.vscode/`).
 
-## Commands
-
-The consumer fills a **Commands** table in the Project profile (the SSOT); the two gate-skills reference
-it by name. **Required core:** `build`, `lint`, `format:fix` + `format:check`, `test:quick`, `test:full`.
-**Optional gates:** `dry-check`, `mutation-test`, `crap-check` — ship as `none`; set a command to enable
-one. Add rows for any other commands your stack needs; fill in as many as apply — stronger, more varied
-constraints ⇒ agents are more easily supervised.
-
-## Versioning
-
-The framework version is the **agentify commit hash**; the `agentify` skill stamps it (with the chosen
-pack + persona) into each consumer's Project profile on install/update, so you know which revision a repo
-adopted and can re-run to pull updates.
-
-## Retrospective
-
-After roughly every 5 features, the assistant reminds the human to run the `retrospective` skill: the
-architect distills durable, cross-cutting learnings, the human approves any guardrail change, and the
-coder applies the minimal edit — the solo assistant does all three in a 1-pack. See
-`.github/skills/retrospective.md`.
-
-## For consumer agents
-
-Canonical per-session rules live in `.github/copilot-instructions.md` (golden rules #0–#11 + Working
-agreement) — this README is non-authoritative. Reload it and `docs/design.md`, pick mode from the branch,
-stay in your lane, and treat `docs/features/<nnn>-*.md` as the SoT.

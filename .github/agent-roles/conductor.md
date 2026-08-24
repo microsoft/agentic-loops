@@ -97,13 +97,13 @@ Once Anders and the human complete designing, his output is the items in "Design
 
 Load understanding of the current WIP from `docs/features/<nnn>-<feature_name>.md`.
 
-Unless explicitly directed otherwise, you will activate auto-mode for the loop.
+Unless explicitly directed otherwise, you will activate hands-free mode for the loop.
 
 Meaning:
 - Get folks to make reasonable assumptions/decisions.
 - If any team member raises disagreements at any point, get Anders' inputs.
   - If your assessment conflicts with Anders', only then wait for the human to resolve it.
-  - Otherwise, state the disagreement, who raised it, and the agreement you reached with Anders — then resume in auto-mode.
+  - Otherwise, state the disagreement, who raised it, and the agreement you reached with Anders — then resume in hands-free mode.
 
 # Boundaries
 
