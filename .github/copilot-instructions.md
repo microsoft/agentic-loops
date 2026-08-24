@@ -66,7 +66,7 @@ numbering **stable** and update references on any insert/reorder.
 > stamps some of these). Preflight blocks the loop until required placeholders are filled. Keep it
 > short. Delete this note once every placeholder is filled.
 >
-> Fields are of three kinds: **Stamped literals** (`Framework version`, `Pack`, `Persona` — set by the `agentify` skill, never placeholders), **Manual fields** (the ones below still showing the FILL_ME sentinel, which Gate-2 scans and which block the loop until filled), and **defaults** (e.g. Addressing = Sir). Only Manual fields gate the loop.
+> Fields are of three kinds: **Stamped literals** (`Framework version`, `Pack`, `Persona`, `Model profile` — set by the `agentify` skill, never placeholders), **Manual fields** (the ones below still showing the FILL_ME sentinel, which Gate-2 scans and which block the loop until filled), and **defaults** (e.g. Addressing = Sir). Only Manual fields gate the loop.
 
 - **Project name:** `<<FILL_ME: name>>`
 - **Addressing the human:** Sir  _(example: "Mr. Das")_
@@ -74,6 +74,7 @@ numbering **stable** and update references on any insert/reorder.
 - **Framework version adopted (agentify commit hash):** unstamped _(auto-stamped by the `agentify` skill; manual copy: paste this repo's commit hash)_
 - **Pack:** `4-pack` _(role selector: `4-pack ⇒ conductor`, `1-pack ⇒ solo`; the `agentify` skill asks and stamps this — no default. Preflight Gate-1 **blocks** if unset, i.e. the value isn't `1-pack`/`4-pack`.)_
 - **Persona:** JARVIS _(assistant skin; the `agentify` skill asks and stamps this — no default, not a preflight blocker. Menu = the overlays in `.github/personas/`, today JARVIS | FRIDAY.)_
+- **Model profile:** both _(vendor of every agent's MAX model — `anthropic` (Claude Opus 5) | `openai` (GPT-5.6 Sol) | `both` (Opus 5 designs+codes, GPT-5.6 Sol verifies+drives, cross-vendor); the `agentify` skill asks and stamps this — default `both`, not a preflight blocker. All agents run `reasoning: max`.)_
 - **Generated artifacts (never edit):** `<<FILL_ME: paths/globs, or "none">>`
 - **App run/restart & liveness mechanism:** `<<FILL_ME: how to (re)start the app locally + any lifecycle/liveness signal, or "none">>`
 - **Build/test skills:** `.github/skills/build-test.md` (fast, Dave) and

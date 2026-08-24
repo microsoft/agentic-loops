@@ -17,8 +17,8 @@ target — never on its trunk — so the human reviews the diff before merge.
   (everything *above* the `## Project profile` heading).
 - **Stamped** (framework-owned files carrying per-install values that are preserved / re-derived, never
   clobbered on update): the installed binder `.github/agents/<Persona>.md` frontmatter `name` (= Persona) and `description` (= the
-  pack's role-desc); and in the Project profile, the *Framework version adopted* hash, **Pack**, and
-  **Persona**.
+  pack's role-desc); each installed agent's `model` + `reasoning` (derived from the Model profile); and in
+  the Project profile, the *Framework version adopted* hash, **Pack**, **Persona**, and **Model profile**.
 - **Consumer-owned** (create only if absent, never clobber): `docs/design.md`, `docs/backlog.md`,
   `docs/features/<nnn>-*.md`, and the **Project profile** block of `.github/copilot-instructions.md` —
   including its **Commands** table, whose command *values* are the consumer's and must never be
@@ -32,7 +32,9 @@ target — never on its trunk — so the human reviews the diff before merge.
    **role** (`4-pack ⇒ conductor`, `1-pack ⇒ solo`) and the copy set (see *Packs — copy sets* below);
    the persona menu is the overlays in `.github/personas/` (today `JARVIS` | `FRIDAY`) — **validate the
    pick ∈ that set**. A persona need not match the pack's natural assistant (e.g. a 1-pack skinned `JARVIS`);
-   that's allowed — behavior derives from Pack (role), never the skin.
+   that's allowed — behavior derives from Pack (role), never the skin. Also **ask which model
+   profile** — `anthropic`, `openai`, or `both` (**default `both`**); it sets every agent's `model` +
+   `reasoning: max` (see *Model profiles* below).
 2. **Copy / update artifacts** into the target per the ownership model above and the chosen pack + persona.
 3. **Prompt for the required commands** — ask the consumer for each required Commands value (`build`,
    `lint`, `format:fix`, `format:check`, `test:quick`, `test:full`) and write them into the Project
@@ -43,16 +45,18 @@ target — never on its trunk — so the human reviews the diff before merge.
    Commands table with the provided commands; on **no**, leave them as `none` (they already ship as
    `none`). Stronger and more varied constraints ⇒ the agents are more easily supervised, so encourage
    filling in as many optional Commands as apply.
-5. **Stamp the version, pack, and persona.** Record the current agentify commit hash into the target's
+5. **Stamp the version, pack, persona, and model profile.** Record the current agentify commit hash into the target's
    `.github/copilot-instructions.md` → Project profile → *Framework version adopted*, stamp the chosen
-   pack into → *Pack* and the chosen persona into → *Persona*, and set the binder
-   `.github/agents/<Persona>.md` frontmatter `name = <persona>` and `description = <the pack's role-desc>`
-   (4-pack → conductor-desc; 1-pack → solo-desc — see *Packs — copy sets*):
+   pack into → *Pack*, the chosen persona into → *Persona*, and the chosen **model profile** into →
+   *Model profile*; set the binder `.github/agents/<Persona>.md` frontmatter `name = <persona>` and
+   `description = <the pack's role-desc>` (4-pack → conductor-desc; 1-pack → solo-desc — see *Packs — copy
+   sets*); and set every installed agent's `model` per *Model profiles* below, each with `reasoning: max`:
 
        git -C <agentify-dir> rev-parse HEAD
 
-   On update, replace the previously stamped hash with the new one and re-derive the binder frontmatter
-   from Pack/Persona (leave other profile values intact).
+   On update, replace the previously stamped hash with the new one, re-derive the binder frontmatter
+   from Pack/Persona, and re-stamp each agent's `model`/`reasoning` from the recorded model profile
+   (leave other profile values intact).
 6. **Report remaining placeholders.** Run the target's `.github/skills/preflight.md` placeholder scan
    and list every unfilled `<<FILL_ME:` placeholder the human must complete before the loop can start.
 
@@ -77,6 +81,27 @@ Role body `.github/agent-roles/solo.md`; the binder installed as `<Persona>.md` 
 context; owns git + the task file. Never deploys.* **No** sub-agents. Lighter on tokens; separation of
 duties is waived (the solo assistant wears every hat).
 
+## Model profiles
+
+Every agent runs at **maximum reasoning** (`reasoning: max`); the profile only picks the **vendor** of
+each role's MAX model. `agentify` asks for one at install (**default `both`**), stamps it into Project
+profile → *Model profile*, and writes each installed agent's `model` accordingly. Per-vendor MAX SKUs:
+Anthropic `Claude Opus 5 (copilot)`, OpenAI `GPT-5.6 Sol (copilot)`.
+
+| Role — file | `anthropic` | `openai` | `both` (default) |
+|-------------|-------------|----------|------------------|
+| Architect — `agents/anders.md`            | Opus 5 | GPT-5.6 Sol | **Opus 5**      |
+| Coder — `agents/dave.md`                  | Opus 5 | GPT-5.6 Sol | **Opus 5**      |
+| Verifier — `agents/bhaskar.md`            | Opus 5 | GPT-5.6 Sol | **GPT-5.6 Sol** |
+| Driver — the binder `agents/<Persona>.md` | Opus 5 | GPT-5.6 Sol | **GPT-5.6 Sol** |
+
+- **`anthropic`** — every agent on Claude Opus 5.
+- **`openai`** — every agent on GPT-5.6 Sol.
+- **`both`** (recommended) — Opus 5 designs & codes, GPT-5.6 Sol verifies & drives; keeps **coder ≠
+  verifier vendor** so the independent check doesn't inherit the coder's blind spots. In a **1-pack**
+  only the binder ships, so `both` collapses to that one agent's vendor (GPT-5.6 Sol) — the cross-vendor
+  benefit is a 4-pack property.
+
 ## Install (new target) · PowerShell sketch
 
 > **New target only.** This copies the rules + Project profile and the chosen pack's binder + role +
@@ -89,6 +114,11 @@ duties is waived (the solo assistant wears every hat).
     if ($persona.ToLower() -notin $menu) { throw "Pick a persona from .github/personas (no default): $($menu -join ', ')." }
     if ($persona.ToLower() -in 'anders','dave','bhaskar') { throw "Persona '$persona' collides with a sub-agent filename; choose another." }
     $binderName = "$($persona.ToUpper()).md"                                    # binder installs per persona, all-caps: JARVIS.md / FRIDAY.md
+    $modelProfile = "both"                                                      # <anthropic | openai | both>; default both (see Model profiles)
+    if ($modelProfile -notin 'anthropic','openai','both') { throw "Pick a model profile: anthropic | openai | both (default both)." }
+    $maxA = 'Claude Opus 5 (copilot)'; $maxO = 'GPT-5.6 Sol (copilot)'          # per-vendor MAX SKUs; reasoning is 'max' for every role
+    #   role -> model:  anthropic => all $maxA;  openai => all $maxO;
+    #   both => architect(anders)+coder(dave) = $maxA, verifier(bhaskar)+driver(binder) = $maxO
     Copy-Item "$src/AGENTS.md","$src/.editorconfig","$src/.gitignore","$src/.gitattributes" $dst
     New-Item "$dst/.github/agents","$dst/.github/skills", `
              "$dst/.github/agent-roles","$dst/.github/personas" -ItemType Directory -Force
@@ -108,8 +138,9 @@ duties is waived (the solo assistant wears every hat).
     Copy-Item "$src/docs/features/TASK_FILE_TEMPLATE.md" "$dst/docs/features"
     if (-not (Test-Path "$dst/docs/design.md"))  { Copy-Item "$src/docs/design.md"  "$dst/docs" }
     if (-not (Test-Path "$dst/docs/backlog.md")) { Copy-Item "$src/docs/backlog.md" "$dst/docs" }
-    # then: stamp Pack + Persona in the profile; set the installed binder agents/$binderName frontmatter
-    #       name=$persona + description=($role-desc); stamp the agentify hash (step 5); run preflight (step 6)
+    # then: stamp Pack + Persona + Model profile in the profile; set the installed binder agents/$binderName
+    #       frontmatter name=$persona + description=($role-desc); set each installed agent's model (per
+    #       $modelProfile) with reasoning: max; stamp the agentify hash (step 5); run preflight (step 6)
 
 ## Update (existing target)
 
@@ -117,13 +148,14 @@ Refresh framework-owned files only — **including** the binder **body** (from `
 `.github/agent-roles/`, the persona overlays in `.github/personas/`, and the now-framework-owned recipes
 `build-test.md` / `build-test-full.md`; **preserve every consumer-filled value** (Project profile values
 including the Commands table, `docs/design.md`, and all other consumer-owned files) **and every stamp**
-(the version hash, **Pack**, **Persona**, and the binder frontmatter `name`/`description` — preserved /
-re-derived from Pack+Persona, never clobbered). If the rules portion of `copilot-instructions.md` changed,
+(the version hash, **Pack**, **Persona**, **Model profile**, the binder frontmatter `name`/`description`,
+and each agent's `model`/`reasoning` — preserved / re-derived from Pack+Persona+Model profile, never
+clobbered). If the rules portion of `copilot-instructions.md` changed,
 splice in the new rules. **Also splice into the consumer's existing `## Project profile` any NEW
-framework-defined fields/tables the adopter lacks** — notably the **Pack** and **Persona** fields and the
-**Commands** table skeleton — so an updated adopter gains them **without losing existing values**. Then
-re-stamp the hash (and Pack/Persona if they changed), re-derive the binder frontmatter, and re-run
-preflight.
+framework-defined fields/tables the adopter lacks** — notably the **Pack**, **Persona**, and **Model
+profile** fields and the **Commands** table skeleton — so an updated adopter gains them **without losing
+existing values**. Then re-stamp the hash (and Pack/Persona/Model profile if they changed), re-derive the
+binder frontmatter and each agent's `model`/`reasoning`, and re-run preflight.
 
 > **Legacy binder cleanup (required on update).** Earlier installs placed the binder at a fixed
 > filename (`agents/driver.md`, later `agents/assistant.md`). Identify the consumer's existing binder —

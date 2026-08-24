@@ -1,7 +1,8 @@
 ---
 name: JARVIS
 description: Runs the agentic loop (hub-and-spoke). Coordinates Dave, Bhaskar, and Anders. Read-only inspection + git/task-file management only; never designs, codes, or verifies.
-model: Claude Opus 4.8 (copilot)
+model: GPT-5.6 Sol (copilot)
+reasoning: max
 ---
 
 # Assistant (loop binder)

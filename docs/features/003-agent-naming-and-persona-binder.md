@@ -1,4 +1,4 @@
-# Feature: Agent naming overhaul + persona-named loop binder
+# Feature: Agent naming overhaul + persona-named loop binder + model profiles
 **Branch:** vibe/003-agent-naming-and-persona-binder
 **Status:** In Progress
 
@@ -17,6 +17,13 @@ Three human-directed changes to the framework's agent terminology and the invoka
 Constraints from the human:
 - Persona binder filenames are **all-caps, MCU-style** (`JARVIS.md`, `FRIDAY.md`).
 - A neutral copy-source template may keep a neutral name **as long as it never appears in the agent list**.
+
+A fourth change, folded into the **same PR** (human: "keep the same pr"):
+
+4. **Model selection is an install-time choice.** Every agent runs at **maximum reasoning**; `agentify`
+   picks each agent's MAX model **vendor** via a **Model profile** — `anthropic` / `openai` / `both`
+   (default `both`). `both` keeps the coder and verifier on **different vendors** (independent-check
+   decorrelation). MAX SKUs: Anthropic **Claude Opus 5**, OpenAI **GPT-5.6 Sol**.
 
 ## Design Options (Ox)
 
@@ -53,6 +60,7 @@ surfaced as an invokable agent, and persona binder filenames are **all-caps**.
 | S1 | Uniform `driver`/`orchestrator` → **assistant** across the framework (the loop agent). | - |
 | S2 | Split the 4-pack **role** back out to a distinct label **conductor** (agent stays "assistant"). | S1 |
 | S3 | Install the binder as `agents/<PERSONA>.md` (all-caps); hide the neutral template outside `agents/`; make binder-path references generic; add an Update cleanup for legacy binders. | S2 |
+| S4 | Add an install-time **Model profile** (`anthropic`/`openai`/`both`, default `both`); every agent runs `reasoning: max`; `agentify` stamps `model`/`reasoning` per profile. | S3 |
 
 ## Tasks (Tx)
 
@@ -65,6 +73,9 @@ surfaced as an invokable agent, and persona binder filenames are **all-caps**.
 | T5 | S3 | `agentify` Update: identify the existing binder (lone `agents/*.md` stem ∉ {anders,dave,bhaskar}); refresh into `agents/<PERSONA>.md`; `git rm` legacy `driver.md`/`assistant.md`; idempotent. | Done | 3 |
 | T6 | S3 | Make the binder-path references generic (`.github/agents/<Persona>.md`) in README, copilot-instructions, preflight, conductor.md, solo.md, personas/*, and reword the agentify ownership/copy-set prose. | Done | 3 |
 | T7 | S3 | Record the feature-001 reversal decision + the naming glossary in this doc. | Done | 3 |
+| T8 | S4 | Set the four agent files to the `both` default (anders/dave = Opus 5; bhaskar/binder = GPT-5.6 Sol) + `reasoning: max`. | Done | 4 |
+| T9 | S4 | Wire the Model profile through `agentify` (ask → step-5 stamp → *Model profiles* table → ownership *Stamped* → install sketch → Update preserve) + add the Project-profile *Model profile* field + README bullet. | Done | 4 |
+| T10 | S4 | Record the model-policy decision + roster in this doc. | Done | 4 |
 
 ## Risks (Rx)
 
@@ -111,5 +122,15 @@ surfaced as an invokable agent, and persona binder filenames are **all-caps**.
 - **Naming glossary (post-feature):** **assistant** = the loop **agent** concept / binder shell;
   **conductor** = the 4-pack **role** body (`agent-roles/conductor.md`); **solo** = the 1-pack role body;
   the invokable binder installs as `agents/<PERSONA>.md` and surfaces under the persona.
-- Committed as three separate commits (one per slice), per the human's request. PR held pending human
-  go-ahead.
+- **D4 (human) — model policy.** All agents run `reasoning: max` (an earlier low/mid tiering, and
+  decoupling `reasoning` from the model, were considered then dropped — "use max for all"). MAX SKUs:
+  Anthropic **Claude Opus 5** (human: "for max use opus 5 only"), OpenAI **GPT-5.6 Sol**. The
+  install-time **Model profile** picks the vendor: `anthropic` (all Opus 5), `openai` (all GPT-5.6 Sol),
+  or **`both`** (default) — architect+coder on Opus 5, verifier+driver on GPT-5.6 Sol. Rationale for
+  `both` (Anders): with tiers uniform, vendor diversity is the last lever, and the one load-bearing spot
+  is **coder ≠ verifier** — same-family models share blind spots, so a cross-vendor verifier keeps the
+  independent check honest. 1-pack caveat: only the binder ships, so `both` collapses to that one agent's
+  vendor (GPT-5.6 Sol); cross-vendor is a 4-pack property. `model`/`reasoning` become **stamped** (moved
+  out of framework-owned), preserved / re-derived from the Model profile on update.
+- Committed as four separate commits (one per slice), per the human's request; S4 kept in the **same PR**
+  (human: "keep the same pr"). PR held pending human go-ahead.

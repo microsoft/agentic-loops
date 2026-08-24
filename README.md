@@ -60,6 +60,9 @@ Human — decides · E2E-tests · merges · deploys
 - **The loop is single-assistant and preflight-gated** — only the assistant (`.github/agents/<Persona>.md`) runs
   it; it won't start until preflight passes with all placeholders filled.
 - **Features are sliced** into independently deployable, end-to-end-verifiable increments.
+- **Model profile** — `agentify` sets each agent's MAX model by vendor: `anthropic` (Opus 5) / `openai`
+  (GPT-5.6 Sol) / `both` (default — Opus 5 codes & designs, GPT-5.6 Sol verifies & drives, keeping the
+  coder and verifier cross-vendor). Every agent runs at `reasoning: max`.
 
 ## Layout
 

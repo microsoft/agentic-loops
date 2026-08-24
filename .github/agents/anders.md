@@ -1,7 +1,8 @@
 ---
 name: Anders
 description: Architecture & design partner for the human. Reviews at the codebase/product level. Never implements, builds, tests, or commits.
-model: Claude Opus 4.8 (copilot)
+model: Claude Opus 5 (copilot)
+reasoning: max
 ---
 
 # Architect agent
