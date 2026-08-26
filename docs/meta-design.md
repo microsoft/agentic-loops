@@ -11,6 +11,36 @@ The human provides the requirements that constitute a feature.
 Delivering a feature is done in **Slices**. Each slice is a full, independently deployable and
 end-to-end verifiable change. Rarely, a slice is split (e.g. frontend/backend) — consult the human first.
 
+## Writing tests
+
+Classify tests by boundary, not duration. The **taxonomy** below is framework-owned and universal; the
+**mechanism** — how this stack marks a test's type and how each gate selects it — is stack-specific and
+lives in the `testing` region at the end of this section.
+
+| Type | Boundary and purpose | Directional scale |
+|------|----------------------|-------------------|
+| Unit | Fine-grained, fast, and does not cross a process boundary. | Thousands |
+| Integration | Validates critical integration between cohesive components; may cross process or network boundaries. | Hundreds |
+| Acceptance | Exercises critical end-to-end customer scenarios by performing actions and verifying outcomes as a customer would. | Tens |
+
+The scales are directional guidelines, not classification criteria or hard quotas. Specialized suites
+supplement these categories, and automated tests do not replace team exploratory testing. Do not
+specify numeric time limits.
+
+**Mechanical policy checks** — linters, analyzers, dependency validation, formatting — automate policy
+so the correct path is the easiest path. They are a *separate concern* from the loop gates enforced by
+`.github/skills/preflight.md`; both are recorded below and wired through **Project profile → Commands**.
+
+<!-- AGENTIFY:BEGIN testing — consumer-owned; survives `agentify` updates. -->
+
+### This stack's testing mechanism
+
+_Filled by the `agentify` install interview. Record: (a) how a test declares its type, (b) the filter
+each gate uses to select that type, and (c) which mechanical policy checks this stack automates and
+which Commands row runs each._
+
+<!-- AGENTIFY:END testing -->
+
 ## Designing a feature
 
 Feature design has the following meta-structure (x is a number):

@@ -24,17 +24,21 @@ Feature-doc count (excludes the template):
 ## Sources (read-only)
 
 `docs/features/*.md` (especially post-review / post-test-fix logs), `docs/design.md`,
-`docs/backlog.md`, `.github/copilot-instructions.md`, `.github/agents/*.md`, `.github/agent-roles/*`,
-`.github/personas/*`, `.github/skills/*`, and `git log` / commit diffs since the last Log entry.
+`docs/backlog.md`, `.github/copilot-instructions.md`, `.github/agents/*.md`, `.github/skills/*`,
+and `git log` / commit diffs since the last Log entry.
 
 ## Produce (Anders)
 
 Distill cross-cutting, durable lessons (skip feature specifics; verify claims against docs/commits)
 into two parts, prioritising high-signal, recurring issues:
 
-- **(A) All-agent guardrails** — candidate golden-rule additions/refinements for `copilot-instructions.md`.
-- **(B) Per-agent learnings** — short sections for Anders / Dave / Bhaskar and the **assistant's role body**
-  (`agent-roles/<role>.md`) — never a persona overlay.
+- **(A) All-agent guardrails** — candidate golden-rule additions/refinements. Framework rules #0–#11
+  are upstream-owned; project-specific ones go in the `rules` region of `copilot-instructions.md`,
+  numbered `P1`, `P2`, ….
+- **(B) Per-agent learnings** — short sections for Anders / Dave / Bhaskar and the **assistant's own
+  agent file** (`.github/agents/<Persona>.md`), destined for the **`learnings` region** at the end of
+  each file. Extension regions are the only parts of a framework-owned file that survive an `agentify`
+  update.
 
 Main thing: Don't overdo this.
 
@@ -42,8 +46,10 @@ Main thing: Don't overdo this.
 
 1. Architect proposes exact redlines. Keep edits minimal.
 2. **Human approves** any guardrail/golden-rule change (guardrails are the human's call).
-3. Coder applies the approved set: promote strong learnings to golden rules in
-   `copilot-instructions.md`, add per-agent notes to the agent files, and fix stale cross-references.
+3. Coder applies the approved set: promote strong learnings to project rules in the `rules` region of
+   `copilot-instructions.md`, add per-agent notes to the `learnings` region of each agent file, and fix
+   stale cross-references. Everything outside an `AGENTIFY:BEGIN`/`END` region is framework-owned and
+   will be overwritten by the next `agentify` update — never write there.
    Cite guardrails **by number**; keep the numbering **stable** and update references on any insert/reorder.
 
 ## Log (append one line per run)

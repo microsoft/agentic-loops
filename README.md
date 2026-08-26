@@ -9,7 +9,7 @@ The human designs the lanes, guardrails & constraints and stays final decision-m
 ## Packs
 
 `agentify` asks which **pack** and which **persona** at install (both no-default; persona = your
-assistant's skin, from `.github/personas/`).
+assistant's skin, from `.github/agent-templates/personas/`).
 
 | Pack | Makeup | Separation of duties | Tokens | Use when |
 |------|--------|----------------------|--------|----------|
@@ -88,21 +88,30 @@ The assistant reminds the human; run the loop with the `retrospective` skill (`.
 1. **Install** — run the `agentify` skill (`.github/skills/agentify.md`) from an agentify checkout,
    pointed at your target repo (on a `vibe/*` branch, never trunk).
 2. **Choose a pack *and* a persona** when asked — both no-default (see *Packs* above).
-3. **Fill the placeholders** — every `<<FILL_ME: ...>>` in `.github/copilot-instructions.md` (Project
-   profile **+ Commands table**) and replace `docs/design.md` with your real design. Preflight blocks the
-   loop until none remain. The **Commands table** names your stack's `build`, `lint`, `format:fix`/`format:check`,
-   `test:quick`/`test:full` (required) + optional `dry-check` / `mutation-test` / `crap-check`; the gate-skills
-   run them by name — stronger, more varied constraints ⇒ agents are more easily supervised.
-4. **Invoke the assistant** by its persona name (e.g. **JARVIS** / **FRIDAY**); a 4-pack also exposes
+3. **Answer the interview.** `agentify` walks your Project profile and your gate commands rather than
+   leaving you a wall of placeholders: what to build/test with (`build`, `test:quick`, `test:full` are
+   required), which optional gates your stack actually has and how to run each (`format:fix`/`check`,
+   `lint`, `dry-check`, `mutation-test`, `crap-check` — every one may be `none`), and whether the
+   project even has a local run/restart & liveness mechanism (many don't). Stronger, more varied
+   constraints ⇒ agents are more easily supervised.
+4. **Replace `docs/design.md`** with your real design — the one thing the interview can't write for
+   you. Preflight blocks the loop until it and every other placeholder is filled.
+5. **Invoke the assistant** by its persona name (e.g. **JARVIS** / **FRIDAY**); a 4-pack also exposes
    **Anders / Dave / Bhaskar**. Ask it to start a feature — it prints its banner, runs preflight, then loops.
 
 > **Versioning** — `agentify` stamps its commit hash (the framework version) plus your pack, persona,
-> and model profile into the Project profile on install/update; re-run the skill to pull framework updates.
+> and model profile into the Project profile on install/update; re-run the skill to pull framework
+> updates. Updates recompose your assistant and refresh the framework files, but never touch your
+> Project profile, your gate recipes, your design docs, or any **consumer extension region** — the
+> named `AGENTIFY:BEGIN`/`END` blocks framework-owned files ship with so you can add your own golden
+> rules, agent rules, preflight gates, and testing mechanism without losing them. If you edit
+> framework prose *outside* a region, the next update shows you that diff and asks before overwriting.
 
 ## The model
 
 - **Single-assistant, preflight-gated** — only the assistant (`.github/agents/<Persona>.md`) runs the
-  loop; it won't start until preflight passes with every placeholder filled.
+  loop; it is one self-contained file with no role/persona indirection, and it won't start until
+  preflight passes with every placeholder filled.
 - **Features are sliced** into independently deployable, end-to-end-verifiable increments.
 - **Model profile** — `agentify` sets each agent's MAX model at `reasoning: max`; pick an arrangement:
 
@@ -118,15 +127,16 @@ The assistant reminds the human; run the loop with the `retrospective` skill (`.
 
 ## Layout
 
-- `AGENTS.md` — top-level pointer into `.github/` governance.
+- `AGENTS.md` — one-line redirect into `.github/copilot-instructions.md`.
 - `.github/copilot-instructions.md` — the **canonical** per-session contract: golden rules #0–#11 + working
   agreement + **Project profile** (the SSOT, incl. the Commands table). This README is a non-authoritative overview.
-- `.github/agents/` — `anders` / `dave` / `bhaskar` (4-pack sub-agents); the binder installs here per
-  persona as `<Persona>.md`.
-- `.github/agent-templates/binder.md` — the loop-binder template.
-- `.github/agent-roles/` — `conductor` (4-pack) / `solo` (1-pack) role bodies.
-- `.github/personas/` — assistant skins `jarvis` / `friday`.
-- `.github/skills/` — `agentify`, `preflight`, `retrospective`, `build-test` + `build-test-full`.
+- `.github/agents/` — **one self-contained file per agent**, and all a consumer ever loads: the composed
+  assistant `<PERSONA>.md`, plus `anders` / `dave` / `bhaskar` in a 4-pack. No role bodies, no persona
+  overlays, no binder — the assistant's governance and voice are composed into its single file at install.
+- `.github/agent-templates/` — **source-only** composition inputs, never copied into a consumer:
+  `roles/` (`conductor` for the 4-pack, `solo` for the 1-pack) and `personas/` (`jarvis` / `friday`).
+- `.github/skills/` — `agentify`, `preflight`, `retrospective` (framework-owned) plus `build-test` +
+  `build-test-full`, which are seeded at install from your gate interview and consumer-owned after.
 - `docs/` — `design.md`, `meta-design.md`, `backlog.md`, `features/TASK_FILE_TEMPLATE.md`.
 - `LICENSE` (MIT) + plumbing (`.editorconfig`, `.gitignore`, `.gitattributes`, `.vscode/`).
 
