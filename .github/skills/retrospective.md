@@ -19,8 +19,9 @@ the human when it grows by five or more.
 
 ## Sources
 
-Review feature files, `docs/design.md`, `docs/backlog.md`, agent and skill files, and commits since the
-last Log entry. Verify lessons against repository evidence.
+Review feature files, especially post-review and post-test-fix notes; `docs/design.md`;
+`docs/backlog.md`; agent and skill files; and commits since the last Log entry. Verify lessons against
+repository evidence.
 
 ## Produce
 
@@ -35,7 +36,8 @@ Skip feature-specific details. Prioritize recurring, high-signal lessons.
 
 1. Anders proposes exact, minimal redlines.
 2. The human approves guardrail changes.
-3. Dave applies the approved set and fixes stale references.
+3. Dave writes approved guardrails, project facts, and per-agent learnings to their listed
+   destinations, then fixes stale references.
 4. Keep guardrail numbers stable and cite them by number.
 
 Do not overdo it.

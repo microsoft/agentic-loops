@@ -15,6 +15,7 @@
 - Infer commands and gates from CI; ask when evidence is absent.
 - Install the generic Markdown skill.
 - Record the human's preferred form of address in `docs/design.md`.
+- Preserve generic test, preflight, retrospective, and verification lessons from adopters.
 
 ## Decisions
 
@@ -61,6 +62,7 @@ Keep role and persona templates here; install one merged assistant file.
 | T11 | Make liveness governance opt-in | Complete |
 | T12 | Generate design and gates from repository evidence | Complete |
 | T13 | Restore downstream-generic wording and Markdown guidance | Complete |
+| T14 | Port remaining generic adopter lessons | Complete |
 
 ## Notes
 

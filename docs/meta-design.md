@@ -15,18 +15,22 @@ end-to-end verifiable change. Rarely, a slice is split (e.g. frontend/backend) �
 
 Classify tests by boundary, not duration.
 
-| Type | Boundary and purpose | Directional scale |
-|------|----------------------|-------------------|
-| Unit | Fine-grained, fast, and does not cross a process boundary. | Thousands |
-| Integration | Validates critical integration between cohesive components; may cross process or network boundaries. | Hundreds |
-| Acceptance | Exercises critical end-to-end customer scenarios by performing actions and verifying outcomes as a customer would. | Tens |
+| Type | Boundary and purpose | Runs in | Example xUnit marking/filter |
+|------|----------------------|---------|------------------------------|
+| Preflight | Linters, analyzers, dependency validation, and similar policy checks. | Hundreds per minute | Stack-specific |
+| Unit | Fine-grained, fast, and does not cross a process boundary. | Thousands per minute | `[Trait("type", "UnitTests")]`; `type=UnitTests` |
+| Integration | Validates critical integration between cohesive components; may cross process or network boundaries. | Tens per minute | `[Trait("type", "IntegrationTests")]`; `type=IntegrationTests` |
+| Acceptance | Exercises critical end-to-end customer scenarios as a customer would. | One or two minutes each | `[Trait("type", "AcceptanceTests")]`; `type=AcceptanceTests` |
 
-The scales are directional guidelines, not classification criteria or hard quotas. Specialized suites
-supplement these categories, and automated tests do not replace team exploratory testing. Do not
-specify numeric time limits.
+Run rates are directional, not criteria, quotas, or limits. xUnit values are examples; use the
+stack's native mechanism. Specialized suites supplement these categories, and automated tests do not
+replace exploratory testing.
 
-**Mechanical policy checks** — linters, analyzers, dependency validation, formatting — are separate
-from `.github/skills/preflight.md` loop gates. Record their commands in the Commands table.
+Here, preflight means mechanical policy checks, not `.github/skills/preflight.md` loop-start gates.
+Record their commands in the Commands table.
+
+Do not add tests that scan source files. Prefer runtime metadata or reflection; if unavailable, leave
+the policy unenforced.
 
 ### This stack's testing mechanism
 

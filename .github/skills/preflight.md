@@ -12,11 +12,10 @@ refuse and return control to the assistant.
 
 ## Gate 2 — Required placeholders
 
-From the repository root, scan required files for the opening placeholder sentinel:
+From the repository root, scan Markdown under `AGENTS.md`, `.github/`, and `docs/` for the opening
+placeholder sentinel. Exclude this file because it contains the search term.
 
-    rg -F -n "<<FILL_ME:" .github/copilot-instructions.md docs/design.md .github/skills/build-test.md .github/skills/build-test-full.md
-
-List every match and stop. Keep the literal sentinel out of explanatory prose in those files.
+List every match and stop. Keep the literal sentinel out of explanatory prose elsewhere.
 
 ## Project gates
 
