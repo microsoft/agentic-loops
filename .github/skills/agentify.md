@@ -1,172 +1,161 @@
 ---
 name: agentify
-description: Install this governance framework into a target project (as a 1-pack or 4-pack), or update an existing project's agent-loop artifacts; then stamp the adopted framework version (agentify commit hash), pack, and persona, and report any remaining FILL_ME placeholders.
+description: One-shot install of the governance framework into a target repository.
 ---
 
-The distribution / versioning mechanism for this framework. Run from a checkout of **agentify** with
-the target repo path in hand. Copilot-only scope. Do this on a `vibe/<nnn>-adopt-agentify` branch in the
-target — never on its trunk — so the human reviews the diff before merge.
+Run against a target on a non-trunk branch. The skill may be invoked from this checkout or staged
+temporarily in the target.
 
-## Ownership model
+Installation is one-shot. The target owns every installed file. Never copy this skill, source
+templates, framework version data, update markers, or source provenance into the target.
 
-- **Framework-owned** (refresh on update): `AGENTS.md`, `.github/agent-templates/binder.md` (the binder **template body**, installed per persona as
-  `.github/agents/<Persona>.md`), `.github/agents/` (the sub-agents `anders.md` / `dave.md` / `bhaskar.md`), `.github/agent-roles/` (all role bodies) and
-  `.github/personas/` (all persona overlays), all of `.github/skills/` (including the command-referencing
-  recipes `build-test.md` / `build-test-full.md`), `docs/meta-design.md`,
-  `docs/features/TASK_FILE_TEMPLATE.md`, and the **rules** portion of `.github/copilot-instructions.md`
-  (everything *above* the `## Project profile` heading).
-- **Stamped** (framework-owned files carrying per-install values that are preserved / re-derived, never
-  clobbered on update): the installed binder `.github/agents/<Persona>.md` frontmatter `name` (= Persona) and `description` (= the
-  pack's role-desc); each installed agent's `model` + `reasoning` (derived from the Model profile); and in
-  the Project profile, the *Framework version adopted* hash, **Pack**, **Persona**, and **Model profile**.
-- **Consumer-owned** (create only if absent, never clobber): `docs/design.md`, `docs/backlog.md`,
-  `docs/features/<nnn>-*.md`, and the **Project profile** block of `.github/copilot-instructions.md` —
-  including its **Commands** table, whose command *values* are the consumer's and must never be
-  overwritten once filled.
-- **Plumbing** (`.editorconfig`, `.gitignore`, `.gitattributes`, `.vscode/`): create only if absent.
+## Discover the project
 
-## What it does
+Inspect before asking questions:
 
-1. **Ask which pack and which persona** — pack `1-pack` (solo generalist) or `4-pack` (full team), and
-   the assistant's **persona** skin. **No default** for either; the human chooses. The pack selects the
-   **role** (`4-pack ⇒ conductor`, `1-pack ⇒ solo`) and the copy set (see *Packs — copy sets* below);
-   the persona menu is the overlays in `.github/personas/` (today `JARVIS` | `FRIDAY`) — **validate the
-   pick ∈ that set**. A persona need not match the pack's natural assistant (e.g. a 1-pack skinned `JARVIS`);
-   that's allowed — behavior derives from Pack (role), never the skin. Also **ask which model
-   profile** — `anthropic`, `openai`, or `both` (**default `both`**); it sets every agent's `model` +
-   `reasoning: max` (see *Model profiles* below).
-2. **Copy / update artifacts** into the target per the ownership model above and the chosen pack + persona.
-3. **Prompt for the required commands** — ask the consumer for each required Commands value (`build`,
-   `lint`, `format:fix`, `format:check`, `test:quick`, `test:full`) and write them into the Project
-   profile → Commands table. (The consumer may decline and hand-fill later; preflight blocks the loop
-   until every required value is set.)
-4. **Ask the optional-constraints opt-in** — "Provide the optional DRY / mutation / CRAP constraints?"
-   On **yes**, fill the `dry-check` / `mutation-test` / `crap-check` rows in the Project profile →
-   Commands table with the provided commands; on **no**, leave them as `none` (they already ship as
-   `none`). Stronger and more varied constraints ⇒ the agents are more easily supervised, so encourage
-   filling in as many optional Commands as apply.
-5. **Stamp the version, pack, persona, and model profile.** Record the current agentify commit hash into the target's
-   `.github/copilot-instructions.md` → Project profile → *Framework version adopted*, stamp the chosen
-   pack into → *Pack*, the chosen persona into → *Persona*, and the chosen **model profile** into →
-   *Model profile*; set the binder `.github/agents/<Persona>.md` frontmatter `name = <persona>` and
-   `description = <the pack's role-desc>` (4-pack → conductor-desc; 1-pack → solo-desc — see *Packs — copy
-   sets*); and set every installed agent's `model` per *Model profiles* below, each with `reasoning: max`:
+1. Read existing architecture, contribution, operations, and build documentation.
+2. Inventory source roots, entry points, manifests, project files, modules, dependencies, tests,
+   generated/acquired artifacts, ignore rules, deployment files, and compatibility declarations.
+3. Trace the main dependency direction and runtime flows. Describe current behavior only; put planned
+   work in `docs/backlog.md`.
+4. Identify project constraints agents must honor: supported platforms/versions, artifacts, bootstrap
+   ownership, verification evidence, release boundaries, and language rules. Put these in
+   `docs/design.md`, not generic agent files.
+5. Draft `docs/design.md` from evidence. Include repository operations, system overview, architecture,
+   key components, dependency direction, build/verification, cross-cutting concerns, and conventions.
+   Cite repository paths. Mark uncertainties; never invent details.
+6. Draft applicable path-scoped language files under `.github/instructions/`. Keep only rules supported
+   by repository evidence or approved by the human; remove irrelevant languages and rules.
 
-       git -C <agentify-dir> rev-parse HEAD
+If `docs/design.md` exists, propose a minimal evidence-backed update instead of replacing it.
 
-   On update, replace the previously stamped hash with the new one, re-derive the binder frontmatter
-   from Pack/Persona, and re-stamp each agent's `model`/`reasoning` from the recorded model profile
-   (leave other profile values intact).
-6. **Report remaining placeholders.** Run the target's `.github/skills/preflight.md` placeholder scan
-   and list every unfilled `<<FILL_ME:` placeholder the human must complete before the loop can start.
+### Discover CI and commands
 
-## Packs — copy sets
+Search CI/CD and task artifacts before asking for commands, including:
 
-Every install copies the same core — `copilot-instructions.md`, all 5 skills, docs, plumbing, `AGENTS.md`,
-the binder (template `.github/agent-templates/binder.md`, installed as `.github/agents/<Persona>.md`), **exactly one** role body (the pack's) and **exactly one** persona
-overlay (the chosen skin). The packs differ only in **which role body** ships and whether the **3
-sub-agents** ship. The chosen pack is stamped into Project profile → *Pack* (and enforced by preflight's
-assistant gate); the chosen persona into → *Persona* and the binder frontmatter `name`.
+- `.github/workflows/`, Azure Pipelines YAML, `.gitlab-ci.yml`, `Jenkinsfile`, CircleCI, Buildkite,
+  and other pipeline definitions;
+- `Makefile`, `Taskfile`, `Justfile`, package-manager scripts, solution/project files, and build/test
+  scripts;
+- formatter, linter, analyzer, code-generation, dependency, mutation, coverage, and acceptance-test
+  configuration.
 
-### 4-pack
-Role body `.github/agent-roles/conductor.md`; the **3 sub-agents** `anders.md` / `dave.md` /
-`bhaskar.md`; the binder installed as `<Persona>.md` with frontmatter `name = <persona>` and `description` =
-*Runs the agentic loop (hub-and-spoke). Coordinates Dave, Bhaskar, and Anders. Read-only
-inspection + git/task-file management only; never designs, codes, or verifies.* Full hub-and-spoke team
-with strict separation of duties.
+Trace invoked scripts rather than copying only the outer pipeline step. For each inferred command,
+record its source file and job/step. Derive:
 
-### 1-pack
-Role body `.github/agent-roles/solo.md`; the binder installed as `<Persona>.md` with frontmatter `name = <persona>` and
-`description` = *Solo generalist for the 1-pack: designs, implements, verifies, and reviews in one
-context; owns git + the task file. Never deploys.* **No** sub-agents. Lighter on tokens; separation of
-duties is waived (the solo assistant wears every hat).
+- `build`, `test:quick`, and `test:full`;
+- optional Commands rows;
+- fast/full gate membership and order;
+- setup or environment checks that belong in `.github/skills/preflight.md`;
+- test marking/filtering for `docs/meta-design.md`.
+
+Never copy secrets or CI-only environment assumptions. Confirm every referenced script/file exists in
+the target. Prefer one repository script shared by CI and local gates.
+
+Present the design draft, inferred Commands table, gate recipes, and preflight gates together for
+human review. Apply corrections before writing them. If no CI artifacts exist, or any required command
+cannot be derived, ask the human how to obtain or run it. Do not invent a command or reference a
+missing script. If the human requests wrapper scripts, create them as target-owned project files first.
+
+## Confirm choices
+
+Ask for:
+
+1. **Pack** — `1-pack` or `4-pack`; no default.
+2. **Persona** — one name from `.github/agent-templates/personas/`; no default.
+3. **Model profile** — `mix-1` (default), `mix-2`, `anthropic`, or `openai`.
+4. **Address** — how agents should address the human; no default. Record it in `docs/design.md`.
+5. **Discovery review** — approval or corrections for the design, commands, gates, and testing
+   mechanism.
+6. **Liveness** — ask whether the project has a local run/restart and liveness mechanism. If no, ask
+   nothing further about it.
+
+Reject a persona named `anders`, `dave`, or `bhaskar`.
+
+## Install
+
+1. Stop if non-bootstrap destination governance already exists; ask before replacing or merging it.
+2. Copy `AGENTS.md`, `.github/copilot-instructions.md`, applicable `.github/instructions/`,
+   `.github/skills/markdown.md`, `.github/skills/preflight.md`, `.github/skills/retrospective.md`,
+   `.github/skills/build-test.md`, `.github/skills/build-test-full.md`, `docs/meta-design.md`, and
+   `docs/features/TASK_FILE_TEMPLATE.md`.
+3. Write the approved design draft to `docs/design.md`. Create `docs/backlog.md` only when absent.
+4. Copy `.editorconfig`, `.gitignore`, `.gitattributes`, and `.vscode/` only when absent.
+5. Compose one assistant file as described below.
+6. For a `4-pack`, also copy `anders.md`, `dave.md`, and `bhaskar.md`. For a `1-pack`, copy none.
+7. Stamp each installed agent's model and `reasoning: max`.
+8. Write approved commands into the Commands table, testing details into `docs/meta-design.md`, gate
+   order/details into both build-test recipes, startup gates into `preflight.md`, and approved
+   language rules into `.github/instructions/`.
+9. Process every `OPTIONAL:LIVENESS` block:
+   - **Yes:** remove marker lines, keep the instructions, and record the mechanism in `docs/design.md`.
+   - **No:** remove each whole block. No liveness instruction may remain.
+10. Delete unused optional command rows and recipe steps.
+11. Remove every bootstrap trace from the target.
+12. Run the final checks.
+
+Do not copy `.github/skills/agentify.md`, `.github/agent-templates/`, README files, or feature history.
+
+## Cleanup
+
+After generating the target governance:
+
+1. Preserve any project-authored content inside legacy marker regions, then remove the marker lines.
+2. Delete the target's `.github/skills/agentify.md`, `.github/agent-templates/`,
+   `.github/agent-roles/`, and `.github/personas/` if present.
+3. Migrate live project facts and commands out of any legacy Project profile, apply pack/persona/model
+   choices to the agent layout and frontmatter, then delete the obsolete profile and version field.
+4. Move project-specific agent rules into `docs/design.md`, preserving their meaning.
+5. Remove bootstrap references from installed governance.
+6. Show the cleanup diff before finishing. Never delete project-authored content.
+
+Resolve source and target roots first. Clean only resolved target paths; never alter the source
+checkout unless it is explicitly the target being converted.
+
+## Compose the assistant
+
+Use `roles/conductor.md` for a `4-pack`, otherwise `roles/solo.md`. Append the selected persona file.
+
+1. Remove each source file's leading `<!-- ... -->` provenance block and following blank line.
+2. Replace every `{{PERSONA}}` in the role with the upper-case persona.
+3. Emit this frontmatter:
+
+       ---
+       name: <PERSONA>
+       description: <role description>
+       model: <profile model>
+       reasoning: max
+       ---
+
+4. Append the role and persona with one blank line between parts.
+5. Write `.github/agents/<PERSONA>.md`.
+
+Role descriptions:
+
+- `4-pack`: `Runs the agentic loop (hub-and-spoke). Coordinates Dave, Bhaskar, and Anders. Read-only inspection + git/task-file management only; never designs, codes, or verifies.`
+- `1-pack`: `Solo generalist for the 1-pack: designs, implements, verifies, and reviews in one context; owns git + the task file. Never deploys.`
 
 ## Model profiles
 
-Every agent runs at **maximum reasoning** (`reasoning: max`); the profile only picks the **vendor** of
-each role's MAX model. `agentify` asks for one at install (**default `both`**), stamps it into Project
-profile → *Model profile*, and writes each installed agent's `model` accordingly. Per-vendor MAX SKUs:
-Anthropic `Claude Opus 5 (copilot)`, OpenAI `GPT-5.6 Sol (copilot)`.
+| Role | `mix-1` | `mix-2` | `anthropic` | `openai` |
+|------|---------|---------|-------------|----------|
+| Architect | Claude Opus 5 | GPT-5.6 Sol | Claude Opus 5 | GPT-5.6 Sol |
+| Coder | Claude Opus 5 | GPT-5.6 Sol | Claude Opus 5 | GPT-5.6 Sol |
+| Verifier | GPT-5.6 Sol | Claude Opus 5 | Claude Opus 5 | GPT-5.6 Sol |
+| Assistant | GPT-5.6 Sol | Claude Opus 5 | Claude Opus 5 | GPT-5.6 Sol |
 
-| Role — file | `anthropic` | `openai` | `both` (default) |
-|-------------|-------------|----------|------------------|
-| Architect — `agents/anders.md`            | Opus 5 | GPT-5.6 Sol | **Opus 5**      |
-| Coder — `agents/dave.md`                  | Opus 5 | GPT-5.6 Sol | **Opus 5**      |
-| Verifier — `agents/bhaskar.md`            | Opus 5 | GPT-5.6 Sol | **GPT-5.6 Sol** |
-| Driver — the binder `agents/<Persona>.md` | Opus 5 | GPT-5.6 Sol | **GPT-5.6 Sol** |
+Use the Copilot model names `Claude Opus 5 (copilot)` and `GPT-5.6 Sol (copilot)`.
 
-- **`anthropic`** — every agent on Claude Opus 5.
-- **`openai`** — every agent on GPT-5.6 Sol.
-- **`both`** (recommended) — Opus 5 designs & codes, GPT-5.6 Sol verifies & drives; keeps **coder ≠
-  verifier vendor** so the independent check doesn't inherit the coder's blind spots. In a **1-pack**
-  only the binder ships, so `both` collapses to that one agent's vendor (GPT-5.6 Sol) — the cross-vendor
-  benefit is a 4-pack property.
+## Final checks
 
-## Install (new target) · PowerShell sketch
+- No required placeholder remains.
+- The assistant contains no `{{PERSONA}}`, provenance comment, or duplicate etiquette heading.
+- No `OPTIONAL:LIVENESS` marker remains. If liveness was declined, no related instruction remains.
+- Every command and referenced script exists or resolves in the target.
+- The human approved the generated design, Commands table, recipes, and preflight gates.
+- Only the expected agents exist.
+- Installed governance contains no framework name, version, update marker, or installer skill.
+- All Markdown links resolve from their installed locations.
+- `.github/skills/preflight.md` passes.
 
-> **New target only.** This copies the rules + Project profile and the chosen pack's binder + role +
-> persona files wholesale (overwriting any existing Project profile). For a repo that already adopted the
-> framework, use **Update** below — never re-run Install.
-
-    $src = "<agentify-dir>"; $dst = "<target-repo>"; $pack = "<1-pack | 4-pack>"; $persona = "<JARVIS | FRIDAY>"
-    if ($pack -notin '1-pack','4-pack') { throw "Pick a pack explicitly: '1-pack' or '4-pack' (no default)." }
-    $menu = (Get-ChildItem "$src/.github/personas/*.md" | % BaseName)          # e.g. jarvis, friday
-    if ($persona.ToLower() -notin $menu) { throw "Pick a persona from .github/personas (no default): $($menu -join ', ')." }
-    if ($persona.ToLower() -in 'anders','dave','bhaskar') { throw "Persona '$persona' collides with a sub-agent filename; choose another." }
-    $binderName = "$($persona.ToUpper()).md"                                    # binder installs per persona, all-caps: JARVIS.md / FRIDAY.md
-    $modelProfile = "both"                                                      # <anthropic | openai | both>; default both (see Model profiles)
-    if ($modelProfile -notin 'anthropic','openai','both') { throw "Pick a model profile: anthropic | openai | both (default both)." }
-    $maxA = 'Claude Opus 5 (copilot)'; $maxO = 'GPT-5.6 Sol (copilot)'          # per-vendor MAX SKUs; reasoning is 'max' for every role
-    #   role -> model:  anthropic => all $maxA;  openai => all $maxO;
-    #   both => architect(anders)+coder(dave) = $maxA, verifier(bhaskar)+driver(binder) = $maxO
-    Copy-Item "$src/AGENTS.md","$src/.editorconfig","$src/.gitignore","$src/.gitattributes" $dst
-    New-Item "$dst/.github/agents","$dst/.github/skills", `
-             "$dst/.github/agent-roles","$dst/.github/personas" -ItemType Directory -Force
-    Copy-Item "$src/.github/copilot-instructions.md" "$dst/.github"
-    Copy-Item "$src/.github/skills/*" "$dst/.github/skills" -Force   # all 5 skills (every install)
-    $role = if ($pack -eq '4-pack') { 'conductor' } else { 'solo' }
-    Copy-Item "$src/.github/agent-roles/$role.md"              "$dst/.github/agent-roles"   # ONE role body
-    Copy-Item "$src/.github/personas/$($persona.ToLower()).md" "$dst/.github/personas"      # ONE persona overlay
-    Copy-Item "$src/.github/agent-templates/binder.md"          "$dst/.github/agents/$binderName"   # binder template -> agents/<PERSONA>.md
-    if ($pack -eq '4-pack') {
-        Copy-Item "$src/.github/agents/anders.md","$src/.github/agents/dave.md", `
-                  "$src/.github/agents/bhaskar.md" "$dst/.github/agents"                     # sub-agents (no jarvis/friday)
-    }
-    Copy-Item "$src/.vscode" $dst -Recurse
-    New-Item "$dst/docs/features" -ItemType Directory -Force
-    Copy-Item "$src/docs/meta-design.md" "$dst/docs"
-    Copy-Item "$src/docs/features/TASK_FILE_TEMPLATE.md" "$dst/docs/features"
-    if (-not (Test-Path "$dst/docs/design.md"))  { Copy-Item "$src/docs/design.md"  "$dst/docs" }
-    if (-not (Test-Path "$dst/docs/backlog.md")) { Copy-Item "$src/docs/backlog.md" "$dst/docs" }
-    # then: stamp Pack + Persona + Model profile in the profile; set the installed binder agents/$binderName
-    #       frontmatter name=$persona + description=($role-desc); set each installed agent's model (per
-    #       $modelProfile) with reasoning: max; stamp the agentify hash (step 5); run preflight (step 6)
-
-## Update (existing target)
-
-Refresh framework-owned files only — **including** the binder **body** (from `.github/agent-templates/binder.md` into the consumer's `.github/agents/<Persona>.md`), the role bodies in
-`.github/agent-roles/`, the persona overlays in `.github/personas/`, and the now-framework-owned recipes
-`build-test.md` / `build-test-full.md`; **preserve every consumer-filled value** (Project profile values
-including the Commands table, `docs/design.md`, and all other consumer-owned files) **and every stamp**
-(the version hash, **Pack**, **Persona**, **Model profile**, the binder frontmatter `name`/`description`,
-and each agent's `model`/`reasoning` — preserved / re-derived from Pack+Persona+Model profile, never
-clobbered). If the rules portion of `copilot-instructions.md` changed,
-splice in the new rules. **Also splice into the consumer's existing `## Project profile` any NEW
-framework-defined fields/tables the adopter lacks** — notably the **Pack**, **Persona**, and **Model
-profile** fields and the **Commands** table skeleton — so an updated adopter gains them **without losing
-existing values**. Then re-stamp the hash (and Pack/Persona/Model profile if they changed), re-derive the
-binder frontmatter and each agent's `model`/`reasoning`, and re-run preflight.
-
-> **Legacy binder cleanup (required on update).** Earlier installs placed the binder at a fixed
-> filename (`agents/driver.md`, later `agents/assistant.md`). Identify the consumer's existing binder —
-> the lone `.github/agents/*.md` whose stem is **not** `anders`/`dave`/`bhaskar` — refresh its body from
-> `.github/agent-templates/binder.md` into `agents/<Persona>.md` (re-stamping `name`/`description`),
-> then `git rm` every other non-sub-agent `agents/*.md` (e.g. the old `driver.md` / `assistant.md`) so
-> exactly one binder remains. Idempotent: if `agents/<Persona>.md` already exists and no legacy file
-> remains, it is a no-op.
-
-> **One-time migration (inline recipes → Commands table).** A consumer who filled the *old* inline
-> `build-test.md` / `build-test-full.md` migrates in this order: **(1)** splice the Commands-table
-> skeleton (and the Pack field) into the Project profile; **(2)** move the command values from the old
-> inline `build-test.md` / `build-test-full.md` into that table; **(3)** refresh the now-framework-owned
-> recipe files, which overwrite the old inline versions.
+Existing adopters are maintained directly in their repositories; this installer does not update them.

@@ -1,38 +1,49 @@
 ---
 name: build-test-full
-description: Runs the full build/test gate — format check, lint, build, the complete test suite (unit + integration), plus every optional quality gate that is set. Bhaskar's full done-done gate.
+description: Runs the full build/test gate — this stack's verification steps, the complete test suite (unit + integration + acceptance), plus every optional quality gate that is set. Bhaskar's full done-done gate.
 ---
 
-Framework-owned **recipe** — no placeholders. It runs the commands named in the **Project profile →
-Commands** table (`.github/copilot-instructions.md`); that table is the single source of truth for the
-actual shell commands, so this file never hardcodes them.
+**This repository's gate recipe.** Tailor it to this stack.
+
+It resolves names from the Commands table in `.github/copilot-instructions.md`; this file never
+hardcodes shell commands.
 
 This recipe is **authoritative for gate membership and order**; the Commands table's `Gate` column is a
-hint. Reorder for your stack if needed (e.g. type-aware linters that require compiled output should run
-after `build`).
+hint. Reorder for this stack as needed — a pre-build step (`restore`, `type-check`) goes first, and a
+type-aware linter that needs compiled output goes *after* `build`.
 
-## The full gate (Bhaskar)
+## The full gate
 
-Run these commands in order, resolving each name from the Commands table:
+Run these commands in order, resolving each name from the Commands table. Steps whose Value is `none`
+are not part of this stack's gate — delete the line rather than leaving a step that never runs:
 
-1. `format:check` — check formatting only; this variant does **not** write
-2. `lint`
+1. `format:check` — check formatting only; this variant does **not** write _(if set)_
+2. `lint` _(if set)_
 3. `build`
-4. `test:full` — unit + integration
+4. `test:full` — unit + integration + acceptance
 5. `dry-check` — duplication/DRY checker _(if set)_
 6. `mutation-test` — mutation tester _(if set)_
 7. `crap-check` — CRAP metric, complexity × coverage _(if set)_
 
-…plus any additional commands the consumer added to the Commands table.
+…plus any additional commands this stack added to the Commands table.
 
-**Run rules.** The skip-`none` rule applies **only to the optional rows** (`dry-check`, `mutation-test`,
-`crap-check`): when their Value is `none` they don't run. A **required** command (`format:check`,
-`lint`, `build`, `test:full`) whose Value is `none` or empty is a **misconfiguration**: **stop and
-report it** — never silently skip.
+**Run rules.** `build` and `test:full` are **required** — either one `none` or empty is a
+**misconfiguration**: **stop and report it** (never silently skip). Every other row is optional: when
+its Value is `none` the step simply isn't part of this gate. If a gate is `none` because this stack
+enforces it another way — e.g. a build configuration that already fails on analyzer/style diagnostics —
+say so here, so the absence reads as a decision rather than an oversight.
+
+**One implementation per step.** A step that must behave identically in CI and locally has exactly one
+implementation — a script both call. Never one version in the CI YAML and another here.
 
 **Every optional gate that is set runs on EVERY change.** The stronger and more varied these
-constraints, the more tightly the agents' work can be supervised — so a consumer who fills in more
-optional rows gets a stricter gate.
+constraints, the more tightly the agents' work can be supervised — so filling in more optional rows
+buys a stricter gate.
+
+**Test categories** follow
+[`docs/meta-design.md#writing-tests`](../../docs/meta-design.md#writing-tests). How each category is
+marked and selected (test traits, filters, separate harnesses) is stack-specific — record this stack's
+mechanism here so the classification is enforceable rather than aspirational.
 
 **Zero tolerance.** Any warning or error fails the gate. Bhaskar does not pass a change until this runs
 completely clean.

@@ -11,6 +11,27 @@ The human provides the requirements that constitute a feature.
 Delivering a feature is done in **Slices**. Each slice is a full, independently deployable and
 end-to-end verifiable change. Rarely, a slice is split (e.g. frontend/backend) — consult the human first.
 
+## Writing tests
+
+Classify tests by boundary, not duration.
+
+| Type | Boundary and purpose | Directional scale |
+|------|----------------------|-------------------|
+| Unit | Fine-grained, fast, and does not cross a process boundary. | Thousands |
+| Integration | Validates critical integration between cohesive components; may cross process or network boundaries. | Hundreds |
+| Acceptance | Exercises critical end-to-end customer scenarios by performing actions and verifying outcomes as a customer would. | Tens |
+
+The scales are directional guidelines, not classification criteria or hard quotas. Specialized suites
+supplement these categories, and automated tests do not replace team exploratory testing. Do not
+specify numeric time limits.
+
+**Mechanical policy checks** — linters, analyzers, dependency validation, formatting — are separate
+from `.github/skills/preflight.md` loop gates. Record their commands in the Commands table.
+
+### This stack's testing mechanism
+
+_Record how tests declare each type, how gates select them, and which mechanical checks run._
+
 ## Designing a feature
 
 Feature design has the following meta-structure (x is a number):
