@@ -13,9 +13,7 @@ end-to-end verifiable change. Rarely, a slice is split (e.g. frontend/backend) �
 
 ## Writing tests
 
-Classify tests by boundary, not duration. The **taxonomy** below is framework-owned and universal; the
-**mechanism** — how this stack marks a test's type and how each gate selects it — is stack-specific and
-lives in the `testing` region at the end of this section.
+Classify tests by boundary, not duration.
 
 | Type | Boundary and purpose | Directional scale |
 |------|----------------------|-------------------|
@@ -27,19 +25,12 @@ The scales are directional guidelines, not classification criteria or hard quota
 supplement these categories, and automated tests do not replace team exploratory testing. Do not
 specify numeric time limits.
 
-**Mechanical policy checks** — linters, analyzers, dependency validation, formatting — automate policy
-so the correct path is the easiest path. They are a *separate concern* from the loop gates enforced by
-`.github/skills/preflight.md`; both are recorded below and wired through **Project profile → Commands**.
-
-<!-- AGENTIFY:BEGIN testing — consumer-owned; survives `agentify` updates. -->
+**Mechanical policy checks** — linters, analyzers, dependency validation, formatting — are separate
+from `.github/skills/preflight.md` loop gates. Record their commands in the Commands table.
 
 ### This stack's testing mechanism
 
-_Filled by the `agentify` install interview. Record: (a) how a test declares its type, (b) the filter
-each gate uses to select that type, and (c) which mechanical policy checks this stack automates and
-which Commands row runs each._
-
-<!-- AGENTIFY:END testing -->
+_Record how tests declare each type, how gates select them, and which mechanical checks run._
 
 ## Designing a feature
 

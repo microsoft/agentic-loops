@@ -3,13 +3,10 @@ name: build-test
 description: Runs the fast build/test gate — the quick-feedback steps this stack defines, ending in build + unit tests (excludes integration and acceptance tests). Dave's fast done-done gate.
 ---
 
-**This repository's gate recipe.** It is seeded by the `agentify` skill from the install interview and
-is **consumer-owned** thereafter — a framework update never overwrites it. Tailor it freely to this
-stack; it carries no placeholders.
+**This repository's gate recipe.** Tailor it to this stack.
 
-It runs the commands named in the **Project profile → Commands** table
-(`.github/copilot-instructions.md`); that table is the single source of truth for the actual shell
-commands, so this file never hardcodes them.
+It resolves names from the Commands table in `.github/copilot-instructions.md`; this file never
+hardcodes shell commands.
 
 This recipe is **authoritative for gate membership and order**; the Commands table's `Gate` column is a
 hint. Reorder for this stack as needed — a pre-build step (`restore`, `type-check`) goes first, and a

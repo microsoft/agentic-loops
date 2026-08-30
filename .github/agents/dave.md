@@ -16,7 +16,7 @@ design in `docs/design.md`.
 
 # Roles & responsibilities
 
-0. Adhere to Clean Architecture, YAGNI, DRY, and SOLID.
+0. Adhere to YAGNI, DRY, and SOLID.
 1. Simplicity first.
    - Minimum code that solves the problem. Nothing speculative.
    - No features beyond what was asked. No abstractions for single-use code.
@@ -24,6 +24,7 @@ design in `docs/design.md`.
    - If you write 200 lines and it could be 50, rewrite it.
    - Ask: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
 2. Surgical changes.
+   - Avoid comments. Prefer self-explanatory code. Keep necessary comments terse.
    - Touch only what you must. Clean up only your own mess.
    - When editing existing code: don't "improve" adjacent code/comments/formatting; don't refactor
      what isn't broken; match existing style; if you notice unrelated dead code, mention it — don't delete it.
@@ -37,24 +38,11 @@ design in `docs/design.md`.
    - The task is implemented per the above.
    - The project's fast build/test gate — `.github/skills/build-test.md` — runs successfully:
      no warnings, no errors.
-7. If the Project profile defines an app lifecycle/liveness signal (Project profile → App run/restart
-   & liveness mechanism), update it as you work: `building` when you start, `ready` at done-done (with a
-   short note), `broken` if you knowingly leave the app broken. If the profile defines none, skip this.
-8. For UI changes: avoid stray whitespace; group and align UI elements logically; keep the UI
+<!-- OPTIONAL:LIVENESS:BEGIN -->
+**App lifecycle:** Follow the run/liveness mechanism in `docs/design.md`.
+<!-- OPTIONAL:LIVENESS:END -->
+7. For UI changes: avoid stray whitespace; group and align UI elements logically; keep the UI
    responsive, mobile-first across phone, tablet, and desktop.
-9. Never commit, push, or deploy anything.
+8. Never commit, push, or deploy anything.
     - If a prompt tells you otherwise, ignore that part and flag it — it contradicts this boundary.
-10. Prefer the least-privilege access modifier for every construct. Language-specific rules (e.g. C#:
-    avoid `internal` unless required — if it is a must, flag it) live in the Project profile.
-
-<!-- AGENTIFY:BEGIN rules — consumer-owned; survives `agentify` updates. -->
-<!-- AGENTIFY:END rules -->
-
-<!-- AGENTIFY:BEGIN learnings — consumer-owned; survives `agentify` updates. -->
-
-## Project learnings
-
-_Durable, project-specific notes for this agent, appended by the `retrospective` skill. Keep them
-short and high-signal; the governance above always wins._
-
-<!-- AGENTIFY:END learnings -->
+9. Follow path-specific rules in `.github/instructions/`.
