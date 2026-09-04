@@ -91,8 +91,10 @@ system retrospects and self-learns.
 3. Review Agentify's repository scan: generated `docs/design.md`, CI-derived Commands table, gate
    recipes, test classification, and preflight gates. If CI evidence is absent, supply how to obtain
    or run the required commands.
-4. Answer whether the project has local run/liveness. A “no” removes those duties.
-5. Invoke the installed assistant.
+4. Approve the user-scoped `bro` and `simple-docs` skills. Preflight refreshes them from GitHub; the
+   project receives no copy.
+5. Answer whether the project has local run/liveness. A “no” removes those duties.
+6. Invoke the installed assistant.
 
 Installation is one-shot. The target owns every installed file. If temporarily staged in the target,
 the installer deletes itself, source templates, version stamps, update markers, and bootstrap
@@ -115,6 +117,7 @@ Every agent uses maximum reasoning.
 - `.github/agents/` — 4-pack sub-agent sources.
 - `.github/skills/agentify.md` — one-shot installer; never copied.
 - `.github/skills/` — installed Markdown, preflight, retrospective, and gate recipes.
+- External skills — installed user-scoped from GitHub; never copied into consumers.
 - `.github/instructions/` — path-scoped language rules, including C#.
 - `docs/` — design templates and feature method.
 
