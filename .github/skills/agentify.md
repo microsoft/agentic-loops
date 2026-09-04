@@ -69,6 +69,8 @@ Ask for:
    mechanism.
 6. **Liveness** — ask whether the project has a local run/restart and liveness mechanism. If no, ask
    nothing further about it.
+7. **User skills** — approval to install and refresh the required user-scoped `bro` and `simple-docs`
+   skills from GitHub during preflight. Stop installation if declined.
 
 Reject a persona named `anders`, `dave`, or `bhaskar`.
 
@@ -87,12 +89,13 @@ Reject a persona named `anders`, `dave`, or `bhaskar`.
 8. Write approved commands into the Commands table, testing details into `docs/meta-design.md`, gate
    order/details into both build-test recipes, startup gates into `preflight.md`, and approved
    language rules into `.github/instructions/`.
-9. Process every `OPTIONAL:LIVENESS` block:
+9. Keep external skills user-scoped. Never copy them into the target.
+10. Process every `OPTIONAL:LIVENESS` block:
    - **Yes:** remove marker lines, keep the instructions, and record the mechanism in `docs/design.md`.
    - **No:** remove each whole block. No liveness instruction may remain.
-10. Delete unused optional command rows and recipe steps.
-11. Remove every bootstrap trace from the target.
-12. Run the final checks.
+11. Delete unused optional command rows and recipe steps.
+12. Remove every bootstrap trace from the target.
+13. Run the final checks.
 
 Do not copy `.github/skills/agentify.md`, `.github/agent-templates/`, README files, or feature history.
 
@@ -155,6 +158,7 @@ Use the Copilot model names `Claude Opus 5 (copilot)` and `GPT-5.6 Sol (copilot)
 - The human approved the generated design, Commands table, recipes, and preflight gates.
 - Only the expected agents exist.
 - Installed governance contains no framework name, version, update marker, or installer skill.
+- External skills exist only at user scope.
 - All Markdown links resolve from their installed locations.
 - `.github/skills/preflight.md` passes.
 
