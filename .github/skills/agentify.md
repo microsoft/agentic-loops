@@ -63,15 +63,23 @@ Ask for:
 
 1. **Pack** — `1-pack` or `4-pack`; no default.
 2. **Persona** — one name from `.github/agent-templates/personas/`; no default.
-3. **Model profile** — `mix-1` (default), `mix-2`, `anthropic`, or `openai`.
-4. **Address** — how agents should address the human; no default. Record it in `docs/design.md`.
-5. **Discovery review** — approval or corrections for the design, commands, gates, and testing
+3. **Workflow** — `worktree` or `feature`; no default. This selects both branch isolation and the
+   work-record format, not just where files are edited. Use the table below to explain the choice.
+4. **Model profile** — `mix-1` (default), `mix-2`, `anthropic`, or `openai`.
+5. **Address** — how agents should address the human; no default. Record it in `docs/design.md`.
+6. **Discovery review** — approval or corrections for the design, commands, gates, and testing
    mechanism.
-6. **Liveness** — ask whether the project has a local run/restart and liveness mechanism. If no, ask
+7. **Liveness** — ask whether the project has a local run/restart and liveness mechanism. If no, ask
    nothing further about it.
-7. **User skills** — approval to install and refresh the required user-scoped `bro` and `simple-docs`
+8. **User skills** — approval to install and refresh the required user-scoped `bro` and `simple-docs`
    skills from GitHub during preflight. Stop installation if declined.
 
+| Workflow | Where work happens | Branch | Work record |
+|----------|--------------------|--------|-------------|
+| `worktree` | A separate linked worktree per named item | `wi/<id>` | `work/<id>.md` |
+| `feature` | A feature branch in the chosen checkout | `vibe/<nnn>-<feature_name>` | `docs/features/<nnn>-<feature_name>.md` |
+
+Either workflow supports either pack. The workflow is chosen at installation, not on every task.
 Reject a persona named `anders`, `dave`, or `bhaskar`.
 
 ## Install
@@ -79,14 +87,14 @@ Reject a persona named `anders`, `dave`, or `bhaskar`.
 1. Stop if non-bootstrap destination governance already exists; ask before replacing or merging it.
 2. Copy `AGENTS.md`, `.github/copilot-instructions.md`, applicable `.github/instructions/`,
    `.github/skills/markdown.md`, `.github/skills/preflight.md`, `.github/skills/retrospective.md`,
-   `.github/skills/build-test.md`, `.github/skills/build-test-full.md`, `docs/meta-design.md`, and
-   `docs/features/TASK_FILE_TEMPLATE.md`.
+   `.github/skills/build-test.md`, `.github/skills/build-test-full.md`, and `docs/meta-design.md`.
 3. Write the approved design draft to `docs/design.md`. Create `docs/backlog.md` only when absent.
 4. Copy `.editorconfig`, `.gitignore`, `.gitattributes`, and `.vscode/` only when absent.
 5. Compose one assistant file as described below.
 6. For a `4-pack`, also copy `anders.md`, `dave.md`, and `bhaskar.md`. For a `1-pack`, copy none.
 7. Stamp each installed agent's model and `reasoning: max`.
-8. Write approved commands into the Commands table, testing details into `docs/meta-design.md`, gate
+8. Configure the selected workflow as described below. Write approved commands into the Commands
+   table, testing details into `docs/meta-design.md`, gate
    order/details into both build-test recipes, startup gates into `preflight.md`, and approved
    language rules into `.github/instructions/`.
 9. Keep external skills user-scoped. Never copy them into the target.
@@ -106,7 +114,7 @@ After generating the target governance:
 1. Preserve any project-authored content inside legacy marker regions, then remove the marker lines.
 2. Delete the target's `.github/skills/agentify.md`, `.github/agent-templates/`,
    `.github/agent-roles/`, and `.github/personas/` if present.
-3. Migrate live project facts and commands out of any legacy Project profile, apply pack/persona/model
+3. Migrate live project facts and commands out of any legacy Project profile, apply pack/persona/workflow/model
    choices to the agent layout and frontmatter, then delete the obsolete profile and version field.
 4. Move project-specific agent rules into `docs/design.md`, preserving their meaning.
 5. Remove bootstrap references from installed governance.
@@ -114,6 +122,31 @@ After generating the target governance:
 
 Resolve source and target roots first. Clean only resolved target paths; never alter the source
 checkout unless it is explicitly the target being converted.
+
+## Configure the workflow
+
+Apply the selected column to all installed governance, including the composed assistant and
+four-pack agents. Do not edit the source files or replace text inside existing project work records.
+
+| Token | `worktree` | `feature` |
+|-------|------------|-----------|
+| `{{WORK_BRANCH}}` | `wi/<id>` | `vibe/<nnn>-<feature_name>` |
+| `{{WORK_RECORD}}` | `work/<id>.md` | `docs/features/<nnn>-<feature_name>.md` |
+| `{{WORK_TEMPLATE}}` | `work/WORK_ITEM_TEMPLATE.md` | `docs/features/TASK_FILE_TEMPLATE.md` |
+
+1. Copy the selected template from its source path to the same target path.
+2. In `docs/meta-design.md`, retain the selected `WORKFLOW:WORKTREE` or `WORKFLOW:FEATURE`
+   block's body; delete the other block. Remove both blocks' marker lines.
+3. After composing the assistant, replace every token above in installed files.
+4. Record the chosen workflow, branch pattern, record path and working-root convention in
+   `docs/design.md`. For `worktree`, reuse an existing approved worktree helper or use native
+   `git worktree` commands. Do not invent a helper or reference a missing one.
+5. Preserve existing branches, worktrees and historical records. If existing active work uses
+   another convention, ask how to handle that transition; do not silently rename or migrate it.
+
+The generated files contain only the chosen workflow. There is no runtime workflow loader,
+second work-record format or copied installer. Both choices keep the same pack boundaries,
+build/test gates, human approvals and one-PR-per-record rule.
 
 ## Compose the assistant
 
@@ -154,8 +187,15 @@ Use the Copilot model names `Claude Opus 5 (copilot)` and `GPT-5.6 Sol (copilot)
 - No required placeholder remains.
 - The assistant contains no `{{PERSONA}}`, provenance comment, or duplicate etiquette heading.
 - No `OPTIONAL:LIVENESS` marker remains. If liveness was declined, no related instruction remains.
+- No `{{WORK_BRANCH}}`, `{{WORK_RECORD}}`, `{{WORK_TEMPLATE}}` or `WORKFLOW:` marker remains.
+- Guardrail #3, the installed assistant and any architect, preflight, meta-design and retrospective
+  agree on the selected branch and work record. The unselected template was not installed.
+- For `worktree`, creation, resumption and all handoffs use the selected linked working root;
+  no rule switches the main checkout to an item branch. For `feature`, numbered records and
+  branch creation in the chosen checkout remain intact.
 - Every command and referenced script exists or resolves in the target.
-- The human approved the generated design, Commands table, recipes, and preflight gates.
+- The human chose the workflow and approved the generated design, Commands table, recipes and
+  preflight gates.
 - Only the expected agents exist.
 - Installed governance contains no framework name, version, update marker, or installer skill.
 - External skills exist only at user scope.

@@ -18,17 +18,18 @@ design in `docs/design.md`.
 On every invocation, determine which mode you are in. Trunk is auto-detected (the origin default
 branch); `master`/`main` are only examples.
 
-- If the current branch is the **auto-detected trunk**, you are in **new feature mode**.
-- If the current branch is `vibe/<nnn>-<feature_name>`, you are in **WIP mode**.
+- If the current branch is the **auto-detected trunk**, you are in **new-work mode**.
+- If the current branch is `{{WORK_BRANCH}}`, you are in **WIP mode**, in the working root
+  supplied by the assistant. Never create worktrees or switch branches yourself.
 - Else defer to the human for guidance.
 
 Any change that breaks backward compatibility with a public contract or data schema needs explicit
 human approval.
 
-## New feature mode
+## New-work mode
 
 Follow `docs/meta-design.md` for how design thinking is done. You are given the requirements; your
-final output must follow its "Designing a feature" structure.
+final output must follow its "Designing work" structure.
 
 On session start you are called to run a planning phase with the human. Your first output is an
 **options analysis only**:
@@ -42,7 +43,7 @@ with the human as needed.
 
 ## WIP mode
 
-Load understanding of the current WIP from `docs/features/<nnn>-<feature_name>.md`.
+Load understanding of the current WIP from `{{WORK_RECORD}}`.
 
 Do these when called after implementation of the current task.
 

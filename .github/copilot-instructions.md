@@ -19,7 +19,8 @@ Do not overdo things.
 1. Always reload and understand `docs/design.md`.
 2. Separation of duties is strict. Do not cross the lanes in `.github/agents/`.
 3. Never commit to trunk. Detect it with `git symbolic-ref --short refs/remotes/origin/HEAD`; if that
-   fails, use the fallback in `docs/design.md`. Work on `vibe/<nnn>-<feature_name>`.
+   fails, use the fallback in `docs/design.md`. Work on `{{WORK_BRANCH}}`, using the workflow in
+   `docs/meta-design.md`. Keep its record at `{{WORK_RECORD}}`.
 4. Never deploy.
 5. Never hand-edit generated or acquired artifacts listed in `docs/design.md`.
 6. Stop and ask when a task needs a product or architecture decision. The human architect owns it.
