@@ -18,7 +18,34 @@ system retrospects and self-learns.
 | **1-pack** | One generalist designs, implements, verifies, reviews, and owns git. | Waived | Lightest | Small, low-risk work |
 | **4-pack** | Conductor + Anders (architect), Dave (coder), Bhaskar (verifier) | Strict | Heavy | Independent review matters |
 
+## Workflows
+
+Choose one at installation; there is no default. Either supports either pack.
+
+| Workflow | Working location | Branch | Record |
+|----------|------------------|--------|--------|
+| **Worktree** | Separate linked worktree per named item | `wi/<id>` | `work/<id>.md` |
+| **Feature** | Feature branch in the chosen checkout | `vibe/<nnn>-<feature_name>` | `docs/features/<nnn>-<feature_name>.md` |
+
+Worktree logs have Definition, Progress, Learnings, Artifacts and Open sections. Feature records
+use the numbered design/slice/task template. Installation produces only the selected workflow's
+rules and template; existing branches and work history are preserved.
+
+```text
++----------------+ worktree  +------------------------+
+| Install choice | --------> | Linked worktree + log  |
++----------------+           +------------------------+
+        | feature
++------------------------+
+| Feature branch + record|
++------------------------+
+Boxes = installed workflows; arrows = the human's choice.
+```
+
 ## The loops
+
+The examples below show the feature workflow. Worktree mode keeps the same pack roles, review
+gates and human approvals, using its own branch and log instead.
 
 **① Hands-free loop — WIP mode**
 
@@ -87,7 +114,7 @@ system retrospects and self-learns.
 
 1. Run `.github/skills/agentify.md` from this checkout against a target repository on a non-trunk
    branch.
-2. Choose a pack, persona, and form of address. Choose a model profile or accept `mix-1`.
+2. Choose a pack, persona, workflow, and form of address. Choose a model profile or accept `mix-1`.
 3. Review Agentify's repository scan: generated `docs/design.md`, CI-derived Commands table, gate
    recipes, test classification, and preflight gates. If CI evidence is absent, supply how to obtain
    or run the required commands.
@@ -119,7 +146,8 @@ Every agent uses maximum reasoning.
 - `.github/skills/` — installed Markdown, preflight, retrospective, and gate recipes.
 - External skills — installed user-scoped from GitHub; never copied into consumers.
 - `.github/instructions/` — path-scoped language rules, including .NET.
-- `docs/` — design templates and feature method.
+- `docs/` — design templates, work method and feature-record template.
+- `work/WORK_ITEM_TEMPLATE.md` — worktree-record template.
 
 ## Installed layout
 
@@ -128,5 +156,5 @@ Every agent uses maximum reasoning.
 - `.github/instructions/` — path-scoped language rules.
 - `.github/skills/` — project-owned Markdown, preflight, retrospective, and gate recipes.
 - `docs/design.md` — project architecture, operations, and conventions.
-- `docs/meta-design.md` — feature and test taxonomy.
-- `docs/features/` — in-flight feature source of truth.
+- `docs/meta-design.md` — the selected workflow, design method and test taxonomy.
+- `docs/features/` or `work/` — the selected work-record format and its template.
