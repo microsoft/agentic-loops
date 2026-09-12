@@ -114,7 +114,7 @@ gates and human approvals, using its own branch and log instead.
 
 1. Run `.github/skills/agentify.md` from this checkout against a target repository on a non-trunk
    branch.
-2. Choose a pack, persona, workflow, and form of address. Choose a model profile or accept `mix-1`.
+2. Choose a pack, persona, workflow, and form of address.
 3. Review Agentify's repository scan: generated `docs/design.md`, CI-derived Commands table, gate
    recipes, test classification, and preflight gates. If CI evidence is absent, supply how to obtain
    or run the required commands.
@@ -145,16 +145,18 @@ gh skill install microsoft/agentic-loops bro --agent github-copilot --scope user
 Preflight migrates required skills with missing or different source metadata before checking updates.
 Existing installed copies and previously agentified projects are not changed by a repository update.
 
-## Model profiles
+## Model
 
-Every agent uses maximum reasoning.
+Every agent uses **GPT-5.6 Sol** (`gpt-5.6-sol`) with maximum reasoning, in both packs.
+Agent frontmatter uses `model: GPT-5.6 Sol (copilot)` and `reasoning: max`.
 
-| Profile | Designs + codes | Verifies + drives |
-|---------|-----------------|-------------------|
-| `mix-1` *(default)* | Claude Opus 5 | GPT-5.6 Sol |
-| `mix-2` | GPT-5.6 Sol | Claude Opus 5 |
-| `anthropic` | Claude Opus 5 | Claude Opus 5 |
-| `openai` | GPT-5.6 Sol | GPT-5.6 Sol |
+## Task markers
+
+- **`LIM:`** captures a limitation as a future todo in `docs/backlog.md`.
+- **`TODO:`** captures work for the current session in its task list and active work record.
+
+The assistant records tagged items before continuing and keeps their status current. Capturing a
+limitation does not schedule its implementation; unfinished session todos are reported at handoff.
 
 ## Source layout
 

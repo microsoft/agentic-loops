@@ -66,13 +66,12 @@ Ask for:
 2. **Persona** — one name from `.github/agent-templates/personas/`; no default.
 3. **Workflow** — `worktree` or `feature`; no default. This selects both branch isolation and the
    work-record format, not just where files are edited. Use the table below to explain the choice.
-4. **Model profile** — `mix-1` (default), `mix-2`, `anthropic`, or `openai`.
-5. **Address** — how agents should address the human; no default. Record it in `docs/design.md`.
-6. **Discovery review** — approval or corrections for the design, commands, gates, and testing
+4. **Address** — how agents should address the human; no default. Record it in `docs/design.md`.
+5. **Discovery review** — approval or corrections for the design, commands, gates, and testing
    mechanism.
-7. **Liveness** — ask whether the project has a local run/restart and liveness mechanism. If no, ask
+6. **Liveness** — ask whether the project has a local run/restart and liveness mechanism. If no, ask
    nothing further about it.
-8. **User skills** — approval to install and refresh the required user-scoped `bro` and `yagni`
+7. **User skills** — approval to install and refresh the required user-scoped `bro` and `yagni`
    skills from GitHub during preflight. Stop installation if declined.
 
 | Workflow | Where work happens | Branch | Work record |
@@ -89,11 +88,12 @@ Reject a persona named `anders`, `dave`, or `bhaskar`.
 2. Copy `AGENTS.md`, `.github/copilot-instructions.md`, applicable `.github/instructions/`,
    `.github/skills/markdown.md`, `.github/skills/preflight.md`, `.github/skills/retrospective.md`,
    `.github/skills/build-test.md`, `.github/skills/build-test-full.md`, and `docs/meta-design.md`.
-3. Write the approved design draft to `docs/design.md`. Create `docs/backlog.md` only when absent.
+3. Write the approved design draft to `docs/design.md`. Copy the `docs/backlog.md` template only
+   when the target has no backlog; never replace existing items.
 4. Copy `.editorconfig`, `.gitignore`, `.gitattributes`, and `.vscode/` only when absent.
 5. Compose one assistant file as described below.
 6. For a `4-pack`, also copy `anders.md`, `dave.md`, and `bhaskar.md`. For a `1-pack`, copy none.
-7. Stamp each installed agent's model and `reasoning: max`.
+7. Stamp every installed agent with `model: GPT-5.6 Sol (copilot)` and `reasoning: max`.
 8. Configure the selected workflow as described below. Write approved commands into the Commands
    table, testing details into `docs/meta-design.md`, gate
    order/details into both build-test recipes, startup gates into `preflight.md`, and approved
@@ -115,8 +115,9 @@ After generating the target governance:
 1. Preserve any project-authored content inside legacy marker regions, then remove the marker lines.
 2. Delete the target's `.github/skills/agentify.md`, `.github/agent-templates/`,
    `.github/agent-roles/`, and `.github/personas/` if present.
-3. Migrate live project facts and commands out of any legacy Project profile, apply pack/persona/workflow/model
-   choices to the agent layout and frontmatter, then delete the obsolete profile and version field.
+3. Migrate live project facts and commands out of any legacy Project profile, apply pack/persona/workflow
+   choices and the fixed model to the agent layout and frontmatter, then delete the obsolete profile
+   and version field.
 4. Move project-specific agent rules into `docs/design.md`, preserving their meaning.
 5. Remove bootstrap references from installed governance, except required user-skill source URLs.
 6. Show the cleanup diff before finishing. Never delete project-authored content.
@@ -160,7 +161,7 @@ Use `roles/conductor.md` for a `4-pack`, otherwise `roles/solo.md`. Append the s
        ---
        name: <PERSONA>
        description: <role description>
-       model: <profile model>
+       model: GPT-5.6 Sol (copilot)
        reasoning: max
        ---
 
@@ -172,16 +173,10 @@ Role descriptions:
 - `4-pack`: `Runs the agentic loop (hub-and-spoke). Coordinates Dave, Bhaskar, and Anders. Read-only inspection + git/task-file management only; never designs, codes, or verifies.`
 - `1-pack`: `Solo generalist for the 1-pack: designs, implements, verifies, and reviews in one context; owns git + the task file. Never deploys.`
 
-## Model profiles
+## Model
 
-| Role | `mix-1` | `mix-2` | `anthropic` | `openai` |
-|------|---------|---------|-------------|----------|
-| Architect | Claude Opus 5 | GPT-5.6 Sol | Claude Opus 5 | GPT-5.6 Sol |
-| Coder | Claude Opus 5 | GPT-5.6 Sol | Claude Opus 5 | GPT-5.6 Sol |
-| Verifier | GPT-5.6 Sol | Claude Opus 5 | Claude Opus 5 | GPT-5.6 Sol |
-| Assistant | GPT-5.6 Sol | Claude Opus 5 | Claude Opus 5 | GPT-5.6 Sol |
-
-Use the Copilot model names `Claude Opus 5 (copilot)` and `GPT-5.6 Sol (copilot)`.
+All roles in both packs use `gpt-5.6-sol`, named `GPT-5.6 Sol (copilot)` in agent frontmatter,
+with `reasoning: max`. There is no model-profile choice.
 
 ## Final checks
 
@@ -198,6 +193,9 @@ Use the Copilot model names `Claude Opus 5 (copilot)` and `GPT-5.6 Sol (copilot)
 - The human chose the workflow and approved the generated design, Commands table, recipes and
   preflight gates.
 - Only the expected agents exist.
+- Every installed agent uses `model: GPT-5.6 Sol (copilot)` and `reasoning: max`.
+- User task-marker rules survive installation: `LIM:` uses the backlog and `TODO:` uses session
+  tracking and the selected work record. Existing backlog items remain intact.
 - Installed governance contains no framework version, update marker, or installer skill. The framework
   name may occur only in required user-skill source URLs.
 - Required user skills exist only at user scope.

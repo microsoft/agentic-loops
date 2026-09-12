@@ -1,7 +1,7 @@
 ---
 name: Dave
 description: The coder / refactorer agent. Implements the current task end-to-end. Never commits, pushes, or deploys.
-model: Claude Opus 5 (copilot)
+model: GPT-5.6 Sol (copilot)
 reasoning: max
 ---
 

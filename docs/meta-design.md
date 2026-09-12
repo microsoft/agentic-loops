@@ -52,6 +52,13 @@ The planning-time options analysis may be richer (summary, affected layers, risk
 pros/cons + recommendation are persisted. Use the selected work record's sections; do not create
 a second record with the other workflow's format.
 
+## Capturing user-tagged work
+
+Follow "User task markers" in `.github/copilot-instructions.md`.
+`LIM:` items belong in `docs/backlog.md` for future prioritization, not the current session's queue.
+Track `TODO:` items in the session task list and the active record using its task format below.
+Keep the tag and status; unresolved session work must be reported at handoff.
+
 ## Starting work
 
 <!-- WORKFLOW:FEATURE:BEGIN -->
@@ -66,6 +73,7 @@ After design approval, create that branch from the latest trunk in the chosen ch
 discard uncommitted changes to switch branches. Create the feature record from
 `docs/features/TASK_FILE_TEMPLATE.md`. To resume, use the existing branch and its record.
 Keep task status and decisions current; mark the record Complete when its tasks are done.
+Include human-tagged `TODO:` items in Tasks with their status.
 <!-- WORKFLOW:FEATURE:END -->
 
 <!-- WORKFLOW:WORKTREE:BEGIN -->
@@ -93,6 +101,7 @@ Keep the question, deliverable and agreed design in Definition; dated progress a
 Progress; corrections and dead ends in Learnings; produced paths in Artifacts; unresolved issues in
 Open. Update the log as work proceeds and carry forward relevant earlier findings. Mark its status
 Complete when its tasks are done. Edit only this item's log.
+Include human-tagged `TODO:` items in Progress with their status.
 
 Never switch the main checkout to an item branch, move another item's changes, merge to trunk or
 remove a worktree without the human's approval.
