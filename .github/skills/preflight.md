@@ -46,4 +46,6 @@ whether it blocks._
 
 ## Pass
 
-Proceed to mode selection: trunk means new-feature mode; `vibe/<nnn>-*` means WIP mode.
+Proceed to mode selection: trunk means new-work mode; `{{WORK_BRANCH}}` means WIP mode.
+Follow the installed workflow in `docs/meta-design.md`; WIP loads `{{WORK_RECORD}}`.
+Do not offer a different workflow at startup or switch a checkout automatically.
