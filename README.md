@@ -118,7 +118,7 @@ gates and human approvals, using its own branch and log instead.
 3. Review Agentify's repository scan: generated `docs/design.md`, CI-derived Commands table, gate
    recipes, test classification, and preflight gates. If CI evidence is absent, supply how to obtain
    or run the required commands.
-4. Approve the user-scoped `bro` and `simple-docs` skills. Preflight refreshes them from GitHub; the
+4. Approve the user-scoped `bro` and `yagni` skills. Preflight refreshes them from this repository; the
    project receives no copy.
 5. Answer whether the project has local run/liveness. A “no” removes those duties.
 6. Invoke the installed assistant.
@@ -126,6 +126,24 @@ gates and human approvals, using its own branch and log instead.
 Installation is one-shot. The target owns every installed file. If temporarily staged in the target,
 the installer deletes itself, source templates, version stamps, update markers, and bootstrap
 references after generating the active governance.
+
+## User skills
+
+These can also be installed without the governance framework:
+
+```powershell
+gh skill install microsoft/agentic-loops yagni --agent github-copilot --scope user
+gh skill install microsoft/agentic-loops bro --agent github-copilot --scope user
+```
+
+- [`yagni`](skills/yagni/SKILL.md) combines design, code and writing guidance, with a bounded Unicode
+  diagram palette. It replaces `simple-docs`.
+- [`bro`](skills/bro/SKILL.md) re-explains the previous reply in plain language. Original skill by
+  Hermes Agent + Luka, from [luchasarie/bro-skill](https://github.com/luchasarie/bro-skill), with its
+  [MIT license](skills/bro/LICENSE) preserved.
+
+Preflight migrates required skills with missing or different source metadata before checking updates.
+Existing installed copies and previously agentified projects are not changed by a repository update.
 
 ## Model profiles
 
@@ -144,7 +162,7 @@ Every agent uses maximum reasoning.
 - `.github/agents/` — 4-pack sub-agent sources.
 - `.github/skills/agentify.md` — one-shot installer; never copied.
 - `.github/skills/` — installed Markdown, preflight, retrospective, and gate recipes.
-- External skills — installed user-scoped from GitHub; never copied into consumers.
+- `skills/` — installable `bro` and `yagni` sources; user-scoped, never copied into consumers.
 - `.github/instructions/` — path-scoped language rules, including .NET.
 - `docs/` — design templates, work method and feature-record template.
 - `work/WORK_ITEM_TEMPLATE.md` — worktree-record template.

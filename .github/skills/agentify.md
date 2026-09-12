@@ -8,6 +8,7 @@ temporarily in the target.
 
 Installation is one-shot. The target owns every installed file. Never copy this skill, source
 templates, framework version data, update markers, or source provenance into the target.
+Required user-skill source URLs in preflight are the only exception to the provenance rule.
 
 ## Discover the project
 
@@ -71,7 +72,7 @@ Ask for:
    mechanism.
 7. **Liveness** — ask whether the project has a local run/restart and liveness mechanism. If no, ask
    nothing further about it.
-8. **User skills** — approval to install and refresh the required user-scoped `bro` and `simple-docs`
+8. **User skills** — approval to install and refresh the required user-scoped `bro` and `yagni`
    skills from GitHub during preflight. Stop installation if declined.
 
 | Workflow | Where work happens | Branch | Work record |
@@ -97,7 +98,7 @@ Reject a persona named `anders`, `dave`, or `bhaskar`.
    table, testing details into `docs/meta-design.md`, gate
    order/details into both build-test recipes, startup gates into `preflight.md`, and approved
    language rules into `.github/instructions/`.
-9. Keep external skills user-scoped. Never copy them into the target.
+9. Keep `bro` and `yagni` user-scoped. Never copy the source `skills/` directory into the target.
 10. Process every `OPTIONAL:LIVENESS` block:
    - **Yes:** remove marker lines, keep the instructions, and record the mechanism in `docs/design.md`.
    - **No:** remove each whole block. No liveness instruction may remain.
@@ -117,7 +118,7 @@ After generating the target governance:
 3. Migrate live project facts and commands out of any legacy Project profile, apply pack/persona/workflow/model
    choices to the agent layout and frontmatter, then delete the obsolete profile and version field.
 4. Move project-specific agent rules into `docs/design.md`, preserving their meaning.
-5. Remove bootstrap references from installed governance.
+5. Remove bootstrap references from installed governance, except required user-skill source URLs.
 6. Show the cleanup diff before finishing. Never delete project-authored content.
 
 Resolve source and target roots first. Clean only resolved target paths; never alter the source
@@ -197,8 +198,9 @@ Use the Copilot model names `Claude Opus 5 (copilot)` and `GPT-5.6 Sol (copilot)
 - The human chose the workflow and approved the generated design, Commands table, recipes and
   preflight gates.
 - Only the expected agents exist.
-- Installed governance contains no framework name, version, update marker, or installer skill.
-- External skills exist only at user scope.
+- Installed governance contains no framework version, update marker, or installer skill. The framework
+  name may occur only in required user-skill source URLs.
+- Required user skills exist only at user scope.
 - All Markdown links resolve from their installed locations.
 - `.github/skills/preflight.md` passes.
 

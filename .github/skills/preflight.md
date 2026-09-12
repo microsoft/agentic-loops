@@ -23,21 +23,25 @@ Keep these skills user-scoped. Never copy them into the project.
 
 | Skill | GitHub source |
 |-------|---------------|
-| `bro` | `https://github.com/luchasarie/bro-skill/blob/main/SKILL.md` |
-| `simple-docs` | `https://github.com/parthopdas/skills/tree/main/skills/simple-docs` |
+| `bro` | `https://github.com/microsoft/agentic-loops/tree/master/skills/bro` |
+| `yagni` | `https://github.com/microsoft/agentic-loops/tree/master/skills/yagni` |
 
 Use `gh skill list --agent github-copilot --scope user --json skillName,path,sourceURL,version` to find
-installed copies. Compare before writing:
+installed copies. For each required skill, substitute its name for `<skill>` below:
 
-- **`simple-docs`:** use `gh skill update simple-docs --dry-run`. If missing or changed, run
-  `gh skill install parthopdas/skills simple-docs --agent github-copilot --scope user --force`.
-- **`bro`:** its root `SKILL.md` is not discoverable by `gh skill`. Fetch the raw GitHub file and
-  compare it with the installed `SKILL.md`. If missing or changed, remove the installed copy when
-  present, then run
-  `copilot plugins install --skill --scope user https://raw.githubusercontent.com/luchasarie/bro-skill/main/SKILL.md`.
+1. If missing, without source metadata, or its `sourceURL` is not
+   `https://github.com/microsoft/agentic-loops`, install it from the source above:
+   `gh skill install microsoft/agentic-loops <skill> --agent github-copilot --scope user --force`.
+   Do this before any update lookup so retired sources are never queried.
+2. Otherwise, compare before writing:
+   `gh skill update <skill> --dry-run --dir <user-skill-root>`.
+   Use the parent of its listed `path` as `<user-skill-root>` to avoid other hosts and scopes.
+   If changed, run the install command above.
+3. After an install, re-read the user-scoped list and confirm the expected skill and source.
 
 Any lookup, comparison, or install failure blocks. If a skill changed, stop and ask the human to
 restart the session so Copilot loads it.
+A skipped comparison, such as a pinned install, does not establish freshness; stop and ask the human.
 
 ## Project gates
 
