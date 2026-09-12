@@ -41,16 +41,14 @@ See also [agentic-loops meta-design](https://github.com/microsoft/agentic-loops/
 
 ### Diagram characters
 
-Use Unicode box-drawing and block characters, restricted to this common subset:
+Use standard Unicode supported by common modern OS and browser fonts:
 
-| Style | Allowed code points |
-|-------|---------------------|
-| Single-line boxes | U+2500, U+2502, U+250C, U+2510, U+2514, U+2518, U+251C, U+2524, U+252C, U+2534, U+253C |
-| Double-line boxes | U+2550, U+2551, U+2554, U+2557, U+255A, U+255D, U+2560, U+2563, U+2566, U+2569, U+256C |
-| Solid and shaded blocks | U+2588, U+2591-U+2593 |
+- Use the full Box Drawing (U+2500-U+257F) and Block Elements (U+2580-U+259F) ranges, including light, heavy, double, rounded and dashed lines, and solid, fractional and shaded blocks.
+- Common arrows and technical symbols are welcome when useful.
+- Avoid obscure glyphs, private-use characters, custom-font icons, emoji and decorative combining-character sequences.
+- Put diagrams in fenced `text` blocks to preserve monospaced layout.
 
-Ordinary ASCII text and arrows (`->`, `<-`, `^`, `v`) are also allowed. Avoid emoji, icons and other decorative glyphs.
-Font support is not universal. Fall back to ASCII (`+`, `-`, `|`, `#`) when support for the palette is uncertain or rendering is broken.
+Font support still varies. Use ASCII fallback for known ASCII-only targets or actual rendering problems, not merely because the font is unknown.
 
 ## Sources
 

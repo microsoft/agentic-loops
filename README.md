@@ -136,8 +136,8 @@ gh skill install microsoft/agentic-loops yagni --agent github-copilot --scope us
 gh skill install microsoft/agentic-loops bro --agent github-copilot --scope user
 ```
 
-- [`yagni`](skills/yagni/SKILL.md) combines design, code and writing guidance, with a bounded Unicode
-  diagram palette. It replaces `simple-docs`.
+- [`yagni`](skills/yagni/SKILL.md) combines design, code and writing guidance, with standard Unicode
+  text diagrams. It replaces `simple-docs`.
 - [`bro`](skills/bro/SKILL.md) re-explains the previous reply in plain language. Original skill by
   Hermes Agent + Luka, from [luchasarie/bro-skill](https://github.com/luchasarie/bro-skill), with its
   [MIT license](skills/bro/LICENSE) preserved.
