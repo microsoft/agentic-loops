@@ -9,7 +9,7 @@
 - After install, delete the installer, source templates, version data, markers, provenance, and
   bootstrap references from consumers.
 - Keep project details out of generic governance.
-- Isolate C# rules in a path-scoped Markdown file.
+- Isolate .NET rules in a path-scoped Markdown file.
 - Ask whether liveness applies; remove all related target instructions when it does not.
 - Generate `docs/design.md` from a repository scan for human review.
 - Infer commands and gates from CI; ask when evidence is absent.
@@ -25,7 +25,7 @@
 - Commands remain in `.github/copilot-instructions.md`.
 - Test taxonomy is generic; projects fill their own marking and selection mechanism.
 - Only the assistant spawns agents. Web-backed agents run serially.
-- C# rules live in `.github/instructions/csharp.instructions.md`.
+- .NET rules live in `.github/instructions/dotnet.instructions.md`.
 - Liveness instructions are source-optional and never survive a declined install answer.
 - Project-specific agent constraints live in `docs/design.md`.
 

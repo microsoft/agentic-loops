@@ -39,6 +39,8 @@ _Canonical local/CI entry points, test boundaries, artifacts, and required evide
 
 _Auth, persistence, config/secrets, observability, error handling._
 
+- Use OpenTelemetry only for telemetry.
+
 ## Conventions
 
 _Stack, coding standards, compatibility targets, and language-specific rules._

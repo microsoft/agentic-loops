@@ -8,8 +8,9 @@ Do not overdo things.
 
 0. General principles:
    - When writing English (docs, code comments, Markdown, messages):
-     - Be crisp and high-signal. Avoid verbosity. Do not repeat the human's words.
-     - Use the fewest words that preserve meaning.
+     - Use simple, precise language. Do not try to sound smart.
+     - Use the fewest words that preserve meaning and accuracy.
+     - Do not repeat the human's words.
      - For Markdown, follow `.github/skills/markdown.md`.
    - Do not assume or hide confusion. Surface tradeoffs.
    - State assumptions explicitly. If uncertain, ask.

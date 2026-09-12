@@ -145,7 +145,7 @@ Every agent uses maximum reasoning.
 - `.github/skills/agentify.md` — one-shot installer; never copied.
 - `.github/skills/` — installed Markdown, preflight, retrospective, and gate recipes.
 - External skills — installed user-scoped from GitHub; never copied into consumers.
-- `.github/instructions/` — path-scoped language rules, including C#.
+- `.github/instructions/` — path-scoped language rules, including .NET.
 - `docs/` — design templates, work method and feature-record template.
 - `work/WORK_ITEM_TEMPLATE.md` — worktree-record template.
 
