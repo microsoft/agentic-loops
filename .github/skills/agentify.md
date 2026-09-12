@@ -23,7 +23,7 @@ Inspect before asking questions:
    `docs/design.md`, not generic agent files.
 5. Draft `docs/design.md` from evidence. Include repository operations, system overview, architecture,
    key components, dependency direction, build/verification, cross-cutting concerns, and conventions.
-   Cite repository paths. Mark uncertainties; never invent details.
+   Preserve its global constraints. Cite repository paths. Mark uncertainties; never invent details.
 6. Draft applicable path-scoped language files under `.github/instructions/`. Keep only rules supported
    by repository evidence or approved by the human; remove irrelevant languages and rules.
 
