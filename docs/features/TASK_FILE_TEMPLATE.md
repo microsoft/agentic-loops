@@ -30,6 +30,8 @@ A slice is defined in `docs/meta-design.md`.
 ## Tasks (Tx)
 
 One or more tasks per slice.
+Include human-tagged `TODO:` items for this session, retaining their tag and status.
+Future `LIM:` items go in `docs/backlog.md`.
 
 | #  | Slice | Task | Status  | Commit |
 |----|-------|------|---------|--------|

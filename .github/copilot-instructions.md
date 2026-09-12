@@ -36,9 +36,30 @@ When citing a guardrail, refer to it by number. Keep numbering stable.
 
 ## Execution safety
 
+- Every agent, including delegated runs, uses `gpt-5.6-sol` with maximum reasoning.
+  Agent frontmatter uses `model: GPT-5.6 Sol (copilot)` and `reasoning: max`.
 - Delegated agents never spawn agents; they return unmet work to the assistant.
 - Run web-backed agents serially.
 - Never batch `web_search` or `web_fetch`; issue one call at a time.
+
+## User task markers
+
+When the human tags an item, capture it before continuing. Quoted examples and source text are not
+new requests.
+
+| Marker | Meaning | Capture |
+|--------|---------|---------|
+| `LIM:` | A known limitation and future todo | An unchecked item in `docs/backlog.md`; do not implement unless the human schedules it. |
+| `TODO:` | Work for this session | The session task list and, when one exists, the active `{{WORK_RECORD}}` using its task format. |
+
+Retain the tag, meaning and enough context to act later. Update an existing matching item rather than
+duplicating it. The assistant owns capture; delegated agents return tagged items to the assistant
+without crossing their editing boundaries.
+
+If the required file cannot be written yet, keep a capture reminder in session tracking, state that
+file capture is pending, and persist it once the approved working root or record is available.
+Capturing an item does not authorize branch changes or bypass design and execution approvals.
+Keep status current and surface unfinished `TODO:` items at handoff; never silently defer them.
 
 ## Commands
 

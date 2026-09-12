@@ -10,6 +10,8 @@ Question being answered, deliverable and agreed design.
 ## Progress
 
 Dated entries, newest last. Include task status and commit references.
+Include human-tagged `TODO:` items for this session, retaining their tag and status.
+Future `LIM:` items go in `docs/backlog.md`.
 
 ## Learnings
 
