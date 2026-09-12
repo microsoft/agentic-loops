@@ -8,6 +8,9 @@ Keep this current and concise. Planned work belongs in `docs/backlog.md`.
 
 _Trunk fallback, generated/acquired artifacts, CI/CD, and startup/preflight ownership._
 
+_Chosen workflow, branch pattern, work-record path, and working-root convention.
+For worktrees, include the existing helper or native Git procedure._
+
 <!-- OPTIONAL:LIVENESS:BEGIN -->
 _Local run/restart and liveness mechanism._
 <!-- OPTIONAL:LIVENESS:END -->
@@ -35,6 +38,8 @@ _Canonical local/CI entry points, test boundaries, artifacts, and required evide
 ## Cross-cutting concerns
 
 _Auth, persistence, config/secrets, observability, error handling._
+
+- Use OpenTelemetry only for telemetry.
 
 ## Conventions
 

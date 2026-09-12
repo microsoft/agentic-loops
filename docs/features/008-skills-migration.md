@@ -8,7 +8,7 @@
 - Preserve the approved YAGNI contents and bro attribution/licenses.
 - Update installation, preflight and documentation references.
 - Merge the migration before deleting the retired GitHub repository. Keep local backups.
-- Do not alter the unrelated .NET and workflow-choice work.
+- Preserve and integrate the separately approved .NET and workflow-choice work.
 
 ## Design Options (Ox)
 
@@ -50,7 +50,6 @@
 ## Deferrals (Dx)
 
 - D1: Existing installed copies and previously agentified repositories are not rewritten.
-- D2: Feature 006 and PR #11 remain independent and unmerged by this migration.
 
 ## Notes & Decisions
 
@@ -66,3 +65,8 @@
 - 2026-09-12: All four migrated files match the approved source after newline normalization.
   `gh skill publish --dry-run` accepts both skills. It reports the existing optional YAGNI license-field
   omission and absent tag protection; neither was changed as part of this move.
+- 2026-09-12: Opened [PR #12](https://github.com/microsoft/agentic-loops/pull/12). The human then expanded
+  approval to publish and merge all agentify changes, including the pre-existing .NET work.
+- 2026-09-12: Workflow-choice PR #11 and .NET PR #13 are merged. Integrated both into this branch;
+  resolved the installer choice-number overlap and README layout overlap by retaining the workflow
+  choice, bro/yagni sources, .NET rules and work-record templates together.

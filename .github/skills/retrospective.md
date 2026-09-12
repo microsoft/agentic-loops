@@ -1,6 +1,6 @@
 ---
 name: retrospective
-description: Periodic cross-feature governance retrospective. Every five completed features, distill durable lessons into minimal governance changes.
+description: Every five completed work records, distill durable lessons into minimal governance changes.
 ---
 
 A minimal, count-based review that turns delivery experience into durable guardrails.
@@ -12,14 +12,15 @@ all three. The human approves every guardrail change.
 
 ## When
 
-After each feature, compare the feature count with the `features=N` value on the last Log line. Remind
-the human when it grows by five or more.
+After completing a work record, count records marked `**Status:** Complete` in the same directory as
+`{{WORK_TEMPLATE}}`, excluding the template. Compare with `completed=N` on the last Log line; start
+at zero if there is no entry. Remind the human when the count grows by five or more.
 
-    (Get-ChildItem docs/features/*.md | ? { $_.Name -ne 'TASK_FILE_TEMPLATE.md' }).Count
+Do not count directories, templates or unfinished records as completed work.
 
 ## Sources
 
-Review feature files, especially post-review and post-test-fix notes; `docs/design.md`;
+Review work records, especially post-review and post-test-fix notes; `docs/design.md`;
 `docs/backlog.md`; agent and skill files; and commits since the last Log entry. Verify lessons against
 repository evidence.
 
@@ -30,7 +31,7 @@ repository evidence.
   `docs/design.md`.
 - **Per-agent learnings:** short, durable notes for the relevant agent file.
 
-Skip feature-specific details. Prioritize recurring, high-signal lessons.
+Skip item-specific details. Prioritize recurring, high-signal lessons.
 
 ## Apply
 
@@ -44,6 +45,4 @@ Do not overdo it.
 
 ## Log
 
-    - YYYY-MM-DD · features=N · <one-line summary>
-
-- 2026-08-03 · features=0 · Retrospective process created.
+    - YYYY-MM-DD | completed=N | <one-line summary>

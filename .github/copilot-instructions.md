@@ -8,8 +8,9 @@ Do not overdo things.
 
 0. General principles:
    - When writing English (docs, code comments, Markdown, messages):
-     - Be crisp and high-signal. Avoid verbosity. Do not repeat the human's words.
-     - Use the fewest words that preserve meaning.
+     - Use simple, precise language. Do not try to sound smart.
+     - Use the fewest words that preserve meaning and accuracy.
+     - Do not repeat the human's words.
      - For Markdown, follow `.github/skills/markdown.md`.
    - Do not assume or hide confusion. Surface tradeoffs.
    - State assumptions explicitly. If uncertain, ask.
@@ -19,7 +20,8 @@ Do not overdo things.
 1. Always reload and understand `docs/design.md`.
 2. Separation of duties is strict. Do not cross the lanes in `.github/agents/`.
 3. Never commit to trunk. Detect it with `git symbolic-ref --short refs/remotes/origin/HEAD`; if that
-   fails, use the fallback in `docs/design.md`. Work on `vibe/<nnn>-<feature_name>`.
+   fails, use the fallback in `docs/design.md`. Work on `{{WORK_BRANCH}}`, using the workflow in
+   `docs/meta-design.md`. Keep its record at `{{WORK_RECORD}}`.
 4. Never deploy.
 5. Never hand-edit generated or acquired artifacts listed in `docs/design.md`.
 6. Stop and ask when a task needs a product or architecture decision. The human architect owns it.
