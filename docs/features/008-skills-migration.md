@@ -6,6 +6,7 @@
 
 - Move all current skills from the personal skills repository into agentic-loops.
 - Preserve the approved YAGNI contents and bro attribution/licenses.
+- Use common modern Unicode for diagrams rather than a handpicked 26-character palette.
 - Update installation, preflight and documentation references.
 - Merge the migration before deleting the retired GitHub repository. Keep local backups.
 - Preserve and integrate the separately approved .NET and workflow-choice work.
@@ -32,8 +33,9 @@
 | # | Slice | Task | Status |
 |---|-------|------|--------|
 | T1 | S1 | Copy all four skill/license files and update active references | Complete |
-| T2 | S1 | Validate, publish and merge the migration | In Progress |
-| T3 | S2 | Confirm skills on master, then delete the old GitHub repository | Pending |
+| T2 | S1 | Validate, publish and merge the migration | Complete |
+| T3 | S2 | Confirm skills on master, then delete the old GitHub repository | Paused |
+| T4 | S1 | Apply the broader Unicode policy requested after migration | Complete |
 
 ## Risks (Rx)
 
@@ -70,3 +72,16 @@
 - 2026-09-12: Workflow-choice PR #11 and .NET PR #13 are merged. Integrated both into this branch;
   resolved the installer choice-number overlap and README layout overlap by retaining the workflow
   choice, bro/yagni sources, .NET rules and work-record templates together.
+- 2026-09-12: PR #12 merged at `a299ab7`. Both skills are discoverable from master, with their license
+  files. Master preflight no longer uses the retired skill sources.
+- 2026-09-12: Source deletion returned HTTP 403 because the CLI token lacked `delete_repo`. The local
+  backup was refreshed and passed `git fsck`. The human approved reauthorization, which is awaiting
+  GitHub approval; the source repository has not yet been deleted.
+- 2026-09-12: The human rejected the overly narrow 26-character restriction. Replaced it with full
+  standard Box Drawing and Block Elements ranges, common arrows and technical symbols. Excluded
+  esoteric/custom-font glyphs; an unknown font alone no longer triggers ASCII fallback.
+- 2026-09-12: The first authorization attempt was stopped. A second attempt completed successfully;
+  authorization is no longer blocked, but repository deletion remains paused.
+- 2026-09-12: The human approved publishing and merging all remaining agentify changes. Resumed the
+  Unicode update without resuming repository deletion. The model and task-marker changes in PR #14
+  are now merged.
