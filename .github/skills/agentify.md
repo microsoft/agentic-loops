@@ -101,9 +101,10 @@ Reject a persona named `anders`, `dave`, or `bhaskar`.
 10. Process every `OPTIONAL:LIVENESS` block:
    - **Yes:** remove marker lines, keep the instructions, and record the mechanism in `docs/design.md`.
    - **No:** remove each whole block. No liveness instruction may remain.
-11. Delete unused optional command rows and recipe steps.
-12. Remove every bootstrap trace from the target.
-13. Run the final checks.
+11. Remove every `OPTIONAL:DOTFILES` block. It belongs only in this framework checkout.
+12. Delete unused optional command rows and recipe steps.
+13. Remove every bootstrap trace from the target.
+14. Run the final checks.
 
 Do not copy `.github/skills/agentify.md`, `.github/agent-templates/`, README files, or feature history.
 
@@ -187,6 +188,7 @@ Use the Copilot model names `Claude Opus 5 (copilot)` and `GPT-5.6 Sol (copilot)
 - No required placeholder remains.
 - The assistant contains no `{{PERSONA}}`, provenance comment, or duplicate etiquette heading.
 - No `OPTIONAL:LIVENESS` marker remains. If liveness was declined, no related instruction remains.
+- No `OPTIONAL:DOTFILES` marker remains.
 - No `{{WORK_BRANCH}}`, `{{WORK_RECORD}}`, `{{WORK_TEMPLATE}}` or `WORKFLOW:` marker remains.
 - Guardrail #3, the installed assistant and any architect, preflight, meta-design and retrospective
   agree on the selected branch and work record. The unselected template was not installed.

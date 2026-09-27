@@ -41,8 +41,29 @@ restart the session so Copilot loads it.
 
 ## Project gates
 
-_Add project-specific startup gates here, starting at Gate 4. State the check, failure message, and
-whether it blocks._
+<!-- OPTIONAL:DOTFILES:BEGIN -->
+## Gate 4 — Local dotfiles
+
+Run the user dotfiles installer when it is already present. This block is personal to the framework
+checkout. The agentify installer removes the whole block.
+
+```text
++------------------+ found    +--------------+ 0      +------+
+| chezmoi source   | -------> | install.ps1  | -----> | Pass |
++------------------+          +--------------+        +------+
+        | missing                    | non-zero
+        v                            v
+     Pass                          Stop
+```
+
+Boxes are checks. Arrows are the next check.
+
+1. If `chezmoi` is not on PATH, continue.
+2. If `install.ps1` is not in `chezmoi source-path`, continue.
+3. Run `powershell -NoProfile -ExecutionPolicy Bypass -File <that script>`.
+4. Network failure, a missing private checkout, and existing-file drift do not fail the script.
+5. A non-zero exit stops the loop. Show the script error.
+<!-- OPTIONAL:DOTFILES:END -->
 
 ## Pass
 
