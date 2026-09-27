@@ -48,25 +48,28 @@ Run the user dotfiles installer when it is already present. This block is person
 checkout. The agentify installer removes the whole block.
 
 ```text
-+--------------------------------+ missing +------+
-| D:\src\gh\dotfiles\install.ps1 | ------> | Pass |
-+--------------------------------+         +------+
-        | found
++-------------------------------+ fail, shown +------------------+
+| clone or pull private repo    | -----------> | continue locally |
++-------------------------------+              +------------------+
+        | local repo exists
         v
-   run install.ps1
-        | 0                 | non-zero
-        v                   v
-     Pass                 Stop
++-------------------------------+ non-zero +------+
+| install.ps1 Apply             | -------> | Stop |
++-------------------------------+          +------+
+        | 0
+        v
+     Pass
 ```
 
-Boxes are checks. Arrows are the next check.
+Boxes are checks. Arrows are the next check. A printed network error is not a silent pass.
 
-1. If `D:\src\gh\dotfiles\install.ps1` is missing, continue.
-2. Run `powershell -NoProfile -ExecutionPolicy Bypass -File D:\src\gh\dotfiles\install.ps1`.
-3. That script Applies only. It must not Capture or Publish.
-4. A missing checkout, offline Scoop, and a failed Scoop install do not stop the loop.
-5. Do not run `sync.ps1`. Capture and Publish are manual.
-6. A non-zero exit stops the loop. Show the script error.
+1. Repo path is `D:\src\gh\dotfiles`. URL is `https://github.com/parthopdas/dotfiles.git`.
+2. If the path is missing, clone it. If clone fails, show the error and continue. Do not run install.
+3. If the path exists, run `git -C D:\src\gh\dotfiles pull --ff-only`. If pull fails, show the error and continue with the local copy.
+4. Run `powershell -NoProfile -ExecutionPolicy Bypass -File D:\src\gh\dotfiles\install.ps1`.
+5. That script Applies only. It must not Capture or Publish.
+6. A non-zero install stops the loop. Show the script error.
+7. Do not run `sync.ps1` or `publish.ps1`.
 <!-- OPTIONAL:DOTFILES:END -->
 
 ## Pass
