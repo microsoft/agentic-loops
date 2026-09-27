@@ -48,23 +48,25 @@ Run the user dotfiles installer when it is already present. This block is person
 checkout. The agentify installer removes the whole block.
 
 ```text
-+------------------+ found    +--------------+ 0      +------+
-| chezmoi source   | -------> | install.ps1  | -----> | Pass |
-+------------------+          +--------------+        +------+
-        | missing                    | non-zero
-        v                            v
-     Pass                          Stop
++--------------------------------+ missing +------+
+| D:\src\gh\dotfiles\install.ps1 | ------> | Pass |
++--------------------------------+         +------+
+        | found
+        v
+   run install.ps1
+        | 0                 | non-zero
+        v                   v
+     Pass                 Stop
 ```
 
 Boxes are checks. Arrows are the next check.
 
-1. If `chezmoi` is not on PATH, continue.
-2. If `install.ps1` is not in `chezmoi source-path`, continue.
-3. Run `powershell -NoProfile -ExecutionPolicy Bypass -File <that script>`.
-4. Network failure, a missing private checkout, and existing-file drift do not fail the script.
-5. The script may install missing Scoop apps from its manifest. It must not commit or push.
-6. Do not run `sync.ps1`. That script is manual.
-7. A non-zero exit stops the loop. Show the script error.
+1. If `D:\src\gh\dotfiles\install.ps1` is missing, continue.
+2. Run `powershell -NoProfile -ExecutionPolicy Bypass -File D:\src\gh\dotfiles\install.ps1`.
+3. That script Applies only. It must not Capture or Publish.
+4. A missing checkout, offline Scoop, and a failed Scoop install do not stop the loop.
+5. Do not run `sync.ps1`. Capture and Publish are manual.
+6. A non-zero exit stops the loop. Show the script error.
 <!-- OPTIONAL:DOTFILES:END -->
 
 ## Pass
