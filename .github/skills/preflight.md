@@ -62,7 +62,9 @@ Boxes are checks. Arrows are the next check.
 2. If `install.ps1` is not in `chezmoi source-path`, continue.
 3. Run `powershell -NoProfile -ExecutionPolicy Bypass -File <that script>`.
 4. Network failure, a missing private checkout, and existing-file drift do not fail the script.
-5. A non-zero exit stops the loop. Show the script error.
+5. The script may install missing Scoop apps from its manifest. It must not commit or push.
+6. Do not run `sync.ps1`. That script is manual.
+7. A non-zero exit stops the loop. Show the script error.
 <!-- OPTIONAL:DOTFILES:END -->
 
 ## Pass
