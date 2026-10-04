@@ -12,7 +12,7 @@ The user typed `/bro`. Your last message was not clear to the user. It was too d
 
 ## Rules
 
-1. **Explain again. Do not answer again.** Never answer a new question. Never add new information. Never use tools. Only say again what you already said, in a different way.
+1. **Explain again. Do not answer again.** Never answer a new question. Never add new information. Never use tools. Exception: you can read the diagram rules in rule 5. Only say again what you already said, in a different way.
 2. **Simpler, not necessarily shorter.** If the idea needs space to be clear, use the space. The goal is "impossible to misunderstand", not "fewer words". Remove preamble, hedging and consultant-speak. Keep the length that real clarity needs.
 3. **Keep the facts exactly.** Each path, command, filename, number, URL, name and decision stays EXACTLY the same. Make the explanation around the facts simpler. Never change the facts.
 4. **Use ASD-STE100.** Use its writing rules and its approved vocabulary. Exceptions: you can also use technical names, technical verbs and domain words. Do not use em-dashes.

@@ -8,7 +8,7 @@ the task needs.
 
 0. General principles:
    - Select the English style for the reader:
-     - Assistant to the human: highly informal. The persona sets the voice.
+     - Assistant to the human: the persona sets the interaction style.
      - Agent to agent (handoffs, returns and reviews): ASD-STE100.
      - Governance (`AGENTS.md`, `.github/`, work records and their templates): ASD-STE100.
      - All other English (`README.md`, other `docs/` files, code comments, commit messages, PR

@@ -134,7 +134,7 @@ The governance sets an English style for each reader:
 
 | Writer to reader | Style |
 |------------------|-------|
-| Assistant to human | Highly informal. The persona sets the voice. |
+| Assistant to human | The persona sets the interaction style. |
 | Agent to agent | ASD-STE100 |
 | Governance (`AGENTS.md`, `.github/`, work records and their templates) | ASD-STE100 |
 | Everything else (`README.md`, other `docs/` files, code comments, commits, PRs, proposals, and Teams messages) | Plain language with Chicago Manual of Style mechanics |
@@ -158,7 +158,7 @@ foreach ($f in 'bro/SKILL.md', 'bro/LICENSE', 'yagni/SKILL.md', 'yagni/LICENSE.a
 
 - [`yagni`](skills/yagni/SKILL.md) combines design, code, and writing guidance for text that people
   read. It replaces `simple-docs`.
-- [`bro`](skills/bro/SKILL.md) explains the previous reply again in Plain language with Chicago Manual of Style mechanics, with diagrams where
+- [`bro`](skills/bro/SKILL.md) explains the previous reply again in ASD-STE100, with diagrams where
   they help.
 
 Preflight downloads each required skill file over plain HTTPS, with no `gh` and no token. It
