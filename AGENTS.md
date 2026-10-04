@@ -1,3 +1,3 @@
 # AGENTS.md
 
-redirect to [`.github/copilot-instructions.md`](.github/copilot-instructions.md)
+Go to [`.github/copilot-instructions.md`](.github/copilot-instructions.md).

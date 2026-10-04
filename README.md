@@ -1,17 +1,18 @@
 # agentify
 
-A **project-agnostic agent-governance framework for GitHub Copilot**: guardrails and skills that keep
-a hub-and-spoke loop in-lane, shipping reviewable slices. Self-learning, with a hands-free 4-pack —
-conductor, coder, verifier, architect — or a solo generalist.
+A **project-agnostic agent-governance framework for GitHub Copilot**. Its guardrails and skills keep
+each agent in a hub-and-spoke loop in its own lane, and the loop ships slices that are easy to review.
+It learns from its own work. You can use a hands-free 4-pack (conductor, coder, verifier, and
+architect) or a solo generalist.
 
-The human designs the lanes, guardrails, and constraints and stays final decision-maker.
+The human designs the lanes, guardrails, and constraints and always makes the final decision.
 
-You design and continuously enhance the loops and guardrails; the agents do the work for you. The
-system retrospects and self-learns.
+You design the loops and guardrails and keep improving them. The agents do the work for you. The
+system runs retrospectives and learns from them.
 
 ## Packs
 
-`agentify` asks for a pack and persona at install; neither has a default.
+`agentify` asks for a pack and a persona at installation. Neither has a default.
 
 | Pack | Makeup | Separation of duties | Tokens | Use when |
 |------|--------|----------------------|--------|----------|
@@ -20,16 +21,16 @@ system retrospects and self-learns.
 
 ## Workflows
 
-Choose one at installation; there is no default. Either supports either pack.
+Choose one at installation. There is no default. Each workflow works with each pack.
 
 | Workflow | Working location | Branch | Record |
 |----------|------------------|--------|--------|
 | **Worktree** | Separate linked worktree per named item | `wi/<id>` | `work/<id>.md` |
 | **Feature** | Feature branch in the chosen checkout | `vibe/<nnn>-<feature_name>` | `docs/features/<nnn>-<feature_name>.md` |
 
-Worktree logs have Definition, Progress, Learnings, Artifacts and Open sections. Feature records
-use the numbered design/slice/task template. Installation produces only the selected workflow's
-rules and template; existing branches and work history are preserved.
+Worktree logs have Definition, Progress, Learnings, Artifacts, and Open sections. Feature records
+use the numbered design, slice, and task template. Installation produces only the rules and template
+for the selected workflow. Existing branches and work history are kept.
 
 ```text
 +----------------+ worktree  +------------------------+
@@ -45,20 +46,20 @@ Boxes = installed workflows; arrows = the human's choice.
 ## The loops
 
 The examples below show the feature workflow. Worktree mode keeps the same pack roles, review
-gates and human approvals, using its own branch and log instead.
+gates, and human approvals, but uses its own branch and log.
 
-**① Hands-free loop — WIP mode**
+**① Hands-free loop: WIP mode**
 
 ```
   ① HANDS-FREE LOOP · one task at a time
 
       ┌───────────────────────────────────────────────────┐
-      │  Human — decides · E2E-tests · merges · deploys   │
+      │  Human · decides · E2E-tests · merges · deploys   │
       └───────────────────────────────────────────────────┘
           │ requests              ▲ escalate anytime
           ▼                       │
       ┌───────────────────────────────────────────────────┐
-   ┌─►│  Assistant · conductor — owns git + task file     │
+   ┌─►│  Assistant · conductor · owns git + task file     │
    │  └───────────────────────────────────────────────────┘
    │      │ hands off one task
    │      ▼
@@ -77,7 +78,7 @@ gates and human approvals, using its own branch and log instead.
   slice end → pause only if sign-off needed · never trunk · never deploy
 ```
 
-**② Design session — new-feature mode**
+**② Design session: new-feature mode**
 
 ```
   ② DESIGN SESSION · Anders leads with the human
@@ -96,7 +97,7 @@ gates and human approvals, using its own branch and log instead.
   Feature ─► Slices ─► Tasks ─► loop ①
 ```
 
-**③ Retrospective loop — self-learning**
+**③ Retrospective loop: self-learning**
 
 ```
   ③ RETROSPECTIVE LOOP · every ≥ 5 features
@@ -112,69 +113,90 @@ gates and human approvals, using its own branch and log instead.
 
 ## Install
 
-1. Run `.github/skills/agentify.md` from this checkout against a target repository on a non-trunk
-   branch.
+1. Run `.github/skills/agentify.md` from this checkout against a target repository, on a branch that
+   is not trunk.
 2. Choose a pack, persona, workflow, and form of address.
-3. Review Agentify's repository scan: generated `docs/design.md`, CI-derived Commands table, gate
-   recipes, test classification, and preflight gates. If CI evidence is absent, supply how to obtain
-   or run the required commands.
-4. Approve the user-scoped `bro` and `yagni` skills. Preflight refreshes them from this repository; the
-   project receives no copy.
-5. Answer whether the project has local run/liveness. A “no” removes those duties.
+3. Review Agentify's repository scan: the generated `docs/design.md`, the Commands table taken from
+   CI, the gate recipes, the test classification, and the preflight gates. If there is no CI
+   evidence, explain how to get or run the required commands.
+4. Approve the user-scoped `bro` and `yagni` skills. Preflight refreshes them from this repository.
+   The project gets no copy.
+5. Say whether the project has a local run and liveness mechanism. A “no” removes those duties.
 6. Invoke the installed assistant.
 
-Installation is one-shot. The target owns every installed file. If temporarily staged in the target,
-the installer deletes itself, source templates, version stamps, update markers, and bootstrap
-references after generating the active governance.
+Installation is one-shot. The target owns every installed file. If the installer was staged in the
+target, it deletes itself, the source templates, version stamps, update markers, and bootstrap
+references after it generates the active governance.
+
+## Writing styles
+
+The governance sets an English style for each reader:
+
+| Writer to reader | Style |
+|------------------|-------|
+| Assistant to human | Highly informal. The persona sets the voice. |
+| Agent to agent | ASD-STE100 |
+| Governance (`AGENTS.md`, `.github/`, work records and their templates) | ASD-STE100 |
+| Everything else (`README.md`, other `docs/` files, code comments, commits, PRs, proposals, and Teams messages) | Plain language with Chicago Manual of Style mechanics |
+
+ASD-STE100 here means its writing rules and its approved vocabulary, plus technical names, technical
+verbs, and domain words. No style uses em-dashes. See guardrail 0 in
+`.github/copilot-instructions.md`.
 
 ## User skills
 
-These can also be installed without the governance framework:
+You can also install these skills without the governance framework:
 
 ```powershell
-gh skill install microsoft/agentic-loops yagni --agent github-copilot --scope user
-gh skill install microsoft/agentic-loops bro --agent github-copilot --scope user
+$base = 'https://raw.githubusercontent.com/microsoft/agentic-loops/master/skills'
+foreach ($f in 'bro/SKILL.md', 'bro/LICENSE', 'yagni/SKILL.md', 'yagni/LICENSE.agentic-loops') {
+  $dest = Join-Path $HOME ".copilot/skills/$f"
+  New-Item -ItemType Directory -Force (Split-Path $dest) | Out-Null
+  Invoke-WebRequest "$base/$f" -OutFile $dest
+}
 ```
 
-- [`yagni`](skills/yagni/SKILL.md) combines design, code and writing guidance, with standard Unicode
-  text diagrams. It replaces `simple-docs`.
-- [`bro`](skills/bro/SKILL.md) re-explains the previous reply in plain language. Original skill by
-  Hermes Agent + Luka, from [luchasarie/bro-skill](https://github.com/luchasarie/bro-skill), with its
-  [MIT license](skills/bro/LICENSE) preserved.
+- [`yagni`](skills/yagni/SKILL.md) combines design, code, and writing guidance for text that people
+  read. It replaces `simple-docs`.
+- [`bro`](skills/bro/SKILL.md) explains the previous reply again in Plain language with Chicago Manual of Style mechanics, with diagrams where
+  they help.
 
-Preflight migrates required skills with missing or different source metadata before checking updates.
-Existing installed copies and previously agentified projects are not changed by a repository update.
+Preflight downloads each required skill file over plain HTTPS, with no `gh` and no token. It
+replaces the installed copy only if the file is missing or different. A repository update does not
+change existing installed copies or projects that were already agentified.
 
 ## Model
 
-Every agent uses **GPT-5.6 Sol** (`gpt-5.6-sol`) with maximum reasoning, in both packs.
-Agent frontmatter uses `model: GPT-5.6 Sol (copilot)` and `reasoning: max`.
+Every agent uses **GPT-6.1 Sol** (`gpt-6.1-sol`) with high reasoning by default, in both packs.
+Agent frontmatter uses `model: GPT-6.1 Sol (copilot)` and `reasoning: high`. Agents can also use
+`grok-4.7` with `xhigh` reasoning. Anthropic and other models need the human's explicit permission.
 
 ## Task markers
 
-- **`LIM:`** captures a limitation as a future todo in `docs/backlog.md`.
-- **`TODO:`** captures work for the current session in its task list and active work record.
+- **`LIM:`** records a limitation as a future todo in `docs/backlog.md`.
+- **`TODO:`** records work for the current session in its task list and active work record.
 
-The assistant records tagged items before continuing and keeps their status current. Capturing a
-limitation does not schedule its implementation; unfinished session todos are reported at handoff.
+The assistant records tagged items before it continues and keeps their status current. Recording a
+limitation does not schedule its implementation. Unfinished session todos are reported at handoff.
 
 ## Source layout
 
-- `.github/agent-templates/` — source-only role and persona inputs.
-- `.github/agents/` — 4-pack sub-agent sources.
-- `.github/skills/agentify.md` — one-shot installer; never copied.
-- `.github/skills/` — installed Markdown, preflight, retrospective, and gate recipes.
-- `skills/` — installable `bro` and `yagni` sources; user-scoped, never copied into consumers.
-- `.github/instructions/` — path-scoped language rules, including .NET.
-- `docs/` — design templates, work method and feature-record template.
-- `work/WORK_ITEM_TEMPLATE.md` — worktree-record template.
+- `.github/agent-templates/`: source-only role and persona inputs.
+- `.github/agents/`: 4-pack sub-agent sources.
+- `.github/skills/agentify.md`: one-shot installer. It is never copied.
+- `.github/skills/`: installed Markdown, diagram, preflight, retrospective, and gate recipes.
+- `skills/`: installable `bro` and `yagni` sources. They are user-scoped and never copied into
+  consumers.
+- `.github/instructions/`: path-scoped language rules, including .NET.
+- `docs/`: design templates, work method, and feature-record template.
+- `work/WORK_ITEM_TEMPLATE.md`: worktree-record template.
 
 ## Installed layout
 
-- `.github/copilot-instructions.md` — shared guardrails and commands.
-- `.github/agents/` — one complete file per installed agent.
-- `.github/instructions/` — path-scoped language rules.
-- `.github/skills/` — project-owned Markdown, preflight, retrospective, and gate recipes.
-- `docs/design.md` — project architecture, operations, and conventions.
-- `docs/meta-design.md` — the selected workflow, design method and test taxonomy.
-- `docs/features/` or `work/` — the selected work-record format and its template.
+- `.github/copilot-instructions.md`: shared guardrails and commands.
+- `.github/agents/`: one complete file for each installed agent.
+- `.github/instructions/`: path-scoped language rules.
+- `.github/skills/`: project-owned Markdown, diagram, preflight, retrospective, and gate recipes.
+- `docs/design.md`: project architecture, operations, and conventions.
+- `docs/meta-design.md`: the selected workflow, design method, and test taxonomy.
+- `docs/features/` or `work/`: the selected work-record format and its template.

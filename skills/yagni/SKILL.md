@@ -5,50 +5,54 @@ description: Keep design and code simple, and communicate clearly in documents, 
 
 # /yagni
 
-For the rest of this session:
+Obey these rules for the remainder of this session.
 
 ## Design
 
 - Do not overdesign.
 - Review at the codebase and product level for global consistency, integrity and optimization.
-- Review against repository conventions. Apply Clean Architecture, YAGNI, DRY, SOLID and dependency-flow rules where applicable.
-- Follow established patterns and conventions, but suggest more elegant, more DRY/SOLID, more performant or more secure designs when warranted. The human is the final decision-maker on any design change.
-- Flag anything that is genuinely a product decision and hand it back to the human.
+- Review against the repository conventions. Where they apply, use Clean Architecture, YAGNI, DRY, SOLID and dependency-flow rules.
+- Follow the established patterns and conventions. If a design is more elegant, more DRY/SOLID, has better performance or is more secure, and the change is justified, suggest it. The human makes the final decision on each design change.
+- If an item is really a product decision, flag it and give it back to the human.
 
-See also [agentic-loops meta-design](https://github.com/microsoft/agentic-loops/blob/master/docs/meta-design.md).
+Also see the [agentic-loops meta-design](https://github.com/microsoft/agentic-loops/blob/master/docs/meta-design.md).
 
 ## Code
 
-- Minimum code that solves the problem. Nothing speculative.
-- No features beyond what was asked. No abstractions for single-use code.
-- No flexibility or configurability that was not requested. No error handling for impossible scenarios.
-- If you write 200 lines and it could be 50, rewrite it.
-- Ask: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
-- Touch only what you must. Clean up only your own mess.
-- Do not improve adjacent code, comments or formatting. Do not refactor what is not broken. Match existing style.
-- Prefer self-explanatory code. Keep necessary comments terse.
-- Remove imports, variables and functions made unused by your changes. Mention unrelated dead code; do not remove it unless asked.
-- Every changed line should trace directly to the request.
+- Write the minimum code that solves the problem. Write nothing speculative.
+- Add no features that the request does not include. Add no abstractions for code that has only one use.
+- Add no flexibility or configurability that the human did not request. Add no error handling for scenarios that cannot occur.
+- If you write 200 lines and 50 lines are sufficient, rewrite it.
+- Ask: "Would a senior engineer say this is overcomplicated?" If yes, simplify it.
+- Change only what is necessary. Clean up only the problems that your changes cause.
+- Do not improve adjacent code, comments or formatting. Do not refactor code that is not broken. Use the existing style.
+- Prefer code that explains itself. Keep necessary comments short.
+- If your changes make imports, variables or functions unused, remove them. If you see unrelated dead code, tell the human. Do not remove it unless the human asks.
+- Each changed line must connect directly to the request.
 
 ## Writing
 
-- Write using simple and precise language. Avoid em-dashes. Don't try to sound smart. Don't use complex managerial or exec language.
-- Use the principle of "least number of words to convey the meaning without losing accuracy".
-- Put diagrams wherever a data flow or control flow is being discussed.
-- Keep box text minimal. Fit each box to its text.
-- Explain non-obvious boxes after the diagram.
-- Put a short legend inside the diagram explaining box types and other notation.
+- Write in plain language, with Chicago Manual of Style mechanics.
+- Use simple, precise words. Do not use em-dashes. Do not try to sound smart. Do not use complex management or executive language.
+- Use the fewest words that keep the meaning and the accuracy.
+- Use simple, correct formatting:
+  - Keep paragraphs short.
+  - Use lists for steps and options.
+  - Use `code` for names, paths and commands.
+  - Use bold only for a small number of key words.
+  - Do not nest lists more than two levels.
+- Write each link as short text that names the target. Use an HTML `<a>` element or a Markdown link, for example `[PR #123](url)`, `[WI 4567](url)` or `[design.md](url)`. Do not write a bare URL.
+- For diagrams, follow the [diagram rules](https://github.com/microsoft/agentic-loops/blob/master/.github/skills/diagram.md).
 
-### Diagram characters
+### Teams chats
 
-Use standard Unicode supported by common modern OS and browser fonts:
+The Writing rules also apply.
 
-- Use the full Box Drawing (U+2500-U+257F) and Block Elements (U+2580-U+259F) ranges, including light, heavy, double, rounded and dashed lines, and solid, fractional and shaded blocks.
-- Common arrows and technical symbols are welcome when useful.
-- Avoid obscure glyphs, private-use characters, custom-font icons, emoji and decorative combining-character sequences.
-- Put diagrams in fenced `text` blocks to preserve monospaced layout.
-
-Font support still varies. Use ASCII fallback for known ASCII-only targets or actual rendering problems, not merely because the font is unknown.
+- Put the main point or the request in the first line.
+- Write about one topic in each message. For details, link to a document.
+- Use lists. Do not use headings or tables.
+- Use a diagram only if it is 60 columns wide or less. If it is wider, link to it.
+- @mention a person only if that person must do an action.
 
 ## Sources
 

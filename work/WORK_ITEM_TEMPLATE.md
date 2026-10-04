@@ -5,22 +5,22 @@
 
 ## Definition
 
-Question being answered, deliverable and agreed design.
+The question to answer, the deliverable, and the agreed design.
 
 ## Progress
 
-Dated entries, newest last. Include task status and commit references.
-Include human-tagged `TODO:` items for this session, retaining their tag and status.
-Future `LIM:` items go in `docs/backlog.md`.
+Dated entries, with the newest entry last. Include the task status and commit references.
+Include the human-tagged `TODO:` items for this session. Keep their tag and status.
+Put future `LIM:` items in `docs/backlog.md`.
 
 ## Learnings
 
-Findings, corrections, retractions and dead ends.
+Findings, corrections, retractions, and dead ends.
 
 ## Artifacts
 
-Paths produced.
+The paths that the work produced.
 
 ## Open
 
-Unanswered questions and deferred work.
+Questions with no answer, and deferred work.
