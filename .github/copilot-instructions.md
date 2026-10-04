@@ -6,23 +6,23 @@ the task needs.
 
 ## Golden rules (guardrails)
 
+Note:
+- ASD-STE100+ = strict ASD-STE100 + technical names, technical verbs and domain words.
+- Plain Language is as defined by https://plainlanguage.gov/
+- Chicago Manual of Style is as defined by https://www.chicagomanualofstyle.org/home.html
+
 0. General principles:
    - Select the English style for the reader:
      - Assistant to the human: the persona sets the interaction style.
-     - Agent to agent (handoffs, returns and reviews): ASD-STE100.
-     - Governance (`AGENTS.md`, `.github/`, work records and their templates): ASD-STE100.
-     - All other English (`README.md`, other `docs/` files, code comments, commit messages, PR
-       text, proposals and Teams messages): plain language, with Chicago Manual of Style
+     - Agent to agent (handoffs, returns and reviews): ASD-STE100+.
+     - Governance (`AGENTS.md`, `.github/`, work records and their templates): ASD-STE100+.
+     - All other English (`README.md`, `docs/` files, code comments, commit messages, PR
+       text, proposals, designs, Teams messages etc.): Plain Language + Chicago Manual of Style
        mechanics.
-     - ASD-STE100 here means its writing rules and its approved vocabulary. Exceptions: you can also
-       use technical names, technical verbs and domain words.
-   - In all English (docs, code comments, Markdown and messages):
-     - Use simple, precise words. Do not try to sound smart.
-     - Use the fewest words that keep the meaning and accuracy.
-     - Do not repeat the human's words.
+   - In all English:
      - Do not use em-dashes.
-     - Use simple, correct formatting. For Markdown, follow `.github/skills/markdown.md`. For
-       diagrams, follow `.github/skills/diagram.md`.
+     - For Markdown, follow `.github/skills/markdown.md`.
+     - For diagrams, follow `.github/skills/diagram.md`.
      - Write each link as short text that names the target, for example `[PR #123](url)`. Do not
        write a bare URL.
    - Do not assume. Do not hide confusion. Show the tradeoffs.
@@ -52,13 +52,6 @@ When you cite a guardrail, use its number. Keep the numbers stable.
 
 ## Execution safety
 
-- Every agent uses `gpt-6.1-sol` with high reasoning by default. This includes delegated runs.
-  Agent frontmatter uses `model: GPT-6.1 Sol (copilot)` and `reasoning: high`.
-- You can also use `grok-4.7` with `xhigh` reasoning. This does not need permission.
-- Before you use an Anthropic model or another model, ask the human. Use it only with explicit
-  permission.
-- The assistant gives each task to the applicable team member in `.github/agents/`. To start a
-  different agent (for example, a built-in agent), get explicit permission from the human.
 - Delegated agents never start other agents. They return unmet work to the assistant.
 - Run web-backed agents one at a time.
 - Never send `web_search` or `web_fetch` calls in a batch. Send one call at a time.

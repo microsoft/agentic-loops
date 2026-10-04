@@ -2,7 +2,7 @@
 
 A **project-agnostic agent-governance framework for GitHub Copilot**. Its guardrails and skills keep
 each agent in a hub-and-spoke loop in its own lane, and the loop ships slices that are easy to review.
-It learns from its own work. You can use a hands-free 4-pack (conductor, coder, verifier, and
+It learns from its own work. You can use a hands-free 4-pack (assistant, coder, verifier, and
 architect) or a solo generalist.
 
 The human designs the lanes, guardrails, and constraints and always makes the final decision.
@@ -17,7 +17,7 @@ system runs retrospectives and learns from them.
 | Pack | Makeup | Separation of duties | Tokens | Use when |
 |------|--------|----------------------|--------|----------|
 | **1-pack** | One generalist designs, implements, verifies, reviews, and owns git. | Waived | Lightest | Small, low-risk work |
-| **4-pack** | Conductor + Anders (architect), Dave (coder), Bhaskar (verifier) | Strict | Heavy | Independent review matters |
+| **4-pack** | Assistant + Anders (architect), Dave (coder), Bhaskar (verifier) | Strict | Heavy | Independent review matters |
 
 ## Workflows
 
@@ -59,7 +59,7 @@ gates, and human approvals, but uses its own branch and log.
           │ requests              ▲ escalate anytime
           ▼                       │
       ┌───────────────────────────────────────────────────┐
-   ┌─►│  Assistant · conductor · owns git + task file     │
+   ┌─►│  Assistant · owns git + task file                 │
    │  └───────────────────────────────────────────────────┘
    │      │ hands off one task
    │      ▼
@@ -130,54 +130,8 @@ references after it generates the active governance.
 
 ## Writing styles
 
-The governance sets an English style for each reader:
-
-| Writer to reader | Style |
-|------------------|-------|
-| Assistant to human | The persona sets the interaction style. |
-| Agent to agent | ASD-STE100 |
-| Governance (`AGENTS.md`, `.github/`, work records and their templates) | ASD-STE100 |
-| Everything else (`README.md`, other `docs/` files, code comments, commits, PRs, proposals, and Teams messages) | Plain language with Chicago Manual of Style mechanics |
-
-ASD-STE100 here means its writing rules and its approved vocabulary, plus technical names, technical
-verbs, and domain words. No style uses em-dashes. See guardrail 0 in
-`.github/copilot-instructions.md`.
-
-## User skills
-
-You can also install these skills without the governance framework:
-
-```powershell
-$base = 'https://raw.githubusercontent.com/microsoft/agentic-loops/master/skills'
-foreach ($f in 'bro/SKILL.md', 'bro/LICENSE', 'yagni/SKILL.md', 'yagni/LICENSE.agentic-loops') {
-  $dest = Join-Path $HOME ".copilot/skills/$f"
-  New-Item -ItemType Directory -Force (Split-Path $dest) | Out-Null
-  Invoke-WebRequest "$base/$f" -OutFile $dest
-}
-```
-
-- [`yagni`](skills/yagni/SKILL.md) combines design, code, and writing guidance for text that people
-  read. It replaces `simple-docs`.
-- [`bro`](skills/bro/SKILL.md) explains the previous reply again in ASD-STE100, with diagrams where
-  they help.
-
-Preflight downloads each required skill file over plain HTTPS, with no `gh` and no token. It
-replaces the installed copy only if the file is missing or different. A repository update does not
-change existing installed copies or projects that were already agentified.
-
-## Model
-
-Every agent uses **GPT-6.1 Sol** (`gpt-6.1-sol`) with high reasoning by default, in both packs.
-Agent frontmatter uses `model: GPT-6.1 Sol (copilot)` and `reasoning: high`. Agents can also use
-`grok-4.7` with `xhigh` reasoning. Anthropic and other models need the human's explicit permission.
-
-## Task markers
-
-- **`LIM:`** records a limitation as a future todo in `docs/backlog.md`.
-- **`TODO:`** records work for the current session in its task list and active work record.
-
-The assistant records tagged items before it continues and keeps their status current. Recording a
-limitation does not schedule its implementation. Unfinished session todos are reported at handoff.
+The governance sets an English style for each reader. See guardrail 0 in
+[`copilot-instructions.md`](.github/copilot-instructions.md).
 
 ## Source layout
 

@@ -165,7 +165,7 @@ build/test gates, human approvals, and one-PR-per-record rule.
 
 ## Compose the assistant
 
-For a `4-pack`, use `roles/conductor.md`. For a `1-pack`, use `roles/solo.md`. Append the selected
+For a `4-pack`, use `roles/team.md`. For a `1-pack`, use `roles/solo.md`. Append the selected
 persona file.
 
 1. Remove the leading `<!-- ... -->` provenance block of each source file and the blank line after
@@ -192,7 +192,7 @@ Role descriptions:
 
 All roles in the two packs use `gpt-6.1-sol` by default, with the name `GPT-6.1 Sol (copilot)` in
 the agent frontmatter, and `reasoning: high`. There is no model-profile choice. "Execution safety"
-in `.github/copilot-instructions.md` gives the other permitted models.
+in the role template gives the other permitted models.
 
 ## Final checks
 
