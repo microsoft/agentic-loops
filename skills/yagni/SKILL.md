@@ -49,12 +49,9 @@ Also see the [agentic-loops meta-design](https://github.com/microsoft/agentic-lo
 The Writing rules also apply.
 
 - Put the main point or the request in the first line.
-- Write about one topic in each message. For details, link to a document.
-- Use lists. Do not use headings or tables.
+- Pay attention to formatting
+  - Ensure the message is not one flat blob of ugly text.
+  - Write about one topic in each message. For details, link to a document.
+  - Use lists. Do not use headings or tables.
 - Use a diagram only if it is 60 columns wide or less. If it is wider, link to it.
 - @mention a person only if that person must do an action.
-
-## Sources
-
-Design rules are adapted from [Anders](https://github.com/microsoft/agentic-loops/blob/53bcfc18147874f7434afb8aa71911b12f2940f7/.github/agents/anders.md#wip-mode); code rules from [Dave](https://github.com/microsoft/agentic-loops/blob/53bcfc18147874f7434afb8aa71911b12f2940f7/.github/agents/dave.md#roles--responsibilities).
-The adapted material retains the [agentic-loops MIT license](LICENSE.agentic-loops).
