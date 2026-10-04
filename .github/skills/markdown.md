@@ -1,18 +1,18 @@
 # Markdown callouts
 
-Use standard blockquotes when helpful. Do not overuse them.
+Use standard blockquotes only when they help the reader. Do not use too many.
 
 > ℹ️ **Note**
-> Highlights information readers should notice while skimming.
+> Information that the reader must see while skimming.
 
 > 💡 **Tip**
-> Optional information that helps readers succeed.
+> Optional information that helps the reader do the task.
 
 > ❗ **Important**
-> Crucial information readers need to succeed.
+> Information that the reader must have to do the task.
 
 > ⚠️ **Warning**
-> Critical content requiring immediate attention.
+> Critical content that needs immediate attention.
 
 > 🛑 **Caution**
-> Possible negative consequences.
+> Possible negative results.

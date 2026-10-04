@@ -2,30 +2,30 @@
 
 > `<<FILL_ME: replace this file with the project's current design; delete all placeholder text>>`
 
-Keep this current and concise. Planned work belongs in `docs/backlog.md`.
+Keep this file current and short. Put planned work in `docs/backlog.md`.
 
 ## Repository operations
 
-_Trunk fallback, generated/acquired artifacts, CI/CD, and startup/preflight ownership._
+_Trunk fallback, generated and acquired artifacts, CI/CD, and who owns startup and preflight._
 
-_Chosen workflow, branch pattern, work-record path, and working-root convention.
-For worktrees, include the existing helper or native Git procedure._
+_The chosen workflow, branch pattern, work-record path, and working-root convention.
+For worktrees, include the existing helper or the native Git procedure._
 
 <!-- OPTIONAL:LIVENESS:BEGIN -->
-_Local run/restart and liveness mechanism._
+_The local run, restart, and liveness mechanism._
 <!-- OPTIONAL:LIVENESS:END -->
 
 ## System overview
 
-_What the system is, who uses it, and the core domains._
+_What the system is, who uses it, and its core domains._
 
 ## Architecture
 
-_Layers, boundaries, and dependency-flow rules (e.g. Clean Architecture)._
+_Layers, boundaries, and dependency-flow rules (for example, Clean Architecture)._
 
 ## Key components
 
-_The major modules/services and their responsibilities._
+_The major modules and services, and what each one is responsible for._
 
 ## Dependency direction
 
@@ -33,11 +33,11 @@ _Allowed dependencies and important runtime flows._
 
 ## Build and verification
 
-_Canonical local/CI entry points, test boundaries, artifacts, and required evidence._
+_The standard local and CI entry points, test boundaries, artifacts, and required evidence._
 
 ## Cross-cutting concerns
 
-_Auth, persistence, config/secrets, observability, error handling._
+_Authentication, persistence, configuration and secrets, observability, and error handling._
 
 - Use OpenTelemetry only for telemetry.
 

@@ -1,23 +1,24 @@
 ---
 name: bro
-description: "Re-explain the previous assistant message in a much simpler way — for when the reply made you go 'bro what'. Use /bro to get a plain-language version of the last answer."
+description: "Re-explain the previous assistant message in a much simpler way, for when the reply made you go 'bro what'. Use /bro to get a simpler version of the last answer in ASD-STE100, with diagrams where they help."
 license: MIT
 ---
 
-# /bro — say it simpler
+# /bro: say it simpler
 
-The user just typed `/bro`. Your last message didn't land — it was too dense, too jargon-heavy, or too formal.
+The user typed `/bro`. Your last message was not clear to the user. It was too dense, had too much jargon, or was too formal.
 
-**Your job:** re-explain YOUR most recent assistant message in a much simpler way, like you're explaining it to a smart friend over a beer.
+**Your task:** explain YOUR most recent assistant message again in a much simpler way.
 
 ## Rules
 
-1. **Re-explain, don't re-answer.** Never answer a new question, never add new information, never use tools. You are only re-expressing what you already said.
-2. **Simpler, not necessarily shorter.** If the idea needs space to be clear, take the space. The goal is "impossible to misunderstand", not "fewer words". Cut preamble, hedging, and consultant-speak — keep whatever length real clarity needs.
-3. **Facts survive verbatim.** Every path, command, filename, number, URL, name, and decision stays EXACTLY as it was. Simplify the explanation around the facts, never the facts themselves.
-4. **Light bro flavor.** Casual and direct ("basically...", "the point is...", "ok so..."). A touch of personality is welcome — don't turn it into a meme.
-5. **Same language.** If your original message was in PT-BR, the simpler version is in PT-BR too ("mano", "basicamente"...). English stays English.
-6. **Flatten structure.** Drop headers and ceremony. Tables become plain sentences. Keep a short list only if the original genuinely had multiple parts.
-7. **Edge case:** if there's no previous assistant message in this conversation, just say there's nothing to simplify yet, bro.
+1. **Explain again. Do not answer again.** Never answer a new question. Never add new information. Never use tools. Only say again what you already said, in a different way.
+2. **Simpler, not necessarily shorter.** If the idea needs space to be clear, use the space. The goal is "impossible to misunderstand", not "fewer words". Remove preamble, hedging and consultant-speak. Keep the length that real clarity needs.
+3. **Keep the facts exactly.** Each path, command, filename, number, URL, name and decision stays EXACTLY the same. Make the explanation around the facts simpler. Never change the facts.
+4. **Use ASD-STE100.** Use its writing rules and its approved vocabulary. Exceptions: you can also use technical names, technical verbs and domain words. Do not use em-dashes.
+5. **Add diagrams where they help.** If the idea is a data flow or a control flow, add a diagram. Follow the [diagram rules](https://github.com/microsoft/agentic-loops/blob/master/.github/skills/diagram.md).
+6. **Same language.** If your original message was not in English, write the simpler version in that language, with the same short, simple sentences.
+7. **Flatten the structure.** Remove headers and ceremony. Change tables into plain sentences or a diagram. Keep a short list only if the original really had more than one part.
+8. **Edge case:** if this conversation has no previous assistant message, say that there is nothing to simplify yet.
 
 Source: [luchasarie/bro-skill](https://github.com/luchasarie/bro-skill/tree/3aa8c40b1241111f73ab5360e770f7512193a20e). Copyright (c) 2026 Hermes Agent + Luka. [MIT license](LICENSE).

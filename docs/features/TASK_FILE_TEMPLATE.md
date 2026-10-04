@@ -1,27 +1,27 @@
-<!-- Save as docs/features/<nnn>-<feature_name>.md — <nnn> = zero-padded next sequence number (highest existing + 1). -->
+<!-- Save as docs/features/<nnn>-<feature_name>.md. <nnn> is the next sequence number with leading zeros (highest existing number + 1). -->
 # Feature: [Descriptive Title]
 **Branch:** vibe/<nnn>-<feature_name>
 **Status:** Planning / In Progress / Complete
 
 ## Requirements
 
-[Crisp summary of the requirements provided by the human]
+[Short, clear summary of the requirements from the human]
 
 ## Design Options (Ox)
 
-### O1 — [name]
+### O1: [name]
 - Description: ...
 - Pros: ...
 - Cons: ...
 
-### O2 — [name]
+### O2: [name]
 ...
 
-**Recommended: Ox — [why]**
+**Recommended: Ox, because [reason]**
 
 ## Slices (Sx)
 
-A slice is defined in `docs/meta-design.md`.
+`docs/meta-design.md` defines a slice.
 
 | Slice | Outcome | Depends on |
 |-------|---------|------------|
@@ -29,9 +29,9 @@ A slice is defined in `docs/meta-design.md`.
 
 ## Tasks (Tx)
 
-One or more tasks per slice.
-Include human-tagged `TODO:` items for this session, retaining their tag and status.
-Future `LIM:` items go in `docs/backlog.md`.
+Each slice has one or more tasks.
+Include the human-tagged `TODO:` items for this session. Keep their tag and status.
+Put future `LIM:` items in `docs/backlog.md`.
 
 | #  | Slice | Task | Status  | Commit |
 |----|-------|------|---------|--------|

@@ -3,45 +3,48 @@ name: retrospective
 description: Every five completed work records, distill durable lessons into minimal governance changes.
 ---
 
-A minimal, count-based review that turns delivery experience into durable guardrails.
+A minimal review, based on a count, that changes delivery experience into durable guardrails.
 
 ## Packs
 
-In a 4-pack, the assistant reminds, Anders distills, and Dave applies. In a 1-pack, the assistant does
-all three. The human approves every guardrail change.
+In a 4-pack, the assistant reminds, Anders distills, and Dave applies. In a 1-pack, the assistant
+does all three. The human approves each guardrail change.
 
 ## When
 
-After completing a work record, count records marked `**Status:** Complete` in the same directory as
-`{{WORK_TEMPLATE}}`, excluding the template. Compare with `completed=N` on the last Log line; start
-at zero if there is no entry. Remind the human when the count grows by five or more.
+After you complete a work record, count the records that have `**Status:** Complete`. Count only in
+the directory of `{{WORK_TEMPLATE}}`, and do not count the template. Compare the count with
+`completed=N` on the last Log line. If there is no entry, start at zero. When the count increases by
+five or more, remind the human.
 
-Do not count directories, templates or unfinished records as completed work.
+Do not count directories, templates, or unfinished records as completed work.
 
 ## Sources
 
-Review work records, especially post-review and post-test-fix notes; `docs/design.md`;
-`docs/backlog.md`; agent and skill files; and commits since the last Log entry. Verify lessons against
-repository evidence.
+Review these sources: work records (especially the post-review and post-test-fix notes),
+`docs/design.md`, `docs/backlog.md`, agent and skill files, and the commits since the last Log entry.
+Verify each lesson against repository evidence.
 
 ## Produce
 
-- **All-agent guardrails:** candidate additions or refinements for `.github/copilot-instructions.md`.
+- **All-agent guardrails:** proposed additions or refinements for
+  `.github/copilot-instructions.md`.
 - **Project facts:** architecture, compatibility, operations, and role constraints for
   `docs/design.md`.
-- **Per-agent learnings:** short, durable notes for the relevant agent file.
+- **Per-agent learnings:** short, durable notes for the applicable agent file.
 
-Skip item-specific details. Prioritize recurring, high-signal lessons.
+Do not include details that apply to only one item. Give priority to lessons that recur and have
+high value.
 
 ## Apply
 
 1. Anders proposes exact, minimal redlines.
-2. The human approves guardrail changes.
-3. Dave writes approved guardrails, project facts, and per-agent learnings to their listed
-   destinations, then fixes stale references.
-4. Keep guardrail numbers stable and cite them by number.
+2. The human approves the guardrail changes.
+3. Dave writes the approved guardrails, project facts, and per-agent learnings to their destinations
+   in the list above. Then Dave fixes stale references.
+4. Keep the guardrail numbers stable, and cite each guardrail by its number.
 
-Do not overdo it.
+Do not do more than necessary.
 
 ## Log
 
