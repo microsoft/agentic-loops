@@ -3,7 +3,7 @@
 A **project-agnostic agent-governance framework for GitHub Copilot**. Its guardrails and skills keep
 each agent in a hub-and-spoke loop in its own lane, and the loop ships slices that are easy to review.
 It learns from its own work. You can use a hands-free 4-pack (assistant, coder, verifier, and
-architect) or a solo generalist.
+architect), a 5-pack that adds a tracker, or a solo generalist.
 
 The human designs the lanes, guardrails, and constraints and always makes the final decision.
 
@@ -18,6 +18,7 @@ system runs retrospectives and learns from them.
 |------|--------|----------------------|--------|----------|
 | **1-pack** | One generalist designs, implements, verifies, reviews, and owns git. | Waived | Lightest | Small, low-risk work |
 | **4-pack** | Assistant + Anders (architect), Dave (coder), Bhaskar (verifier) | Strict | Heavy | Independent review matters |
+| **5-pack** | 4-pack + Kittu (tracker: CI and PR gates, maintenance, follow-ups) | Strict | Heaviest | Work after the push needs tracking |
 
 ## Workflows
 
@@ -136,7 +137,7 @@ The governance sets an English style for each reader. See guardrail 0 in
 ## Source layout
 
 - `.github/agent-templates/`: source-only role and persona inputs.
-- `.github/agents/`: 4-pack sub-agent sources.
+- `.github/agents/`: sub-agent sources for the 4-pack and the 5-pack.
 - `.github/skills/agentify.md`: one-shot installer. It is never copied.
 - `.github/skills/`: installed Markdown, diagram, preflight, retrospective, and gate recipes.
 - `skills/`: installable `bro` and `yagni` sources. They are user-scoped and never copied into

@@ -7,8 +7,8 @@ Run this skill before you start the loop. If a gate fails, stop.
 
 ## Gate 1: Assistant only
 
-Only `.github/agents/<Persona>.md` runs the loop. Anders, Dave, Bhaskar, and other delegated agents
-refuse and give control back to the assistant.
+Only `.github/agents/<Persona>.md` runs the loop. Anders, Dave, Bhaskar, Kittu, and other delegated
+agents refuse and give control back to the assistant.
 
 ## Gate 2: Required placeholders
 

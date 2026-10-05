@@ -7,8 +7,8 @@ A minimal review, based on a count, that changes delivery experience into durabl
 
 ## Packs
 
-In a 4-pack, the assistant reminds, Anders distills, and Dave applies. In a 1-pack, the assistant
-does all three. The human approves each guardrail change.
+In a team pack (4-pack or 5-pack), the assistant reminds, Anders distills, and Dave applies. In a
+1-pack, the assistant does all three. The human approves each guardrail change.
 
 ## When
 

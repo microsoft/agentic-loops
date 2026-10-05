@@ -67,7 +67,8 @@ create them as target-owned project files.
 
 Ask for these items:
 
-1. **Pack**: `1-pack` or `4-pack`. There is no default.
+1. **Pack**: `1-pack`, `4-pack`, or `5-pack`. There is no default. A 5-pack is a 4-pack plus Kittu
+   (tracker). The 4-pack and the 5-pack are the team packs.
 2. **Persona**: one name from `.github/agent-templates/personas/`. There is no default.
 3. **Workflow**: `worktree` or `feature`. There is no default. This choice selects both the branch
    isolation and the work-record format, not only the location of the edits. Use the table below to
@@ -87,7 +88,7 @@ Ask for these items:
 | `feature` | A feature branch in the chosen checkout | `vibe/<nnn>-<feature_name>` | `docs/features/<nnn>-<feature_name>.md` |
 
 Each workflow supports each pack. The human selects the workflow at installation, not for each task.
-Reject a persona with the name `anders`, `dave`, or `bhaskar`.
+Reject a persona with the name `anders`, `dave`, `bhaskar`, or `kittu`.
 
 ## Install
 
@@ -101,8 +102,8 @@ Reject a persona with the name `anders`, `dave`, or `bhaskar`.
    the target has no backlog. Never replace existing items.
 4. Copy `.editorconfig`, `.gitignore`, `.gitattributes`, and `.vscode/` only if they are not there.
 5. Compose one assistant file as "Compose the assistant" specifies.
-6. For a `4-pack`, also copy `anders.md`, `dave.md`, and `bhaskar.md`. For a `1-pack`, copy none of
-   them.
+6. For a `4-pack`, also copy `anders.md`, `dave.md`, and `bhaskar.md`. For a `5-pack`, also copy
+   `kittu.md`. For a `1-pack`, copy none of them.
 7. Put `model: GPT-6.1 Sol (copilot)` and `reasoning: high` on each installed agent.
 8. Configure the selected workflow as "Configure the workflow" specifies. Write the approved commands
    into the Commands table. Write the testing details into `docs/meta-design.md`. Write the gate
@@ -141,7 +142,7 @@ source checkout, unless it is explicitly the target that you convert.
 ## Configure the workflow
 
 Apply the selected column to all installed governance. This includes the composed assistant and the
-4-pack agents. Do not edit the source files. Do not replace text in existing project work records.
+team-pack agents. Do not edit the source files. Do not replace text in existing project work records.
 
 | Token | `worktree` | `feature` |
 |-------|------------|-----------|
@@ -165,13 +166,15 @@ build/test gates, human approvals, and one-PR-per-record rule.
 
 ## Compose the assistant
 
-For a `4-pack`, use `roles/team.md`. For a `1-pack`, use `roles/solo.md`. Append the selected
+For a team pack, use `roles/team.md`. For a `1-pack`, use `roles/solo.md`. Append the selected
 persona file.
 
 1. Remove the leading `<!-- ... -->` provenance block of each source file and the blank line after
    it.
 2. Replace each `{{PERSONA}}` in the role with the persona name in upper case.
-3. Write this frontmatter:
+3. Process each `OPTIONAL:KITTU` block: for a `5-pack`, remove only the marker lines; for a `4-pack`,
+   remove each full block.
+4. Write this frontmatter:
 
        ---
        name: <PERSONA>
@@ -180,27 +183,28 @@ persona file.
        reasoning: high
        ---
 
-4. Append the role and the persona, with one blank line between the parts.
-5. Write `.github/agents/<PERSONA>.md`.
+5. Append the role and the persona, with one blank line between the parts.
+6. Write `.github/agents/<PERSONA>.md`.
 
 Role descriptions:
 
 - `4-pack`: `Runs the agentic loop (hub-and-spoke). Coordinates Dave, Bhaskar, and Anders. Read-only inspection + git/task-file management only; never designs, codes, or verifies.`
+- `5-pack`: `Runs the agentic loop (hub-and-spoke). Coordinates Dave, Bhaskar, Anders, and Kittu. Read-only inspection + git/task-file management only; never designs, codes, or verifies.`
 - `1-pack`: `Solo generalist for the 1-pack: designs, implements, verifies, and reviews in one context; owns git + the task file. Never deploys.`
 
 ## Model
 
-All roles in the two packs use `gpt-6.1-sol` by default, with the name `GPT-6.1 Sol (copilot)` in
-the agent frontmatter, and `reasoning: high`. There is no model-profile choice. "Execution safety"
-in the role template gives the other permitted models.
+All roles in all packs use `gpt-6.1-sol` by default, with the name `GPT-6.1 Sol (copilot)` in the
+agent frontmatter, and `reasoning: high`. There is no model-profile choice. "Execution safety" in
+the role template gives the other permitted models.
 
 ## Final checks
 
 - No required placeholder remains.
 - The assistant contains no `{{PERSONA}}`, no provenance comment, and no duplicate etiquette
   heading.
-- No `OPTIONAL:LIVENESS` marker remains. If the human declined liveness, no related instruction
-  remains.
+- No `OPTIONAL:LIVENESS` or `OPTIONAL:KITTU` marker remains. If the human declined liveness, no
+  related instruction remains. A `4-pack` contains no Kittu instruction.
 - No `{{WORK_BRANCH}}`, `{{WORK_RECORD}}`, `{{WORK_TEMPLATE}}`, or `WORKFLOW:` marker remains.
 - Guardrail #3, the installed assistant, and each architect, preflight, meta-design, and
   retrospective file agree on the selected branch and work record. The template that was not
