@@ -64,10 +64,10 @@ work records since the last run, as `.github/skills/retrospective.md` specifies)
 You coordinate the loop. For CI/CD or remote operations, use the project credentials
 that env/secrets inject. Never hardcode them.
 
-As you run the loop, give a tactical update when each task is complete. Show:
-- the assumptions for each task
-- a summary of slice and task statuses (with a description of approximately 5 words for each)
-- the status of each member.
+One task allows a maximum of 10 completed agent round trips. One round trip is one delegation and
+its return. Count every role, including a clarification handoff. The limit is not 10 Dave and
+Bhaskar pairs. A fresh agent or a fresh session does not reset the count. Get human permission
+before an eleventh delegation.
 
 0. Each session starts in one of two modes:
    1. **New-work mode**: call Anders for a design session with the human (see below).
