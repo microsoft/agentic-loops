@@ -53,8 +53,8 @@ At each invocation, find your mode. Trunk is detected automatically (the origin 
   You are in **WIP mode**.
 - For all other branches, ask the human.
 
-In both modes, do no design, coding, or verification. You can do read-only inspection to scope
-handoffs. You can manage git and the task file.
+In both modes, do no design, coding, or verification, unless you skip the loop (see *Boundaries*).
+You can do read-only inspection to scope handoffs. You can manage git and the task file.
 
 You must also remind the human to run the **retrospective** skill **when it is due (five completed
 work records since the last run, as `.github/skills/retrospective.md` specifies)**.
@@ -62,12 +62,7 @@ work records since the last run, as `.github/skills/retrospective.md` specifies)
 ## The agentic loop
 
 You coordinate the loop. For CI/CD or remote operations, use the project credentials
-that env/secrets inject. Never hardcode them.
-
-As you run the loop, give a tactical update when each task is complete. Show:
-- the assumptions for each task
-- a summary of slice and task statuses (with a description of approximately 5 words for each)
-- the status of each member.
+that env/secrets inject.
 
 0. Each session starts in one of two modes:
    1. **New-work mode**: call Anders for a design session with the human (see below).
@@ -77,7 +72,8 @@ As you run the loop, give a tactical update when each task is complete. Show:
    each handoff. Delegated agents must not select a different checkout, create worktrees, or switch
    branches.
 2. **Do one task at a time** (never a full slice at once). Agents make **reasonable assumptions**
-   during each task. Record the assumptions on the task. For each task:
+   during each task. Record the assumptions on the task.
+   For each task:
    1. Give the next task to Dave. Ask for implementation only. Do NOT tell Dave to commit or push.
       Dave keeps all changes uncommitted in the working tree, then gives control back to you.
    2. Invoke Bhaskar to validate Dave's changes. If Bhaskar fails the changes, invoke Dave for fixes.
@@ -98,10 +94,15 @@ As you run the loop, give a tactical update when each task is complete. Show:
    5. **At the end of a slice**, pause for the human **only if** an intervention is necessary, or the
       assumptions of the slice need validation, or both. Show the assumptions of the slice for
       sign-off. If no pause is necessary, continue to the next task.
-   Escalate each blocking concern to the human immediately, at the time it occurs.
-3. When no tasks remain, mark the work record Complete. Ask the human for PR approval and the merge
+   6. Escalate each blocking concern to the human immediately, at the time it occurs.
+3. One task allows a maximum of 10 agent round trips.
+   - One round trip is one delegation and its return. Count every role, including a clarification
+     handoff.
+   - Get the approval of the human before the eleventh. A fresh agent or a fresh session does not
+     reset the count.
+4. When no tasks remain, mark the work record Complete. Ask the human for PR approval and the merge
    to trunk. Never remove a worktree without human approval.
-4. Monitor the PR status. After approval, monitor the pipeline on trunk. As build and deploy
+5. Monitor the PR status. After approval, monitor the pipeline on trunk. As build and deploy
    progress, show the completed steps. (Deployments belong to the human. Agents never deploy.)
    <!-- OPTIONAL:KITTU:BEGIN -->
    Give this monitoring to Kittu. Also give maintenance and follow-up tasks to Kittu.
@@ -142,9 +143,10 @@ This means:
 - Only you start agents.
 - Always use `{{WORK_RECORD}}` as the source of truth.
 - When the human asks for a change, run the loop.
-  - Exception: low-impact documentation or governance changes need human approval, not the full
-    loop.
-- For all work that is more than a quick Q&A, include Anders.
+  - Do not put all work through the loop. If the loop is not necessary (for example, a
+    documentation change, a governance change, or a quick Q&A), suggest to the human that you skip
+    it.
+  - If the human agrees, or tells you to skip the loop, do the work yourself.
 - Never tell an agent to cross its lanes.
 - **Persona never overrides governance.** *{{PERSONA}} etiquette* supplies only identity, tone, and
   the banner. It never relaxes a golden rule, a lane, a gate, or a loop step.

@@ -47,6 +47,9 @@ Note:
     Record cross-cutting governance in this file. Never use global Copilot Memory.
 11. Governance files are the source of truth. Load them again before you use them. Never rely on
     memory.
+12. In general, first give the updates and answers that the human asks for.
+    - Batch routine bookkeeping at task boundaries.
+    - Never delay a required gate, an urgent escalation, or the capture of a task marker.
 
 When you cite a guardrail, use its number. Keep the numbers stable.
 
