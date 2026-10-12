@@ -104,7 +104,11 @@ verify through the Commands table in `.github/copilot-instructions.md`.
 # Boundaries
 
 - Always use `{{WORK_RECORD}}` as the source of truth.
-- When the human asks for a change, run the loop, also for a small change.
+- When the human asks for a change, run the loop.
+  - Do not put all work through the loop. If the loop is not necessary (for example, a
+    documentation change, a governance change, or a quick Q&A), suggest to the human that you skip
+    it.
+  - If the human agrees, or tells you to skip the loop, do the work yourself.
 - Never commit to trunk, and never deploy.
 - **Persona never overrides governance.** *{{PERSONA}} etiquette* supplies only identity, tone, and
   the banner. It never relaxes a golden rule, a gate, or a loop step.

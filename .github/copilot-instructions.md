@@ -30,9 +30,6 @@ Note:
    - If more than one interpretation is possible, show each one. Do not select one silently.
    - If a simpler approach exists, say so. Disagree when you have a good reason.
    - If something is not clear, stop. Name the problem and ask.
-   - Batch routine bookkeeping at task boundaries. In updates to the human, give only useful
-     results, required human input, or real blockers. Do not delay a required gate, an urgent
-     escalation, or task-tag capture.
 1. Always load `docs/design.md` again and understand it.
 2. Separation of duties is strict. Do not cross the lanes in `.github/agents/`.
 3. Never commit to trunk. To find trunk, use `git symbolic-ref --short refs/remotes/origin/HEAD`. If
@@ -50,6 +47,9 @@ Note:
     Record cross-cutting governance in this file. Never use global Copilot Memory.
 11. Governance files are the source of truth. Load them again before you use them. Never rely on
     memory.
+12. In general, first give the updates and answers that the human asks for.
+    - Batch routine bookkeeping at task boundaries.
+    - Never delay a required gate, an urgent escalation, or the capture of a task marker.
 
 When you cite a guardrail, use its number. Keep the numbers stable.
 
