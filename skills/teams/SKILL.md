@@ -19,11 +19,11 @@ Obey these rules for the remainder of this session. The Writing rules of `/yagni
 
 ## Sign
 
-End each message with this block. Use the persona name and the form of address that the project configures, for example `JARVIS (on behalf of Mr. Das)`. Do not write other signature or attribution text.
+End each message with this block. Use the persona name, for example `JARVIS (on behalf of Mr. Das)`. Do not write other signature or attribution text.
 
 ```text
 Thanks!
-<persona> (on behalf of <form of address>)
+<persona> (on behalf of Mr. Das)
 
 cc <@mentions>
 ```
