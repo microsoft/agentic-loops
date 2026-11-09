@@ -46,12 +46,4 @@ Also see the [agentic-loops meta-design](https://github.com/microsoft/agentic-lo
 
 ### Teams chats
 
-The Writing rules also apply.
-
-- Put the main point or the request in the first line.
-- Pay attention to formatting
-  - Ensure the message is not one flat blob of ugly text.
-  - Write about one topic in each message. For details, link to a document.
-  - Use lists. Do not use headings or tables.
-- Use a diagram only if it is 60 columns wide or less. If it is wider, link to it.
-- @mention a person only if that person must do an action.
+Use `/teams`.

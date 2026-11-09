@@ -25,6 +25,7 @@ Keep these skills at user scope. Never copy them into the project.
 |-------|-------|
 | `bro` | `SKILL.md` |
 | `yagni` | `SKILL.md` |
+| `teams` | `SKILL.md` |
 
 - Source: `https://raw.githubusercontent.com/microsoft/agentic-loops/master/skills/<skill>/<file>`
 - Target: `~/.copilot/skills/<skill>/<file>`
