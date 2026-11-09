@@ -120,8 +120,8 @@ gates, and human approvals, but uses its own branch and log.
 3. Review Agentify's repository scan: the generated `docs/design.md`, the Commands table taken from
    CI, the gate recipes, the test classification, and the preflight gates. If there is no CI
    evidence, explain how to get or run the required commands.
-4. Approve the user-scoped `bro` and `yagni` skills. Preflight refreshes them from this repository.
-   The project gets no copy.
+4. Approve the user-scoped `bro`, `yagni`, and `teams` skills. Preflight refreshes them from this
+   repository. The project gets no copy.
 5. Say whether the project has a local run and liveness mechanism. A “no” removes those duties.
 6. Invoke the installed assistant.
 
@@ -140,8 +140,8 @@ The governance sets an English style for each reader. See guardrail 0 in
 - `.github/agents/`: sub-agent sources for the 4-pack and the 5-pack.
 - `.github/skills/agentify.md`: one-shot installer. It is never copied.
 - `.github/skills/`: installed Markdown, diagram, preflight, retrospective, and gate recipes.
-- `skills/`: installable `bro` and `yagni` sources. They are user-scoped and never copied into
-  consumers.
+- `skills/`: installable `bro`, `yagni`, and `teams` sources. They are user-scoped and never copied
+  into consumers.
 - `.github/instructions/`: path-scoped language rules, including .NET.
 - `docs/`: design templates, work method, and feature-record template.
 - `work/WORK_ITEM_TEMPLATE.md`: worktree-record template.
