@@ -8,7 +8,7 @@ checkout, or you can put it in the target temporarily.
 
 The installation is one-shot. The target owns each installed file. Never copy these items into the
 target: this skill, the source templates, framework version data, update markers, or source
-provenance. The only exception to the provenance rule is the required user-skill source URLs in
+provenance. The only exception to the provenance rule is the user-skill source URLs in
 preflight.
 
 ## Discover the project
@@ -80,7 +80,9 @@ Ask for these items:
 6. **Liveness**: ask if the project has a local run/restart and liveness mechanism. If the answer is
    no, ask nothing more about it.
 7. **User skills**: approval to install and refresh the required user-scoped `bro`, `yagni`, and
-   `teams` skills from GitHub during preflight. If the human does not approve, stop the installation.
+   `teams` skills from GitHub during preflight, and to refresh the optional skills listed there
+   if already installed. Do not install missing optional skills without a request.
+   If the human does not approve, stop the installation.
 
 | Workflow | Where work happens | Branch | Work record |
 |----------|--------------------|--------|-------------|
@@ -221,7 +223,7 @@ the role template gives the other permitted models.
 - The user task-marker rules stay after installation: `LIM:` uses the backlog, and `TODO:` uses
   session tracking and the selected work record. The existing backlog items stay correct.
 - The installed governance contains no framework version, no update marker, and no installer skill.
-  The framework name can occur only in the required user-skill source URLs.
+  The framework name can occur only in the user-skill source URLs.
 - The required user skills exist only at user scope.
 - All Markdown links resolve from their installed locations.
 - `.github/skills/preflight.md` passes.
