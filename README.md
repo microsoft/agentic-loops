@@ -129,6 +129,24 @@ Installation is one-shot. The target owns every installed file. If the installer
 target, it deletes itself, the source templates, version stamps, update markers, and bootstrap
 references after it generates the active governance.
 
+### Additional user skills
+
+These skills are optional. Install them only when the human requests them:
+
+| Skill | Purpose |
+|-------|---------|
+| `coding-loop` | Run the JARVIS coding loop with Anders, Bhaskar, and Kittu. |
+| `sync-repo` | Sync session changes through a pull request in an Azure DevOps repository. |
+| `interview-feedback` | Apply the human's feedback prompt to coding-interview transcripts. |
+
+Install `skills/<skill>/SKILL.md` at `~/.copilot/skills/<skill>/SKILL.md`, at the same user scope as
+`yagni`. Do not copy these skills into a project. This repository is the source of truth; installed
+files are copies. Restart Copilot after installation so that it discovers the skills.
+
+Preflight refreshes these skills from this repository once they are installed. It does not install
+missing optional skills. Existing projects must update their own preflight instructions to enable
+this refresh. The additional skills do not change the default pack or workflow.
+
 ## Writing styles
 
 The governance sets an English style for each reader. See guardrail 0 in
@@ -140,8 +158,8 @@ The governance sets an English style for each reader. See guardrail 0 in
 - `.github/agents/`: sub-agent sources for the 4-pack and the 5-pack.
 - `.github/skills/agentify.md`: one-shot installer. It is never copied.
 - `.github/skills/`: installed Markdown, diagram, preflight, retrospective, and gate recipes.
-- `skills/`: installable `bro`, `yagni`, and `teams` sources. They are user-scoped and never copied
-  into consumers.
+- `skills/`: installable user-scoped skill sources, including `bro`, `yagni`, `teams`, and the
+  optional skills above. They are never copied into consumers.
 - `.github/instructions/`: path-scoped language rules, including .NET.
 - `docs/`: design templates, work method, and feature-record template.
 - `work/WORK_ITEM_TEMPLATE.md`: worktree-record template.

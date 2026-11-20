@@ -1,6 +1,6 @@
 ---
 name: preflight
-description: The assistant runs this before the loop. Blocks non-assistants, unresolved placeholders, and stale required user skills.
+description: The assistant runs this before the loop. Blocks non-assistants, unresolved placeholders, and stale user skills.
 ---
 
 Run this skill before you start the loop. If a gate fails, stop.
@@ -27,13 +27,22 @@ Keep these skills at user scope. Never copy them into the project.
 | `yagni` | `SKILL.md` |
 | `teams` | `SKILL.md` |
 
+Also refresh these optional skills if their target directory exists. Do not install a missing
+optional skill unless the human requests it.
+
+| Skill | Files |
+|-------|-------|
+| `coding-loop` | `SKILL.md` |
+| `sync-repo` | `SKILL.md` |
+| `interview-feedback` | `SKILL.md` |
+
 - Source: `https://raw.githubusercontent.com/microsoft/agentic-loops/master/skills/<skill>/<file>`
 - Target: `~/.copilot/skills/<skill>/<file>`
 
 Get each file with a plain HTTPS GET, for example `curl -fsSL` or `Invoke-WebRequest`. Do not use
 `gh`. Do not use a token.
 
-For each file in the table:
+For each required file and each installed optional file:
 
 1. Download the source to a temporary file.
 2. Compare the temporary file with the target, byte for byte.
