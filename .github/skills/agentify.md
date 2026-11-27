@@ -79,10 +79,8 @@ Ask for these items:
    mechanism.
 6. **Liveness**: ask if the project has a local run/restart and liveness mechanism. If the answer is
    no, ask nothing more about it.
-7. **User skills**: approval to install and refresh the required user-scoped `bro`, `yagni`,
-   `teams`, and `blindspots` skills from GitHub during preflight, and to refresh the optional skills
-   listed there if already installed. Do not install missing optional skills without a request.
-   If the human does not approve, stop the installation.
+7. **User skills**: approval to install and refresh all the user-scoped skills in `skills/` from
+   GitHub during preflight. If the human does not approve, stop the installation.
 
 | Workflow | Where work happens | Branch | Work record |
 |----------|--------------------|--------|-------------|
@@ -111,8 +109,8 @@ Reject a persona with the name `anders`, `dave`, `bhaskar`, or `kittu`.
    into the Commands table. Write the testing details into `docs/meta-design.md`. Write the gate
    order and details into the two build-test recipes. Write the startup gates into `preflight.md`.
    Write the approved language rules into `.github/instructions/`.
-9. Keep `bro`, `yagni`, `teams`, and `blindspots` at user scope. Never copy the source `skills/`
-   directory into the target.
+9. Keep the skills in `skills/` at user scope. Never copy the source `skills/` directory into the
+   target.
 10. Process each `OPTIONAL:LIVENESS` block:
    - **Yes:** remove the marker lines, keep the instructions, and record the mechanism in
      `docs/design.md`.
@@ -135,8 +133,7 @@ After you generate the target governance:
    pack/persona/workflow choices and the fixed model to the agent layout and frontmatter. Then delete
    the obsolete profile and the version field.
 4. Move the project-specific agent rules into `docs/design.md`. Keep their meaning.
-5. Remove the bootstrap references from the installed governance. Keep the required user-skill source
-   URLs.
+5. Remove the bootstrap references from the installed governance. Keep the user-skill source URLs.
 6. Show the cleanup diff before you finish. Never delete project-authored content.
 
 First, resolve the source and target roots. Clean only the resolved target paths. Never change the
@@ -224,7 +221,7 @@ the role template gives the other permitted models.
   session tracking and the selected work record. The existing backlog items stay correct.
 - The installed governance contains no framework version, no update marker, and no installer skill.
   The framework name can occur only in the user-skill source URLs.
-- The required user skills exist only at user scope.
+- The user skills exist only at user scope.
 - All Markdown links resolve from their installed locations.
 - `.github/skills/preflight.md` passes.
 

@@ -120,8 +120,8 @@ gates, and human approvals, but uses its own branch and log.
 3. Review Agentify's repository scan: the generated `docs/design.md`, the Commands table taken from
    CI, the gate recipes, the test classification, and the preflight gates. If there is no CI
    evidence, explain how to get or run the required commands.
-4. Approve the user-scoped `bro`, `yagni`, `teams`, and `blindspots` skills. Preflight refreshes them
-   from this repository. The project gets no copy.
+4. Approve the user-scoped skills in `skills/`. Preflight installs and refreshes all of them from
+   this repository. The project gets no copy.
 5. Say whether the project has a local run and liveness mechanism. A “no” removes those duties.
 6. Invoke the installed assistant.
 
@@ -129,23 +129,12 @@ Installation is one-shot. The target owns every installed file. If the installer
 target, it deletes itself, the source templates, version stamps, update markers, and bootstrap
 references after it generates the active governance.
 
-### Additional user skills
+### User skills
 
-These skills are optional. Install them only when the human requests them:
-
-| Skill | Purpose |
-|-------|---------|
-| `coding-loop` | Run the JARVIS coding loop with Anders, Bhaskar, and Kittu. |
-| `sync-repo` | Sync session changes through a pull request in an Azure DevOps repository. |
-| `interview-feedback` | Apply the human's feedback prompt to coding-interview transcripts. |
-
-Install `skills/<skill>/SKILL.md` at `~/.copilot/skills/<skill>/SKILL.md`, at the same user scope as
-`yagni`. Do not copy these skills into a project. This repository is the source of truth; installed
-files are copies. Restart Copilot after installation so that it discovers the skills.
-
-Preflight refreshes these skills from this repository once they are installed. It does not install
-missing optional skills. Existing projects must update their own preflight instructions to enable
-this refresh. The additional skills do not change the default pack or workflow.
+Preflight installs and refreshes every skill in `skills/` at `~/.copilot/skills/<skill>/`. Do not
+copy these skills into a project. This repository is the source of truth; installed files are
+copies. Restart Copilot after a change so that it discovers the skills. Existing projects must
+update their own preflight instructions to get this behavior.
 
 ## Writing styles
 
@@ -158,8 +147,7 @@ The governance sets an English style for each reader. See guardrail 0 in
 - `.github/agents/`: sub-agent sources for the 4-pack and the 5-pack.
 - `.github/skills/agentify.md`: one-shot installer. It is never copied.
 - `.github/skills/`: installed Markdown, diagram, preflight, retrospective, and gate recipes.
-- `skills/`: installable user-scoped skill sources, including `bro`, `yagni`, `teams`, `blindspots`,
-  and the optional skills above. They are never copied into consumers.
+- `skills/`: user-scoped skill sources. They are never copied into consumers.
 - `.github/instructions/`: path-scoped language rules, including .NET.
 - `docs/`: design templates, work method, and feature-record template.
 - `work/WORK_ITEM_TEMPLATE.md`: worktree-record template.
