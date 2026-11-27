@@ -120,8 +120,8 @@ gates, and human approvals, but uses its own branch and log.
 3. Review Agentify's repository scan: the generated `docs/design.md`, the Commands table taken from
    CI, the gate recipes, the test classification, and the preflight gates. If there is no CI
    evidence, explain how to get or run the required commands.
-4. Approve the user-scoped skills in `skills/`. Preflight installs and refreshes all of them from
-   this repository. The project gets no copy.
+4. Approve the user-scoped skills in `skills/`. Preflight makes `~/.copilot/skills/` an exact copy of
+   that directory. The project gets no copy.
 5. Say whether the project has a local run and liveness mechanism. A “no” removes those duties.
 6. Invoke the installed assistant.
 
@@ -131,7 +131,9 @@ references after it generates the active governance.
 
 ### User skills
 
-Preflight installs and refreshes every skill in `skills/` at `~/.copilot/skills/<skill>/`. Do not
+Preflight makes `~/.copilot/skills/` an exact copy of `skills/`. It installs and refreshes each skill
+here, and it deletes each installed skill or file that is not here. Do not keep other skills in
+`~/.copilot/skills/`. Do not
 copy these skills into a project. This repository is the source of truth; installed files are
 copies. Restart Copilot after a change so that it discovers the skills. Existing projects must
 update their own preflight instructions to get this behavior.
