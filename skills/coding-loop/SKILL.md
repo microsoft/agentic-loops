@@ -7,6 +7,8 @@ description: The agent loop for all coding work in this repository. Anders desig
 
 Use this loop for all coding work in this repository, in all workstreams.
 
+On Windows, prefer WSL when the project's toolchain is primarily Linux-based.
+
 ## Roles
 
 | Agent | Model | Reasoning | Job |
