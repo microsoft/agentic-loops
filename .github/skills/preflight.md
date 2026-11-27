@@ -26,6 +26,7 @@ Keep these skills at user scope. Never copy them into the project.
 | `bro` | `SKILL.md` |
 | `yagni` | `SKILL.md` |
 | `teams` | `SKILL.md` |
+| `blindspots` | `SKILL.md` |
 
 Also refresh these optional skills if their target directory exists. Do not install a missing
 optional skill unless the human requests it.

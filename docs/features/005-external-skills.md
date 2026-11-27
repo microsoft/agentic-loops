@@ -7,7 +7,7 @@
 - Install `bro` and `simple-docs` at user scope.
 - Refresh them from GitHub during preflight.
 - Never copy them into consumers.
-- Publish `simple-docs` in `parthopdas/skills`.
+- Publish `simple-docs` in a separate personal skills repository.
 
 ## Design Options
 
