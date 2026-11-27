@@ -79,9 +79,9 @@ Ask for these items:
    mechanism.
 6. **Liveness**: ask if the project has a local run/restart and liveness mechanism. If the answer is
    no, ask nothing more about it.
-7. **User skills**: approval to install and refresh the required user-scoped `bro`, `yagni`, and
-   `teams` skills from GitHub during preflight, and to refresh the optional skills listed there
-   if already installed. Do not install missing optional skills without a request.
+7. **User skills**: approval to install and refresh the required user-scoped `bro`, `yagni`,
+   `teams`, and `blindspots` skills from GitHub during preflight, and to refresh the optional skills
+   listed there if already installed. Do not install missing optional skills without a request.
    If the human does not approve, stop the installation.
 
 | Workflow | Where work happens | Branch | Work record |
@@ -111,8 +111,8 @@ Reject a persona with the name `anders`, `dave`, `bhaskar`, or `kittu`.
    into the Commands table. Write the testing details into `docs/meta-design.md`. Write the gate
    order and details into the two build-test recipes. Write the startup gates into `preflight.md`.
    Write the approved language rules into `.github/instructions/`.
-9. Keep `bro`, `yagni`, and `teams` at user scope. Never copy the source `skills/` directory into
-   the target.
+9. Keep `bro`, `yagni`, `teams`, and `blindspots` at user scope. Never copy the source `skills/`
+   directory into the target.
 10. Process each `OPTIONAL:LIVENESS` block:
    - **Yes:** remove the marker lines, keep the instructions, and record the mechanism in
      `docs/design.md`.

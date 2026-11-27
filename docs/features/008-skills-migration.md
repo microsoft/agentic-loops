@@ -56,7 +56,7 @@
 ## Notes & Decisions
 
 - 2026-09-12: The human explicitly approved merging this migration before permanently deleting
-  `parthopdas/skills` on GitHub. Local clones and worktrees are retained as backups.
+  the former personal skills repository on GitHub. Local clones and worktrees are retained as backups.
 - 2026-09-12: Created an isolated worktree from `origin/master` at `53bcfc1`. Feature IDs 006 and 007
   were already reserved by existing work.
 - 2026-09-12: Carried forward the approved skill contents: no Exploration section, design from Anders,
