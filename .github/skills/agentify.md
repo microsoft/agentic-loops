@@ -79,8 +79,9 @@ Ask for these items:
    mechanism.
 6. **Liveness**: ask if the project has a local run/restart and liveness mechanism. If the answer is
    no, ask nothing more about it.
-7. **User skills**: approval to install and refresh all the user-scoped skills in `skills/` from
-   GitHub during preflight. If the human does not approve, stop the installation.
+7. **User skills**: approval to make `~/.copilot/skills/` an exact copy of `skills/` from GitHub
+   during preflight. This deletes the other user skills. If the human does not approve, stop the
+   installation.
 
 | Workflow | Where work happens | Branch | Work record |
 |----------|--------------------|--------|-------------|

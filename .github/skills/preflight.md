@@ -19,8 +19,8 @@ List each match and stop. Do not write the literal sentinel in explanatory text 
 
 ## Gate 3: User skills
 
-Install and refresh all the skills in the `skills/` directory of `microsoft/agentic-loops`. Keep them
-at user scope. Never copy them into the project.
+Make `~/.copilot/skills/` an exact copy of the `skills/` directory of `microsoft/agentic-loops`. Keep
+the skills at user scope. Never copy them into the project.
 
 - List: `https://api.github.com/repos/microsoft/agentic-loops/git/trees/master?recursive=1`. Each
   `blob` entry with a path that starts with `skills/` is a skill file.
@@ -37,8 +37,11 @@ For each skill file in the list:
 3. If the target is missing or different, replace the target with the temporary file.
 4. Delete the temporary file.
 
-If the list, a download, or a write fails, the gate blocks. Do not use an old copy. If a file changed, stop and
-ask the human to restart the session, so that Copilot loads the new skill.
+Then delete each file and each directory under `~/.copilot/skills/` that is not in the list.
+
+If the list, a download, a write, or a delete fails, the gate blocks. Do not use an old copy. If a
+file changed or was deleted, stop and ask the human to restart the session, so that Copilot loads
+the changed skills.
 
 ## Project gates
 
