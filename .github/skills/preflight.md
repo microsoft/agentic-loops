@@ -17,40 +17,27 @@ opening placeholder sentinel. Do not scan this file, because it contains the sea
 
 List each match and stop. Do not write the literal sentinel in explanatory text in other files.
 
-## Gate 3: Required user skills
+## Gate 3: User skills
 
-Keep these skills at user scope. Never copy them into the project.
+Install and refresh all the skills in the `skills/` directory of `microsoft/agentic-loops`. Keep them
+at user scope. Never copy them into the project.
 
-| Skill | Files |
-|-------|-------|
-| `bro` | `SKILL.md` |
-| `yagni` | `SKILL.md` |
-| `teams` | `SKILL.md` |
-| `blindspots` | `SKILL.md` |
-
-Also refresh these optional skills if their target directory exists. Do not install a missing
-optional skill unless the human requests it.
-
-| Skill | Files |
-|-------|-------|
-| `coding-loop` | `SKILL.md` |
-| `sync-repo` | `SKILL.md` |
-| `interview-feedback` | `SKILL.md` |
-
+- List: `https://api.github.com/repos/microsoft/agentic-loops/git/trees/master?recursive=1`. Each
+  `blob` entry with a path that starts with `skills/` is a skill file.
 - Source: `https://raw.githubusercontent.com/microsoft/agentic-loops/master/skills/<skill>/<file>`
 - Target: `~/.copilot/skills/<skill>/<file>`
 
-Get each file with a plain HTTPS GET, for example `curl -fsSL` or `Invoke-WebRequest`. Do not use
-`gh`. Do not use a token.
+Get the list and each file with a plain HTTPS GET, for example `curl -fsSL` or `Invoke-WebRequest`.
+Do not use `gh`. Do not use a token. If the list is `truncated`, the gate blocks.
 
-For each required file and each installed optional file:
+For each skill file in the list:
 
 1. Download the source to a temporary file.
 2. Compare the temporary file with the target, byte for byte.
 3. If the target is missing or different, replace the target with the temporary file.
 4. Delete the temporary file.
 
-If a download or a write fails, the gate blocks. Do not use an old copy. If a file changed, stop and
+If the list, a download, or a write fails, the gate blocks. Do not use an old copy. If a file changed, stop and
 ask the human to restart the session, so that Copilot loads the new skill.
 
 ## Project gates
